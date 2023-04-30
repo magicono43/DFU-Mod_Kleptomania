@@ -1,0 +1,14 @@
+{
+    "ModTitle": "Kleptomania",
+    "ModVersion": "1.00",
+    "ModAuthor": "Kirk.O",
+    "ContactInfo": "kirkoliveri@gmail.com",
+    "DFUnity_Version": "0.14.5",
+    "ModDescription": "Allows Many Previously Purely Decorative Object/Items To Be Interacted With Or Taken With Varying Outcomes",
+    "GUID": "9c1c8bd1-fa25-4dcf-9330-364fb9318c65",
+    "Files": [
+        "Assets/Game/Mods/DFU-Mod_Kleptomania/modsettings.json",
+        "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/KleptomaniaMain.cs"
+    ],
+    "Dependencies": []
+}
