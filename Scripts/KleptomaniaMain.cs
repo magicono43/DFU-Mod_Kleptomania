@@ -3,7 +3,7 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Author:          Kirk.O
 // Created On: 	    4/29/2023, 11:20 PM
-// Last Edit:		4/29/2023, 11:20 AM
+// Last Edit:		5/2/2023, 11:50 PM
 // Version:			1.00
 // Special Thanks:  
 // Modifier:
@@ -44,10 +44,29 @@ namespace Kleptomania
 
             mod.LoadSettings();
 
+            // Goblets/Cups:
+            RegisterActivationsWithinRange(200, 0, 6, DoNothingActivation);
+            RegisterActivationsWithinRange(253, 30, 35, DoNothingActivation);
+
+            // Random Clothing Item:
+            // Continue from here tomorrow.
+
             PlayerActivate.RegisterCustomActivation(mod, 4734, 0, DoNothingActivation); // Sprites
             PlayerActivate.RegisterCustomActivation(mod, 41811, DoNothingActivation); // Models
 
             Debug.Log("Finished mod init: Kleptomania");
+        }
+
+        private void RegisterActivationsWithinRange(int archive, int start, int end, DaggerfallWorkshop.Game.PlayerActivate.CustomActivation method)
+        {
+            if (start > end)
+                return;
+
+            for (int i = start; i < end; i++) // Make sure the loop condition value is the right amount to not go over the desired range.
+            {
+                PlayerActivate.RegisterCustomActivation(mod, archive, i, method);
+                Debug.LogFormat("Custom Activation Registered For: Archive:{0}, Record:{1}", archive, i);
+            }
         }
 
         static void LoadSettings(ModSettings modSettings, ModSettingsChange change)
