@@ -3,7 +3,7 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Author:          Kirk.O
 // Created On: 	    4/29/2023, 11:20 PM
-// Last Edit:		5/3/2023, 6:40 PM
+// Last Edit:		5/3/2023, 10:40 PM
 // Version:			1.00
 // Special Thanks:  
 // Modifier:
@@ -12,6 +12,8 @@ using UnityEngine;
 using DaggerfallWorkshop.Game;
 using DaggerfallWorkshop.Game.Utility.ModSupport;
 using DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings;
+using DaggerfallWorkshop;
+using DaggerfallWorkshop.Game.Questing;
 
 namespace Kleptomania
 {
@@ -21,6 +23,7 @@ namespace Kleptomania
 
         static Mod mod;
 
+        // Options
         public static bool TogglePotionsGlassBottles { get; set; }
         public static bool TogglePaperNotes { get; set; }
         public static bool ToggleBooks { get; set; }
@@ -36,6 +39,10 @@ namespace Kleptomania
         public static bool ToggleLaborTools { get; set; }
         public static bool ToggleFoodAndCooking { get; set; }
         public static bool ToggleAlchemyIngredients { get; set; }
+
+        // Global Variables
+        public static GameObject ClickedObjRef { get; set; }
+        public static PlayerActivateModes CurrentMode { get { return GameManager.Instance.PlayerActivate.CurrentMode; } }
 
         [Invoke(StateManager.StateTypes.Start, 0)]
         public static void Init(InitParams initParams)
@@ -61,16 +68,16 @@ namespace Kleptomania
             {
                 Debug.Log("Kleptomania: Registering Potions/Glass-Bottle Custom Activators");
                 // Small Potions Glasses:
-                RegisterActivationsWithinRange(205, 11, 16, DoNothingActivation);
-                RegisterActivationsWithinRange(205, 31, 35, DoNothingActivation);
-                RegisterActivationsWithinRange(205, 43, 43, DoNothingActivation);
-                RegisterActivationsWithinRange(208, 2, 2, DoNothingActivation);
-                RegisterActivationsWithinRange(253, 4, 6, DoNothingActivation);
-                RegisterActivationsWithinRange(253, 25, 27, DoNothingActivation);
+                RegisterActivationsWithinRange(205, 11, 16, PotionBottlesActivation);
+                RegisterActivationsWithinRange(205, 31, 35, PotionBottlesActivation);
+                RegisterActivationsWithinRange(205, 43, 43, PotionBottlesActivation);
+                RegisterActivationsWithinRange(208, 2, 2, PotionBottlesActivation);
+                RegisterActivationsWithinRange(253, 4, 6, PotionBottlesActivation);
+                RegisterActivationsWithinRange(253, 25, 27, PotionBottlesActivation);
 
                 // Large Potions Glasses:
-                RegisterActivationsWithinRange(205, 1, 7, DoNothingActivation);
-                RegisterActivationsWithinRange(253, 40, 48, DoNothingActivation);
+                RegisterActivationsWithinRange(205, 1, 7, PotionBottlesActivation);
+                RegisterActivationsWithinRange(253, 40, 48, PotionBottlesActivation);
             }
 
             if (TogglePaperNotes)
@@ -344,9 +351,57 @@ namespace Kleptomania
             ToggleAlchemyIngredients = mod.GetSettings().GetValue<bool>("ToggleInteractables", "AlchemyIngredients");
         }
 
+        private static bool BasicChecks(RaycastHit hit)
+        {
+            ClickedObjRef = hit.collider.gameObject; // Sets clicked object as global variable reference for later use.
+
+            // Ignore any objects that have "DaggerfallAction" or "QuestResourceBehavior" attached to them. Will need to test to make sure this actually works as I intend.
+            if (ClickedObjRef.GetComponent<DaggerfallAction>()) { return false; }
+
+            if (ClickedObjRef.GetComponent<QuestResourceBehaviour>()) { return false; }
+
+            if (hit.distance > PlayerActivate.DefaultActivationDistance)
+            {
+                DaggerfallUI.SetMidScreenText(TextManager.Instance.GetLocalizedText("youAreTooFarAway")); // Will have to see with testing if I should have this pop-up or not.
+                return false;
+            }
+            return true;
+        }
+
+        private static void PotionBottlesActivation(RaycastHit hit)
+        {
+            if (!BasicChecks(hit)) { ClickedObjRef = null; return; }
+
+            // Start working from here tomorrow. Still need to figure out exactly how I'm going to be doing the basic framework for each of these methods and such.
+
+            switch (CurrentMode)
+            {
+                case PlayerActivateModes.Info:
+                case PlayerActivateModes.Talk:
+                case PlayerActivateModes.Steal:
+                case PlayerActivateModes.Grab:
+                default:
+                    break;
+            }
+
+            ClickedObjRef = null;
+        }
+
         private static void DoNothingActivation(RaycastHit hit)
         {
-            // Will be filled with useful stuff later.
+            if (!BasicChecks(hit)) { ClickedObjRef = null; return; }
+
+            switch (CurrentMode)
+            {
+                case PlayerActivateModes.Info:
+                case PlayerActivateModes.Talk:
+                case PlayerActivateModes.Steal:
+                case PlayerActivateModes.Grab:
+                default:
+                    break;
+            }
+
+            ClickedObjRef = null;
         }
     }
 }
