@@ -3,7 +3,7 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Author:          Kirk.O
 // Created On: 	    4/29/2023, 11:20 PM
-// Last Edit:		5/3/2023, 10:40 PM
+// Last Edit:		5/4/2023, 11:50 PM
 // Version:			1.00
 // Special Thanks:  
 // Modifier:
@@ -14,6 +14,12 @@ using DaggerfallWorkshop.Game.Utility.ModSupport;
 using DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings;
 using DaggerfallWorkshop;
 using DaggerfallWorkshop.Game.Questing;
+using DaggerfallConnect;
+using DaggerfallWorkshop.Game.Entity;
+using DaggerfallWorkshop.Game.Utility;
+using DaggerfallConnect.Arena2;
+using DaggerfallWorkshop.Utility;
+using DaggerfallWorkshop.Game.Guilds;
 
 namespace Kleptomania
 {
@@ -42,7 +48,27 @@ namespace Kleptomania
 
         // Global Variables
         public static GameObject ClickedObjRef { get; set; }
+        public static int ObjTexArchive { get; set; }
+        public static int ObjTexRecord { get; set; }
+        public static PlayerEntity Player { get { return GameManager.Instance.PlayerEntity; } }
         public static PlayerActivateModes CurrentMode { get { return GameManager.Instance.PlayerActivate.CurrentMode; } }
+
+        // Will likely move these later to another partial class "formula helper"
+        public static int Stren { get { return Player.Stats.LiveStrength - 50; } }
+        public static int Intel { get { return Player.Stats.LiveIntelligence - 50; } }
+        public static int Willp { get { return Player.Stats.LiveWillpower - 50; } }
+        public static int Agili { get { return Player.Stats.LiveAgility - 50; } }
+        public static int Endur { get { return Player.Stats.LiveEndurance - 50; } }
+        public static int Speed { get { return Player.Stats.LiveSpeed - 50; } }
+        public static int Luck { get { return Player.Stats.LiveLuck - 50; } }
+        public static int LockP { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Lockpicking); } }
+        public static int PickP { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Pickpocket); } }
+        public static int Sneak { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Stealth); } }
+        public static int Alter { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Alteration); } }
+        public static int Destr { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Destruction); } }
+        public static int Illus { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Illusion); } }
+        public static int Mysti { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Mysticism); } }
+        public static int Thaum { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Thaumaturgy); } }
 
         [Invoke(StateManager.StateTypes.Start, 0)]
         public static void Init(InitParams initParams)
@@ -68,16 +94,16 @@ namespace Kleptomania
             {
                 Debug.Log("Kleptomania: Registering Potions/Glass-Bottle Custom Activators");
                 // Small Potions Glasses:
-                RegisterActivationsWithinRange(205, 11, 16, PotionBottlesActivation);
-                RegisterActivationsWithinRange(205, 31, 35, PotionBottlesActivation);
-                RegisterActivationsWithinRange(205, 43, 43, PotionBottlesActivation);
-                RegisterActivationsWithinRange(208, 2, 2, PotionBottlesActivation);
-                RegisterActivationsWithinRange(253, 4, 6, PotionBottlesActivation);
-                RegisterActivationsWithinRange(253, 25, 27, PotionBottlesActivation);
+                RegisterActivationsWithinRange(205, 11, 16, DoNothingActivation);
+                RegisterActivationsWithinRange(205, 31, 35, DoNothingActivation);
+                RegisterActivationsWithinRange(205, 43, 43, DoNothingActivation);
+                RegisterActivationsWithinRange(208, 2, 2, DoNothingActivation);
+                RegisterActivationsWithinRange(253, 4, 6, DoNothingActivation);
+                RegisterActivationsWithinRange(253, 25, 27, DoNothingActivation);
 
                 // Large Potions Glasses:
-                RegisterActivationsWithinRange(205, 1, 7, PotionBottlesActivation);
-                RegisterActivationsWithinRange(253, 40, 48, PotionBottlesActivation);
+                RegisterActivationsWithinRange(205, 1, 7, DoNothingActivation);
+                RegisterActivationsWithinRange(253, 40, 48, DoNothingActivation);
             }
 
             if (TogglePaperNotes)
@@ -354,6 +380,10 @@ namespace Kleptomania
         private static bool BasicChecks(RaycastHit hit)
         {
             ClickedObjRef = hit.collider.gameObject; // Sets clicked object as global variable reference for later use.
+            ObjTexArchive = -1;
+            ObjTexRecord = -1;
+
+            // Oh yeah, don't forget to eventually exclude all of these if currently inside a player-owned ship/building.
 
             // Ignore any objects that have "DaggerfallAction" or "QuestResourceBehavior" attached to them. Will need to test to make sure this actually works as I intend.
             if (ClickedObjRef.GetComponent<DaggerfallAction>()) { return false; }
@@ -365,43 +395,288 @@ namespace Kleptomania
                 DaggerfallUI.SetMidScreenText(TextManager.Instance.GetLocalizedText("youAreTooFarAway")); // Will have to see with testing if I should have this pop-up or not.
                 return false;
             }
-            return true;
-        }
 
-        private static void PotionBottlesActivation(RaycastHit hit)
-        {
-            if (!BasicChecks(hit)) { ClickedObjRef = null; return; }
-
-            // Start working from here tomorrow. Still need to figure out exactly how I'm going to be doing the basic framework for each of these methods and such.
-
-            switch (CurrentMode)
+            DaggerfallBillboard billBoard = ClickedObjRef.GetComponent<DaggerfallBillboard>(); // Will have to test and eventually account for mods like "Handpainted Models" etc.
+            if (billBoard != null)
             {
-                case PlayerActivateModes.Info:
-                case PlayerActivateModes.Talk:
-                case PlayerActivateModes.Steal:
-                case PlayerActivateModes.Grab:
-                default:
-                    break;
+                ObjTexArchive = billBoard.Summary.Archive;
+                ObjTexRecord = billBoard.Summary.Record;
             }
-
-            ClickedObjRef = null;
+            return true;
         }
 
         private static void DoNothingActivation(RaycastHit hit)
         {
             if (!BasicChecks(hit)) { ClickedObjRef = null; return; }
 
-            switch (CurrentMode)
+            if (ClickedObjRef == null || ObjTexArchive == -1 || ObjTexRecord == -1) { return; } // Put error/debug text here as well so I know when/if this occurs.
+
+            if (CurrentMode == PlayerActivateModes.Grab) {} // Method for grab mode.
+            else if (CurrentMode == PlayerActivateModes.Steal) {TakeOrStealItem();} // Method for steal mode.
+            else {ShowNameOrDescription();} // For now, assuming Info or Talk mode. This will be Method to show item name or description, if there is one.
+
+            ClickedObjRef = null;
+        }
+
+        private static void TakeOrStealItem()
+        {
+            switch (ObjTexArchive)
             {
-                case PlayerActivateModes.Info:
-                case PlayerActivateModes.Talk:
-                case PlayerActivateModes.Steal:
-                case PlayerActivateModes.Grab:
+                case 205:
+                    switch (ObjTexRecord)
+                    {
+                        case >= 1 and <= 7: // Large
+                        case >= 11 and <= 16:
+                        case >= 31 and <= 35:
+                        case 43: // Small
+                            MethodForStealingPotion(); break; // Will likely change these later to better describe the individual sprite graphic used, will see.
+                        case 42:
+                        case 41:
+                        case 10:
+                        case >= 17 and <= 20:
+                        default:
+                            break;
+                    } break;
+                default:
+                    break;
+            }
+        }
+
+        private static void MethodForStealingPotion()
+        {
+            IsThisACrime();
+        }
+
+        public static void IsThisACrime()
+        {
+            if (IsValidCrimeLocation())
+            {
+                PlayerGPS.DiscoveredBuilding buildingData = GameManager.Instance.PlayerEnterExit.BuildingDiscoveryData;
+                DFLocation.BuildingTypes buildingType = GameManager.Instance.PlayerEnterExit.BuildingDiscoveryData.buildingType;
+
+                GameManager.Instance.PlayerEntity.TallyCrimeGuildRequirements(true, 1);
+                if (LockpickDetectionCheck(buildingData, buildingType))
+                    RegisterDetectedPunishment(buildingData, buildingType);
+            }
+        }
+
+        public static bool LockpickDetectionCheck(PlayerGPS.DiscoveredBuilding buildingData, DFLocation.BuildingTypes buildingType)
+        {
+            int detectionChance = (30 + (buildingData.quality * 3)) * -1;
+            int closedMod = BuildingOpenCheck(buildingData, buildingType) ? 0 : 40;
+            int sneakChance = Mathf.RoundToInt(Sneak * 0.7f) + Mathf.RoundToInt(PickP * 0.5f) + Mathf.RoundToInt(Agili * 0.6f) + Mathf.RoundToInt(Luck * 0.4f) + closedMod;
+
+            Player.TallySkill(DFCareer.Skills.Stealth, 1);
+            Player.TallySkill(DFCareer.Skills.Pickpocket, 1);
+
+            if (Dice100.SuccessRoll(Mathf.RoundToInt(Mathf.Clamp(detectionChance + sneakChance, 7f, 93f))))
+                return false;
+            else
+                return true;
+        }
+
+        public static void RegisterDetectedPunishment(PlayerGPS.DiscoveredBuilding buildingData, DFLocation.BuildingTypes bT) // Work on changing this method a bit next time.
+        {
+            PlayerEntity playerEntity = GameManager.Instance.PlayerEntity;
+
+            if (playerEntity != null)
+            {
+                if (IsValidShop(bT) || bT == DFLocation.BuildingTypes.Tavern || IsValidTownHouse(bT) || bT == DFLocation.BuildingTypes.Palace)
+                {
+                    DaggerfallUI.AddHUDText("You were detected...", 2f);
+                    playerEntity.CrimeCommitted = PlayerEntity.Crimes.Theft;
+                    playerEntity.SpawnCityGuards(true);
+                }
+                else if (bT == DFLocation.BuildingTypes.Temple)
+                {
+                    int factionID = buildingData.factionID;
+                    FactionFile.FactionData factionData = playerEntity.FactionData.FactionDict[factionID];
+                    string factionName = factionData.name;
+                    DaggerfallUI.AddHUDText("You were detected, " + factionName + " disproves of this transgression...", 3f);
+                    playerEntity.FactionData.ChangeReputation(factionID, -2, true);
+                    playerEntity.CrimeCommitted = PlayerEntity.Crimes.Theft;
+                    playerEntity.SpawnCityGuards(true);
+                }
+                else if (bT == DFLocation.BuildingTypes.GuildHall)
+                {
+                    int factionID = buildingData.factionID;
+
+                    if (factionID == (int)FactionFile.FactionIDs.The_Mages_Guild || factionID == (int)FactionFile.FactionIDs.The_Fighters_Guild || OwnedByKnightlyOrder(factionID))
+                    {
+                        FactionFile.FactionData factionData = playerEntity.FactionData.FactionDict[factionID];
+                        string factionName = factionData.name;
+                        DaggerfallUI.AddHUDText("You were detected, " + factionName + " disproves of this transgression...", 3f);
+                        playerEntity.FactionData.ChangeReputation(factionID, -2, true);
+                        playerEntity.CrimeCommitted = PlayerEntity.Crimes.Theft;
+                        playerEntity.SpawnCityGuards(true);
+                    }
+                    else if (factionID == (int)FactionFile.FactionIDs.The_Thieves_Guild)
+                    {
+                        DaggerfallUI.AddHUDText("You were detected, bad thieves bring shame to the entire guild...", 3f);
+                        playerEntity.FactionData.ChangeReputation(factionID, -4, true);
+                        FactionFile.FactionData factionData = playerEntity.FactionData.FactionDict[factionID];
+                        if (factionData.rep < 0)
+                        {
+                            GameObjectHelper.CreateFoeSpawner(false, MobileTypes.Rogue, 2, 3, 8); // Make 2 instances so maybe they will spawn more quickly?
+                            GameObjectHelper.CreateFoeSpawner(false, MobileTypes.Rogue, 2, 3, 8);
+                        }
+                    }
+                    else if (factionID == (int)FactionFile.FactionIDs.The_Dark_Brotherhood)
+                    {
+                        DaggerfallUI.AddHUDText("You were detected, The Dark Brotherhood does not approve stealing from your own kin...", 3f);
+                        playerEntity.FactionData.ChangeReputation(factionID, -4, true);
+                        FactionFile.FactionData factionData = playerEntity.FactionData.FactionDict[factionID];
+                        if (factionData.rep < 0)
+                        {
+                            GameObjectHelper.CreateFoeSpawner(false, MobileTypes.Assassin, 2, 3, 8); // Make 2 instances so maybe they will spawn more quickly?
+                            GameObjectHelper.CreateFoeSpawner(false, MobileTypes.Assassin, 2, 3, 8);
+                        }
+                    }
+                }
+            }
+        }
+
+        public static bool IsValidCrimeLocation()
+        {
+            if (GameManager.Instance.PlayerEnterExit.IsPlayerInsideDungeon)
+                return false;
+
+            DFLocation.BuildingTypes bT = GameManager.Instance.PlayerEnterExit.BuildingDiscoveryData.buildingType;
+
+            if (GameManager.Instance.PlayerEnterExit.IsPlayerInside)
+            {
+                if (IsValidShop(bT) || bT == DFLocation.BuildingTypes.Tavern || bT == DFLocation.BuildingTypes.Temple || bT == DFLocation.BuildingTypes.GuildHall ||
+                    IsValidTownHouse(bT) || bT == DFLocation.BuildingTypes.Palace)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool IsValidShop(DFLocation.BuildingTypes buildingType) // Check if building shop type is valid to have chests be spawned in it.
+        {
+            switch (buildingType)
+            {
+                case DFLocation.BuildingTypes.Alchemist:
+                case DFLocation.BuildingTypes.Armorer:
+                case DFLocation.BuildingTypes.WeaponSmith:
+                case DFLocation.BuildingTypes.GeneralStore:
+                case DFLocation.BuildingTypes.PawnShop:
+                case DFLocation.BuildingTypes.FurnitureStore:
+                case DFLocation.BuildingTypes.GemStore:
+                case DFLocation.BuildingTypes.ClothingStore:
+                case DFLocation.BuildingTypes.Bookseller:
+                case DFLocation.BuildingTypes.Library:
+                case DFLocation.BuildingTypes.Bank:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public static bool IsValidTownHouse(DFLocation.BuildingTypes buildingType)
+        {
+            switch (buildingType) // Just including basically everything that I don't know what they represent, just in-case, can remove some if necessary when I do know more.
+            {
+                case DFLocation.BuildingTypes.AnyHouse:
+                case DFLocation.BuildingTypes.Town4:
+                case DFLocation.BuildingTypes.Town23:
+                case DFLocation.BuildingTypes.HouseForSale:
+                case DFLocation.BuildingTypes.Special1:
+                case DFLocation.BuildingTypes.Special2:
+                case DFLocation.BuildingTypes.Special3:
+                case DFLocation.BuildingTypes.Special4:
+                case DFLocation.BuildingTypes.House1:
+                case DFLocation.BuildingTypes.House2:
+                case DFLocation.BuildingTypes.House3:
+                case DFLocation.BuildingTypes.House4:
+                case DFLocation.BuildingTypes.House5:
+                case DFLocation.BuildingTypes.House6:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public static bool BuildingOpenCheck(PlayerGPS.DiscoveredBuilding buildingData, DFLocation.BuildingTypes buildingType)
+        {
+            /*
+             * Open Hours For Specific Places:
+             * Temples, Dark Brotherhood, Thieves Guild: 24/7
+             * All Other Guilds: 11:00 - 23:00
+             * Fighters Guild & Mages Guild, Rank 6 = 24/7 Access
+             * 
+             * Alchemists: 07:00 - 22:00
+             * Armorers: 09:00 - 19:00
+             * Banks: 08:00 - 15:00
+             * Bookstores: 	09:00 - 21:00
+             * Clothing Stores: 10:00 - 19:00
+             * Gem Stores: 09:00 - 18:00
+             * General Stores + Furniture Stores: 06:00 - 23:00
+             * Libraries: 09:00 - 23:00
+             * Pawn Shops + Weapon Smiths: 09:00 - 20:00
+            */
+
+            int buildingInt = (int)buildingType;
+            int hour = DaggerfallUnity.Instance.WorldTime.Now.Hour;
+            IGuild guild = GameManager.Instance.GuildManager.GetGuild(buildingData.factionID);
+            if (buildingType == DFLocation.BuildingTypes.GuildHall && (PlayerActivate.IsBuildingOpen(buildingType) || guild.HallAccessAnytime()))
+                return true;
+            if (buildingInt < 18)
+                return PlayerActivate.IsBuildingOpen(buildingType);
+            else if (buildingInt <= 22)
+                return hour < 6 || hour > 18 ? false : true;
+            else
+                return true;
+        }
+
+        public static bool OwnedByKnightlyOrder(int factionID)
+        {
+            switch (factionID)
+            {
+                case (int)FactionFile.FactionIDs.The_Host_of_the_Horn:
+                case (int)FactionFile.FactionIDs.The_Knights_of_the_Dragon:
+                case (int)FactionFile.FactionIDs.The_Knights_of_the_Flame:
+                case (int)FactionFile.FactionIDs.The_Knights_of_the_Hawk:
+                case (int)FactionFile.FactionIDs.The_Knights_of_the_Owl:
+                case (int)FactionFile.FactionIDs.The_Knights_of_the_Rose:
+                case (int)FactionFile.FactionIDs.The_Knights_of_the_Wheel:
+                case (int)FactionFile.FactionIDs.The_Order_of_the_Candle:
+                case (int)FactionFile.FactionIDs.The_Order_of_the_Raven:
+                case (int)FactionFile.FactionIDs.The_Order_of_the_Scarab:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private static void ShowNameOrDescription()
+        {
+            string hudText = "";
+
+            switch (ObjTexArchive)
+            {
+                case 205:
+                    switch (ObjTexRecord)
+                    {
+                        case >= 1 and <= 7: // Large
+                        case >= 11 and <= 16:
+                        case >= 31 and <= 35:
+                        case 43: // Small
+                            hudText = "You see a glass bottle filled with an unknown liquid."; break; // Will likely change these later to better describe the individual sprite graphic used, will see.
+                        case 42:
+                        case 41:
+                        case 10:
+                        case >= 17 and <= 20:
+                        default:
+                            break;
+                    } break;
                 default:
                     break;
             }
 
-            ClickedObjRef = null;
+            DaggerfallUI.AddHUDText(hudText, 2f);
         }
     }
 }
