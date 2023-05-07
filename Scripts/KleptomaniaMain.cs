@@ -3,7 +3,7 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Author:          Kirk.O
 // Created On: 	    4/29/2023, 11:20 PM
-// Last Edit:		5/4/2023, 11:50 PM
+// Last Edit:		5/6/2023, 11:50 PM
 // Version:			1.00
 // Special Thanks:  
 // Modifier:
@@ -20,6 +20,7 @@ using DaggerfallWorkshop.Game.Utility;
 using DaggerfallConnect.Arena2;
 using DaggerfallWorkshop.Utility;
 using DaggerfallWorkshop.Game.Guilds;
+using DaggerfallWorkshop.Game.Items;
 
 namespace Kleptomania
 {
@@ -390,6 +391,8 @@ namespace Kleptomania
 
             if (ClickedObjRef.GetComponent<QuestResourceBehaviour>()) { return false; }
 
+            if (ClickedObjRef.GetComponent<DaggerfallLoot>()) { return false; }
+
             if (hit.distance > PlayerActivate.DefaultActivationDistance)
             {
                 DaggerfallUI.SetMidScreenText(TextManager.Instance.GetLocalizedText("youAreTooFarAway")); // Will have to see with testing if I should have this pop-up or not.
@@ -411,7 +414,7 @@ namespace Kleptomania
 
             if (ClickedObjRef == null || ObjTexArchive == -1 || ObjTexRecord == -1) { return; } // Put error/debug text here as well so I know when/if this occurs.
 
-            if (CurrentMode == PlayerActivateModes.Grab) {} // Method for grab mode.
+            if (CurrentMode == PlayerActivateModes.Grab) {TakeOrStealItem();} // Method for grab mode. Will likely have a small GUI thing show up here, similar to LLC grab-mode. Add GUI stuff tomorrow.
             else if (CurrentMode == PlayerActivateModes.Steal) {TakeOrStealItem();} // Method for steal mode.
             else {ShowNameOrDescription();} // For now, assuming Info or Talk mode. This will be Method to show item name or description, if there is one.
 
@@ -420,31 +423,49 @@ namespace Kleptomania
 
         private static void TakeOrStealItem()
         {
+            DaggerfallUnityItem item = null;
+            IsThisACrime();
+
             switch (ObjTexArchive)
             {
                 case 205:
-                    switch (ObjTexRecord)
+                    if (IsPotionBottleTextureGroups())
                     {
-                        case >= 1 and <= 7: // Large
-                        case >= 11 and <= 16:
-                        case >= 31 and <= 35:
-                        case 43: // Small
-                            MethodForStealingPotion(); break; // Will likely change these later to better describe the individual sprite graphic used, will see.
-                        case 42:
-                        case 41:
-                        case 10:
-                        case >= 17 and <= 20:
-                        default:
-                            break;
-                    } break;
+                        item = ItemBuilder.CreateRandomPotion();
+                        if (DoesThisEncumberPlayer(item))
+                        {
+                            DaggerfallLoot droppedItem = GameObjectHelper.CreateDroppedLootContainer(GameManager.Instance.PlayerObject, DaggerfallUnity.NextUID, 216, 31);
+                            droppedItem.Items.AddItem(item);
+                            DaggerfallUI.AddHUDText("Unable to carry anymore, you drop the item on the ground...", 3f);
+                        }
+                        else
+                        {
+                            Player.Items.AddItem(item);
+                            // Play audio-clip that sounds like picking up a bottle/potion, probably something from Oblivion.
+                        }
+                    }
+                    else if (ObjTexRecord == 42) {}
+                    else if (ObjTexRecord == 41) {}
+                    else if (ObjTexRecord == 10) {}
+                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) {}
+                    else {}
+                    break;
                 default:
                     break;
             }
+            ClickedObjRef.SetActive(false);
+            // Here likely disable or delete the flat/object that was clicked and stolen in this case. Will have to deal with saving/loading related stuff later.
         }
 
-        private static void MethodForStealingPotion()
+        public static bool IsPotionBottleTextureGroups()
         {
-            IsThisACrime();
+            return (ObjTexRecord >= 1 && ObjTexRecord <= 7) || (ObjTexRecord >= 11 && ObjTexRecord <= 16) || (ObjTexRecord >= 31 && ObjTexRecord <= 35) || ObjTexRecord == 43;
+        }
+
+        public static bool DoesThisEncumberPlayer(DaggerfallUnityItem item)
+        {
+            if (item == null) { return false; }
+            return (Player.CarriedWeight + item.weightInKg) > Player.MaxEncumbrance;
         }
 
         public static void IsThisACrime()
@@ -455,12 +476,12 @@ namespace Kleptomania
                 DFLocation.BuildingTypes buildingType = GameManager.Instance.PlayerEnterExit.BuildingDiscoveryData.buildingType;
 
                 GameManager.Instance.PlayerEntity.TallyCrimeGuildRequirements(true, 1);
-                if (LockpickDetectionCheck(buildingData, buildingType))
+                if (TheftDetectionCheck(buildingData, buildingType))
                     RegisterDetectedPunishment(buildingData, buildingType);
             }
         }
 
-        public static bool LockpickDetectionCheck(PlayerGPS.DiscoveredBuilding buildingData, DFLocation.BuildingTypes buildingType)
+        public static bool TheftDetectionCheck(PlayerGPS.DiscoveredBuilding buildingData, DFLocation.BuildingTypes buildingType)
         {
             int detectionChance = (30 + (buildingData.quality * 3)) * -1;
             int closedMod = BuildingOpenCheck(buildingData, buildingType) ? 0 : 40;
@@ -475,7 +496,7 @@ namespace Kleptomania
                 return true;
         }
 
-        public static void RegisterDetectedPunishment(PlayerGPS.DiscoveredBuilding buildingData, DFLocation.BuildingTypes bT) // Work on changing this method a bit next time.
+        public static void RegisterDetectedPunishment(PlayerGPS.DiscoveredBuilding buildingData, DFLocation.BuildingTypes bT)
         {
             PlayerEntity playerEntity = GameManager.Instance.PlayerEntity;
 
@@ -658,24 +679,19 @@ namespace Kleptomania
             switch (ObjTexArchive)
             {
                 case 205:
-                    switch (ObjTexRecord)
+                    if (IsPotionBottleTextureGroups())
                     {
-                        case >= 1 and <= 7: // Large
-                        case >= 11 and <= 16:
-                        case >= 31 and <= 35:
-                        case 43: // Small
-                            hudText = "You see a glass bottle filled with an unknown liquid."; break; // Will likely change these later to better describe the individual sprite graphic used, will see.
-                        case 42:
-                        case 41:
-                        case 10:
-                        case >= 17 and <= 20:
-                        default:
-                            break;
-                    } break;
+                        hudText = "You see a glass bottle filled with an unknown liquid."; break; // Will likely change these later to better describe the individual sprite graphic used, will see.
+                    }
+                    else if (ObjTexRecord == 42) {}
+                    else if (ObjTexRecord == 41) {}
+                    else if (ObjTexRecord == 10) {}
+                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) {}
+                    else {}
+                    break;
                 default:
                     break;
             }
-
             DaggerfallUI.AddHUDText(hudText, 2f);
         }
     }
