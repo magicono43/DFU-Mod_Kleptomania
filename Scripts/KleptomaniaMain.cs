@@ -3,7 +3,7 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Author:          Kirk.O
 // Created On: 	    4/29/2023, 11:20 PM
-// Last Edit:		5/6/2023, 11:50 PM
+// Last Edit:		5/7/2023, 1:30 PM
 // Version:			1.00
 // Special Thanks:  
 // Modifier:
@@ -21,12 +21,15 @@ using DaggerfallConnect.Arena2;
 using DaggerfallWorkshop.Utility;
 using DaggerfallWorkshop.Game.Guilds;
 using DaggerfallWorkshop.Game.Items;
+using DaggerfallWorkshop.Game.UserInterfaceWindows;
+using System;
 
 namespace Kleptomania
 {
     public class KleptomaniaMain : MonoBehaviour
     {
         public static KleptomaniaMain Instance;
+        public static KleptomaniaSaveData ModSaveData = new KleptomaniaSaveData();
 
         static Mod mod;
 
@@ -53,6 +56,9 @@ namespace Kleptomania
         public static int ObjTexRecord { get; set; }
         public static PlayerEntity Player { get { return GameManager.Instance.PlayerEntity; } }
         public static PlayerActivateModes CurrentMode { get { return GameManager.Instance.PlayerActivate.CurrentMode; } }
+
+        // Mod Textures || GUI
+        public Texture2D GrabModeChoiceMenuTexture;
 
         // Will likely move these later to another partial class "formula helper"
         public static int Stren { get { return Player.Stats.LiveStrength - 50; } }
@@ -88,6 +94,8 @@ namespace Kleptomania
             Debug.Log("Begin mod init: Kleptomania");
 
             Instance = this;
+
+            mod.SaveDataInterface = ModSaveData;
 
             mod.LoadSettings();
 
@@ -344,6 +352,10 @@ namespace Kleptomania
                 RegisterActivationsWithinRange(254, 0, 71, DoNothingActivation);
             }
 
+            // Load Resources
+            LoadTextures();
+            //LoadAudio();
+
             Debug.Log("Finished mod init: Kleptomania");
         }
 
@@ -376,6 +388,17 @@ namespace Kleptomania
             ToggleLaborTools = mod.GetSettings().GetValue<bool>("ToggleInteractables", "LaborTools");
             ToggleFoodAndCooking = mod.GetSettings().GetValue<bool>("ToggleInteractables", "Food&Cooking");
             ToggleAlchemyIngredients = mod.GetSettings().GetValue<bool>("ToggleInteractables", "AlchemyIngredients");
+        }
+
+        private void LoadTextures() // Example taken from Penwick Papers Mod
+        {
+            ModManager modManager = ModManager.Instance;
+            bool success = true;
+
+            success &= modManager.TryGetAsset("Grab-Mode_Choice_Menu", false, out GrabModeChoiceMenuTexture);
+
+            if (!success)
+                throw new Exception("Kleptomania: Missing texture asset");
         }
 
         private static bool BasicChecks(RaycastHit hit)
@@ -414,14 +437,18 @@ namespace Kleptomania
 
             if (ClickedObjRef == null || ObjTexArchive == -1 || ObjTexRecord == -1) { return; } // Put error/debug text here as well so I know when/if this occurs.
 
-            if (CurrentMode == PlayerActivateModes.Grab) {TakeOrStealItem();} // Method for grab mode. Will likely have a small GUI thing show up here, similar to LLC grab-mode. Add GUI stuff tomorrow.
-            else if (CurrentMode == PlayerActivateModes.Steal) {TakeOrStealItem();} // Method for steal mode.
+            if (CurrentMode == PlayerActivateModes.Grab) // Method for grab mode.
+            {
+                GrabModeChoiceWindow grabModeWindow = new GrabModeChoiceWindow(DaggerfallUI.UIManager, ClickedObjRef);
+                DaggerfallUI.UIManager.PushWindow(grabModeWindow);
+            }
+            else if (CurrentMode == PlayerActivateModes.Steal) {TakeOrStealItem(ClickedObjRef);} // Method for steal mode.
             else {ShowNameOrDescription();} // For now, assuming Info or Talk mode. This will be Method to show item name or description, if there is one.
 
             ClickedObjRef = null;
         }
 
-        private static void TakeOrStealItem()
+        public static void TakeOrStealItem(GameObject clickedObj)
         {
             DaggerfallUnityItem item = null;
             IsThisACrime();
@@ -453,7 +480,7 @@ namespace Kleptomania
                 default:
                     break;
             }
-            ClickedObjRef.SetActive(false);
+            clickedObj.SetActive(false);
             // Here likely disable or delete the flat/object that was clicked and stolen in this case. Will have to deal with saving/loading related stuff later.
         }
 
@@ -672,7 +699,12 @@ namespace Kleptomania
             }
         }
 
-        private static void ShowNameOrDescription()
+        public static void ShowNameOrDescription()
+        {
+            DaggerfallUI.AddHUDText(GetItemNameOrDescription(), 2f);
+        }
+
+        public static string GetItemNameOrDescription()
         {
             string hudText = "";
 
@@ -692,7 +724,7 @@ namespace Kleptomania
                 default:
                     break;
             }
-            DaggerfallUI.AddHUDText(hudText, 2f);
+            return hudText;
         }
     }
 }
