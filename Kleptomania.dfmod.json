@@ -9,6 +9,8 @@
     "Files": [
         "Assets/Game/Mods/DFU-Mod_Kleptomania/modsettings.json",
         "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/KleptomaniaMain.cs",
+        "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/KleptomaniaStolenMarker.cs",
+        "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/KleptomaniaSaveData.cs",
         "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/GrabModeChoiceWindow.cs",
         "Assets/Game/Mods/DFU-Mod_Kleptomania/Textures/Grab-Mode_Choice_Menu.png"
     ],

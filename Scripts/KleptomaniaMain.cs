@@ -3,7 +3,7 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Author:          Kirk.O
 // Created On: 	    4/29/2023, 11:20 PM
-// Last Edit:		5/7/2023, 1:30 PM
+// Last Edit:		5/7/2023, 9:40 PM
 // Version:			1.00
 // Special Thanks:  
 // Modifier:
@@ -52,6 +52,7 @@ namespace Kleptomania
 
         // Global Variables
         public static GameObject ClickedObjRef { get; set; }
+        public static int PlayerLayerMask { get; set; }
         public static int ObjTexArchive { get; set; }
         public static int ObjTexRecord { get; set; }
         public static PlayerEntity Player { get { return GameManager.Instance.PlayerEntity; } }
@@ -84,6 +85,8 @@ namespace Kleptomania
             var go = new GameObject(mod.Title);
             go.AddComponent<KleptomaniaMain>(); // Add script to the scene.
 
+            go.AddComponent<KleptomaniaStolenMarker>();
+
             mod.LoadSettingsCallback = LoadSettings; // To enable use of the "live settings changes" feature in-game.
 
             mod.IsReady = true;
@@ -98,6 +101,8 @@ namespace Kleptomania
             mod.SaveDataInterface = ModSaveData;
 
             mod.LoadSettings();
+
+            PlayerLayerMask = ~(1 << LayerMask.NameToLayer("Player"));
 
             if (TogglePotionsGlassBottles)
             {
@@ -480,8 +485,8 @@ namespace Kleptomania
                 default:
                     break;
             }
+            CreateStolenObjectMarker(clickedObj.transform.position, clickedObj.transform.parent);
             clickedObj.SetActive(false);
-            // Here likely disable or delete the flat/object that was clicked and stolen in this case. Will have to deal with saving/loading related stuff later.
         }
 
         public static bool IsPotionBottleTextureGroups()
@@ -725,6 +730,31 @@ namespace Kleptomania
                     break;
             }
             return hudText;
+        }
+
+        public static GameObject CreateStolenObjectMarker (Vector3 pos, Transform parent)
+        {
+            ulong loadID = DaggerfallUnity.NextUID;
+            string markerName = "Kleptomania_Marker-" + loadID;
+            GameObject go = new GameObject(markerName);
+            if (parent) go.transform.parent = parent;
+            go.transform.position = pos;
+
+            KleptomaniaStolenMarker marker = go.AddComponent<KleptomaniaStolenMarker>();
+            marker.LoadID = loadID;
+            marker.TextureArchive = ObjTexArchive;
+            marker.TextureRecord = ObjTexRecord;
+
+            return go;
+        }
+
+        public static bool WithinMarginOfErrorPos(Vector3 value1, Vector3 value2, float xAcceptDif, float yAcceptDif, float zAcceptDif)
+        {
+            bool xEqual = Mathf.Abs(value1.x - value2.x) <= xAcceptDif;
+            bool yEqual = Mathf.Abs(value1.y - value2.y) <= yAcceptDif;
+            bool zEqual = Mathf.Abs(value1.z - value2.z) <= zAcceptDif;
+
+            return xEqual && yEqual && zEqual;
         }
     }
 }

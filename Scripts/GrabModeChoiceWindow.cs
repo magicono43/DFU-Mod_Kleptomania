@@ -1,10 +1,7 @@
 using UnityEngine;
-using DaggerfallWorkshop.Utility;
 using DaggerfallWorkshop.Game.UserInterface;
 using Kleptomania;
 using DaggerfallWorkshop.Game.Entity;
-using DaggerfallWorkshop.Game.Items;
-using DaggerfallWorkshop.Game.Serialization;
 using DaggerfallConnect.Arena2;
 
 namespace DaggerfallWorkshop.Game.UserInterfaceWindows
