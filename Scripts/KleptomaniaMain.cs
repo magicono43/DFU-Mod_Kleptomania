@@ -3,7 +3,7 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Author:          Kirk.O
 // Created On: 	    4/29/2023, 11:20 PM
-// Last Edit:		5/7/2023, 9:40 PM
+// Last Edit:		5/9/2023, 12:50 AM
 // Version:			1.00
 // Special Thanks:  
 // Modifier:
@@ -137,8 +137,7 @@ namespace Kleptomania
                 Debug.Log("Kleptomania: Registering Book Custom Activators");
                 // Books & Multiple Books, Skill-books:
                 RegisterActivationsWithinRange(209, 0, 4, DoNothingActivation);
-                RegisterActivationsWithinRange(216, 40, 40, DoNothingActivation);
-                RegisterActivationsWithinRange(216, 40, 40, DoNothingActivation);
+                RegisterActivationsWithinRange(216, 40, 40, DoNothingActivation); // Tomorrow, start adding the Archive-216 to the case-switches, and continue from there.
                 RegisterActivationsWithinRange(253, 7, 9, DoNothingActivation);
                 RegisterActivationsWithinRange(253, 57, 58, DoNothingActivation);
             }
@@ -201,6 +200,12 @@ namespace Kleptomania
 
                 // Straps Clothing Item or Cloth Amulet:
                 RegisterActivationsWithinRange(204, 9, 9, DoNothingActivation);
+
+                // Small Pouch/Sack
+                RegisterActivationsWithinRange(205, 36, 36, DoNothingActivation);
+                RegisterActivationsWithinRange(205, 44, 44, DoNothingActivation);
+                RegisterActivationsWithinRange(216, 30, 30, DoNothingActivation);
+                RegisterActivationsWithinRange(253, 1, 1, DoNothingActivation);
             }
 
             if (ToggleBandages)
@@ -284,7 +289,7 @@ namespace Kleptomania
                 // Hand-Mirror:
                 RegisterActivationsWithinRange(208, 5, 5, DoNothingActivation);
 
-                // Ink-well:
+                // Inkwell:
                 RegisterActivationsWithinRange(211, 1, 1, DoNothingActivation);
                 RegisterActivationsWithinRange(253, 39, 39, DoNothingActivation);
 
@@ -303,6 +308,7 @@ namespace Kleptomania
                 RegisterActivationsWithinRange(211, 2, 2, DoNothingActivation);
                 RegisterActivationsWithinRange(213, 6, 6, DoNothingActivation);
                 RegisterActivationsWithinRange(218, 0, 3, DoNothingActivation);
+                RegisterActivationsWithinRange(253, 63, 63, DoNothingActivation);
                 RegisterActivationsWithinRange(253, 85, 85, DoNothingActivation);
             }
 
@@ -457,41 +463,187 @@ namespace Kleptomania
         {
             DaggerfallUnityItem item = null;
             IsThisACrime();
+            GameObject marker = CreateStolenObjectMarker(clickedObj.transform.position, clickedObj.transform.parent);
+            DaggerfallAudioSource dfAudioSource = marker.GetComponent<DaggerfallAudioSource>();
 
             switch (ObjTexArchive)
             {
                 case 205:
                     if (IsPotionBottleTextureGroups())
                     {
-                        item = ItemBuilder.CreateRandomPotion();
-                        if (DoesThisEncumberPlayer(item))
-                        {
-                            DaggerfallLoot droppedItem = GameObjectHelper.CreateDroppedLootContainer(GameManager.Instance.PlayerObject, DaggerfallUnity.NextUID, 216, 31);
-                            droppedItem.Items.AddItem(item);
-                            DaggerfallUI.AddHUDText("Unable to carry anymore, you drop the item on the ground...", 3f);
-                        }
-                        else
-                        {
-                            Player.Items.AddItem(item);
-                            // Play audio-clip that sounds like picking up a bottle/potion, probably something from Oblivion.
-                        }
+                        item = ItemBuilder.CreateRandomPotion(); // Later on use custom audio-clips that sounds like picking up a bottle/potion, probably something from Oblivion.
+                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); // Later on use custom audio-clips that sounds like dropping glass or something.
                     }
-                    else if (ObjTexRecord == 42) {}
-                    else if (ObjTexRecord == 41) {}
-                    else if (ObjTexRecord == 10) {}
-                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) {}
-                    else {}
+                    else if (ObjTexRecord == 42)
+                    {
+                        item = ItemBuilder.CreateWeapon(Weapons.Arrow, WeaponMaterialTypes.Steel);
+                        item.stackCount = UnityEngine.Random.Range(3, 14);
+                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.ArrowHit, SoundClips.BodyFall, 207, 16, true);
+                    }
+                    else if (ObjTexRecord == 41) {} // Clay pot, will likely make a custom item later for this.
+                    else if (ObjTexRecord == 10) {} // Will likely add multiple "fish" food-items from climates & calories mod if that is currently installed, later.
+                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) {} // Will likely add a ration food-item from climates & calories mod if that is currently installed, later.
+                    else { return; }
+                    break;
+                case 208:
+                    if (IsPotionBottleTextureGroups())
+                    {
+                        item = ItemBuilder.CreateRandomPotion(); // Later on use custom audio-clips that sounds like picking up a bottle/potion, probably something from Oblivion.
+                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); // Later on use custom audio-clips that sounds like dropping glass or something.
+                    }
+                    else if (ObjTexRecord == 0) {} // custom globe item, will probably be pretty heavy.
+                    else if (ObjTexRecord == 1) {} // custom magnifying glass item.
+                    else if (ObjTexRecord == 3) {} // custom weight scale item, will probably weight a moderate amount.
+                    else if (ObjTexRecord == 4) {} // custom telescope item, maybe add that "spy-glass" item from that old mod or something if installed, will see.
+                    else if (ObjTexRecord == 5) {} // custom hand mirror item.
+                    else if (ObjTexRecord == 6) {} // custom hourglass item.
+                    else { return; }
+                    break;
+                case 209:
+                    if (IsBookTextureGroups())
+                    {
+                        item = ItemBuilder.CreateRandomBook(); // Also have skill-books mod be taken into consideration later if active and such.
+                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3);
+                    }
+                    else if (IsPaperTextureGroups())
+                    {
+                        item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Parchment); // Will have to do ALOT more with this later.
+                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 8);
+                    }
+                    else if (ObjTexRecord == 9) {} // Add jewelry mark item.
+                    else { return; }
+                    break;
+                case 253:
+                    if (IsPotionBottleTextureGroups())
+                    {
+                        item = ItemBuilder.CreateRandomPotion(); // Later on use custom audio-clips that sounds like picking up a bottle/potion, probably something from Oblivion.
+                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); // Later on use custom audio-clips that sounds like dropping glass or something.
+                    }
+                    else if (IsBookTextureGroups())
+                    {
+                        item = ItemBuilder.CreateRandomBook(); // Also have skill-books mod be taken into consideration later if active and such.
+                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3);
+                    }
+                    else if (IsPaperTextureGroups())
+                    {
+                        item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Parchment); // Will have to do ALOT more with this later.
+                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 8);
+                    }
+                    else if (ObjTexRecord == 0) {} // Apple from C&C
+                    else if (ObjTexRecord == 1) {} // Will likely just hold a random small amount of gold, or later something more random based on the context and such, will see.
+                    else if (ObjTexRecord == 2) {} // Bandage item
+                    else if (ObjTexRecord == 16) {} // Add a random piece(s) of clothing
+                    else if (ObjTexRecord == 19) {} // Add a moderately valuable candelabra custom item.
+                    else if (ObjTexRecord == 23) {} // Multiple raw fishes from C&C
+                    else if (ObjTexRecord == 24) {} // Single raw fish from C&C
+                    else if (ObjTexRecord == 28) {} // custom globe item, will probably be pretty heavy.
+                    else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) {} // Add custom goblet/cup item that is somewhat valuable based on the "material" it looks to be made from.
+                    else if (ObjTexRecord == 39) {} // custom inkwell item.
+                    else if (ObjTexRecord == 54) {} // custom magnifying glass item.
+                    else if (ObjTexRecord == 55) {} // Orange from C&C
+                    else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) {} // Will likely add a ration food-item from climates & calories mod if that is currently installed, later.
+                    else if (ObjTexRecord == 63 || ObjTexRecord == 85) {} // Clay pot, will likely make a custom item later for this.
+                    else { return; }
+                    break;
+                default:
+                    return;
+            }
+            clickedObj.SetActive(false);
+        }
+
+        public static void GeneralItemTakingProcess(DaggerfallUnityItem item, DaggerfallAudioSource dfAudioSource, SoundClips takeSound = SoundClips.EquipJewellery, SoundClips dropSound = SoundClips.BodyFall, int lootPileArc = -1, int lootPileRec = -1, bool noWeight = false)
+        {
+            if (!noWeight && DoesThisEncumberPlayer(item))
+            {
+                DaggerfallLoot droppedItem = GameObjectHelper.CreateDroppedLootContainer(GameManager.Instance.PlayerObject, DaggerfallUnity.NextUID, lootPileArc == -1 ? 216 : lootPileArc, lootPileRec == -1 ? -1 : lootPileRec);
+                droppedItem.Items.AddItem(item);
+                if (dfAudioSource != null) { dfAudioSource.PlayOneShot(dropSound); }
+                DaggerfallUI.AddHUDText("Unable to carry anymore, you drop the item on the ground...", 3f);
+            }
+            else
+            {
+                Player.Items.AddItem(item);
+                if (dfAudioSource != null) { dfAudioSource.PlayOneShot(takeSound); }
+            }
+        }
+
+        public static void ShowNameOrDescription()
+        {
+            DaggerfallUI.AddHUDText(GetItemNameOrDescription(), 2f);
+        }
+
+        public static string GetItemNameOrDescription()
+        {
+            string hudText = "";
+
+            switch (ObjTexArchive)
+            {
+                case 205:
+                    if (IsPotionBottleTextureGroups()) { hudText = "You see a glass bottle filled with an unknown liquid."; } // Will likely change these later to better describe the individual sprite graphic used, will see.
+                    else if (ObjTexRecord == 42) { hudText = "You see a quiver carrying a few arrows."; }
+                    else if (ObjTexRecord == 41) { hudText = "You see a clay pot."; }
+                    else if (ObjTexRecord == 10) { hudText = "You see a basket full of fish."; }
+                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) { hudText = "You see a sack."; }
+                    break;
+                case 208:
+                    if (IsPotionBottleTextureGroups()) { hudText = "You see a glass bottle filled with an unknown liquid."; }
+                    else if (ObjTexRecord == 0) { hudText = "You see a globe."; }
+                    else if (ObjTexRecord == 1) { hudText = "You see a magnifying glass."; }
+                    else if (ObjTexRecord == 3) { hudText = "You see a scale."; }
+                    else if (ObjTexRecord == 4) { hudText = "You see a telescope."; }
+                    else if (ObjTexRecord == 5) { hudText = "You see a hand mirror."; }
+                    else if (ObjTexRecord == 6) { hudText = "You see an hourglass."; }
+                    break;
+                case 209:
+                    if (IsBookTextureGroups()) { hudText = "You see a book."; } // Will want to change this later on based on if it is a "stack" of books or just a singular one, etc.
+                    else if (IsPaperTextureGroups()) { hudText = "You see a piece of parchment."; } // Will want to change this later on based on if it is a "stack" of paper or just a singular one or scroll.
+                    else if (ObjTexRecord == 9) { hudText = "You see a cloth mark."; }
+                    break;
+                case 253:
+                    if (IsPotionBottleTextureGroups()) { hudText = "You see a glass bottle filled with an unknown liquid."; }
+                    else if (IsBookTextureGroups()) { hudText = "You see a book."; } // Will want to change this later on based on if it is a "stack" of books or just a singular one, etc.
+                    else if (IsPaperTextureGroups()) { hudText = "You see a piece of parchment."; } // Will want to change this later on based on if it is a "stack" of paper or just a singular one or scroll.
+                    else if (ObjTexRecord == 0) { hudText = "You see an apple."; }
+                    else if (ObjTexRecord == 1) { hudText = "You see a small pouch."; }
+                    else if (ObjTexRecord == 2) { hudText = "You see a bandage."; }
+                    else if (ObjTexRecord == 16) { hudText = "You see a pile of clothing."; }
+                    else if (ObjTexRecord == 19) { hudText = "You see a candelabra."; }
+                    else if (ObjTexRecord == 23) { hudText = "You see a pile of fish."; }
+                    else if (ObjTexRecord == 24) { hudText = "You see a fish."; }
+                    else if (ObjTexRecord == 28) { hudText = "You see a globe."; }
+                    else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) { hudText = "You see a goblet."; } // Change later based on the material of the goblet/cup, etc.
+                    else if (ObjTexRecord == 39) { hudText = "You see an inkwell."; }
+                    else if (ObjTexRecord == 54) { hudText = "You see a magnifying glass."; }
+                    else if (ObjTexRecord == 55) { hudText = "You see an orange."; }
+                    else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { hudText = "You see a sack."; }
+                    else if (ObjTexRecord == 63 || ObjTexRecord == 85) { hudText = "You see a clay pot."; }
                     break;
                 default:
                     break;
             }
-            CreateStolenObjectMarker(clickedObj.transform.position, clickedObj.transform.parent);
-            clickedObj.SetActive(false);
+            return hudText;
         }
 
         public static bool IsPotionBottleTextureGroups()
         {
-            return (ObjTexRecord >= 1 && ObjTexRecord <= 7) || (ObjTexRecord >= 11 && ObjTexRecord <= 16) || (ObjTexRecord >= 31 && ObjTexRecord <= 35) || ObjTexRecord == 43;
+            if (ObjTexArchive == 205) { return (ObjTexRecord >= 1 && ObjTexRecord <= 7) || (ObjTexRecord >= 11 && ObjTexRecord <= 16) || (ObjTexRecord >= 31 && ObjTexRecord <= 35) || ObjTexRecord == 43; }
+            else if (ObjTexArchive == 208) { return ObjTexRecord == 2; }
+            else if (ObjTexArchive == 253) { return (ObjTexRecord >= 4 && ObjTexRecord <= 6) || (ObjTexRecord >= 25 && ObjTexRecord <= 27) || (ObjTexRecord >= 40 && ObjTexRecord <= 48); }
+            else { return false; }
+        }
+
+        public static bool IsBookTextureGroups()
+        {
+            if (ObjTexArchive == 209) { return (ObjTexRecord >= 0 && ObjTexRecord <= 4); }
+            else if (ObjTexArchive == 253) { return (ObjTexRecord >= 7 && ObjTexRecord <= 9) || (ObjTexRecord >= 57 && ObjTexRecord <= 58); }
+            else { return false; }
+        }
+
+        public static bool IsPaperTextureGroups()
+        {
+            if (ObjTexArchive == 209) { return (ObjTexRecord >= 5 && ObjTexRecord <= 8) || ObjTexRecord == 10; }
+            else if (ObjTexArchive == 253) { return ObjTexRecord == 53 || ObjTexRecord == 56 || ObjTexRecord == 64 || ObjTexRecord == 74 || ObjTexRecord == 80; }
+            else { return false; }
         }
 
         public static bool DoesThisEncumberPlayer(DaggerfallUnityItem item)
@@ -702,34 +854,6 @@ namespace Kleptomania
                 default:
                     return false;
             }
-        }
-
-        public static void ShowNameOrDescription()
-        {
-            DaggerfallUI.AddHUDText(GetItemNameOrDescription(), 2f);
-        }
-
-        public static string GetItemNameOrDescription()
-        {
-            string hudText = "";
-
-            switch (ObjTexArchive)
-            {
-                case 205:
-                    if (IsPotionBottleTextureGroups())
-                    {
-                        hudText = "You see a glass bottle filled with an unknown liquid."; break; // Will likely change these later to better describe the individual sprite graphic used, will see.
-                    }
-                    else if (ObjTexRecord == 42) {}
-                    else if (ObjTexRecord == 41) {}
-                    else if (ObjTexRecord == 10) {}
-                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) {}
-                    else {}
-                    break;
-                default:
-                    break;
-            }
-            return hudText;
         }
 
         public static GameObject CreateStolenObjectMarker (Vector3 pos, Transform parent)
