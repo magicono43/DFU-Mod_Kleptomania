@@ -3,7 +3,7 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Author:          Kirk.O
 // Created On: 	    4/29/2023, 11:20 PM
-// Last Edit:		5/9/2023, 12:50 AM
+// Last Edit:		5/9/2023, 2:20 PM
 // Version:			1.00
 // Special Thanks:  
 // Modifier:
@@ -137,7 +137,7 @@ namespace Kleptomania
                 Debug.Log("Kleptomania: Registering Book Custom Activators");
                 // Books & Multiple Books, Skill-books:
                 RegisterActivationsWithinRange(209, 0, 4, DoNothingActivation);
-                RegisterActivationsWithinRange(216, 40, 40, DoNothingActivation); // Tomorrow, start adding the Archive-216 to the case-switches, and continue from there.
+                RegisterActivationsWithinRange(216, 40, 40, DoNothingActivation);
                 RegisterActivationsWithinRange(253, 7, 9, DoNothingActivation);
                 RegisterActivationsWithinRange(253, 57, 58, DoNothingActivation);
             }
@@ -468,6 +468,17 @@ namespace Kleptomania
 
             switch (ObjTexArchive)
             {
+                case 200:
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 6) {} // Add custom goblet/cup item that is somewhat valuable based on the "material" it looks to be made from.
+                    else { return; }
+                    break;
+                case 204:
+                    if (ObjTexRecord == 0) {} // Add a random piece(s) of clothing
+                    else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) {} // add a random pare of footware clothing.
+                    else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) {} // add a random piece of headware clothing (might not exist still)
+                    else if (ObjTexRecord == 9) {} // add a random piece of straps clothing item.
+                    else { return; }
+                    break;
                 case 205:
                     if (IsPotionBottleTextureGroups())
                     {
@@ -483,6 +494,26 @@ namespace Kleptomania
                     else if (ObjTexRecord == 41) {} // Clay pot, will likely make a custom item later for this.
                     else if (ObjTexRecord == 10) {} // Will likely add multiple "fish" food-items from climates & calories mod if that is currently installed, later.
                     else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) {} // Will likely add a ration food-item from climates & calories mod if that is currently installed, later.
+                    else { return; }
+                    break;
+                case 207:
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 2) {} // add a one-handed "long-sword" of some random (possibly limited) material value.
+                    else if (ObjTexRecord == 3 || ObjTexRecord == 5) {} // add a "short-sword" of some random (possibly limited) material value.
+                    else if (ObjTexRecord == 4) {} // add a one-handed axe of some random material value.
+                    else if (ObjTexRecord == 6) {} // add a mace or club of some random material value.
+                    else if (ObjTexRecord == 7) {} // add a staff (or maybe also wand) of some random material value.
+                    else if (ObjTexRecord == 8) {} // add a short or long-bow of some random material value.
+                    else if (ObjTexRecord == 9) {} // add a tower-shield of some random material value.
+                    else if (ObjTexRecord == 10) {} // add a random buckler, round-shield, or kite-shield of some random material value.
+                    else if (ObjTexRecord == 11) {} // add a random piece of chest-armor of some random material, include RPR:I stuff as well if active.
+                    else if (ObjTexRecord == 12 || ObjTexRecord == 14) {} // add a random piece of head-armor of some random material, include RPR:I stuff as well if active.
+                    else if (ObjTexRecord == 13) {} // add a bracer jewelry item.
+                    else if (ObjTexRecord == 15) {} // add a two-handed sword of some random (possibly limited) material value.
+                    else if (ObjTexRecord == 16)
+                    {
+                        item = ItemBuilder.CreateWeapon(Weapons.Arrow, WeaponMaterialTypes.Steel);
+                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.ArrowHit, SoundClips.BodyFall, 207, 16, true);
+                    }
                     else { return; }
                     break;
                 case 208:
@@ -511,6 +542,72 @@ namespace Kleptomania
                         GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 8);
                     }
                     else if (ObjTexRecord == 9) {} // Add jewelry mark item.
+                    else { return; }
+                    break;
+                case 210:
+                    if (ObjTexRecord == 5) {} // Add a moderately valuable candelabra custom item.
+                    else { return; }
+                    break;
+                case 211:
+                    if (ObjTexRecord == 0) {} // bandage item
+                    else if (ObjTexRecord == 1) {} // custom inkwell item
+                    else if (ObjTexRecord == 2) {} // Clay pot, will likely make a custom item later for this.
+                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) {} // Multiple fishes from C&C
+                    else if (ObjTexRecord == 12) {} // Maybe add 3 low value long-swords
+                    else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) {} // add a wagon wheel item from realistic wagons mod if active.
+                    else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) {} // add a custom smoking pipe item.
+                    else if (ObjTexRecord == 31) {} // add a bread item from C&C
+                    else if (ObjTexRecord == 40) {} // add a piece of meat item from C&C
+                    else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) {} // add a random small, medium, or large animal fang ingredient.
+                    else if (ObjTexRecord == 47) {} // add a small bell item
+                    else if (ObjTexRecord == 48) {} // add a torc jewelry item.
+                    else if (ObjTexRecord == 49) {} // add a holy water item.
+                    else if (ObjTexRecord == 50) {} // add a talisman or whatever those types of "junk" items are.
+                    else if (ObjTexRecord == 51 || ObjTexRecord == 53) {} // add an "icon" item.
+                    else if (ObjTexRecord == 52) {} // add a scarab item.
+                    else if (ObjTexRecord == 57) {} // add a randomly generated painting.
+                    else { return; }
+                    break;
+                case 213:
+                    if (ObjTexRecord == 0) {} // Apple from C&C
+                    else if (ObjTexRecord == 1) {} // Orange from C&C
+                    else if (ObjTexRecord == 6) {} // Clay pot, will likely make a custom item later for this.
+                    else { return; }
+                    break;
+                case 214:
+                    if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) {} // add a wooden scoop custom item.
+                    else if (ObjTexRecord == 1) {} // add a shovel custom item.
+                    else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) {} // add a armorers hammer item from Repair Tools if active.
+                    else if (ObjTexRecord == 5) {} // add a butter churn custom item, that or use the churn and make butter or something.
+                    else if (ObjTexRecord == 6) {} // add a pickaxe custom item
+                    else if (ObjTexRecord == 7) {} // add a scythe custom item.
+                    else if (ObjTexRecord == 8) {} // add a rope custom item.
+                    else if (ObjTexRecord == 9) {} // add a bellows custom item.
+                    else if (ObjTexRecord == 10) {} // add a broom custom item.
+                    else if (ObjTexRecord == 12) {} // add a brush custom item.
+                    else if (ObjTexRecord == 13) {} // add a tongs custom item.
+                    else if (ObjTexRecord == 14) {} // add a shears custom item.
+                    else if (ObjTexRecord == 15) {} // add a trowel custom item.
+                    else { return; }
+                    break;
+                case 216:
+                    if (IsBookTextureGroups())
+                    {
+                        item = ItemBuilder.CreateRandomBook(); // Also have skill-books mod be taken into consideration later if active and such.
+                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3);
+                    }
+                    else if (ObjTexRecord == 3) {} // possibly custom item that gives much more value and weight to this "solid gold bar" instead of the vanilla ingredient form.
+                    else if (ObjTexRecord >= 6 && ObjTexRecord <= 7) {} // Crown item from Jewelry Additions if active.
+                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 9) {} // Tiara item from Jewelry Additions if active.
+                    else if (ObjTexRecord >= 10 && ObjTexRecord <= 19) {} // A gem item from either vanilla or Jewelry Additions if active, etc.
+                    else if (ObjTexRecord == 21) {} // Add jewelry bracelet item, may change as well if Jewelry Additions is active.
+                    else if (ObjTexRecord == 30) {} // Will likely just hold a random small amount of gold, or later something more random based on the context and such, will see.
+                    else { return; }
+                    break;
+                case 218:
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 3) {} // Clay pot, will likely make a custom item later for this.
+                    else if (ObjTexRecord == 4) {} // add "skillet" item from C&C
+                    else if (ObjTexRecord == 6) {} // add a custom "spoon" or scoop item.
                     else { return; }
                     break;
                 case 253:
@@ -543,6 +640,10 @@ namespace Kleptomania
                     else if (ObjTexRecord == 55) {} // Orange from C&C
                     else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) {} // Will likely add a ration food-item from climates & calories mod if that is currently installed, later.
                     else if (ObjTexRecord == 63 || ObjTexRecord == 85) {} // Clay pot, will likely make a custom item later for this.
+                    else { return; }
+                    break;
+                case 254:
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 71) {} // add whatever appropriate alchemical ingredient iten.
                     else { return; }
                     break;
                 default:
@@ -578,12 +679,36 @@ namespace Kleptomania
 
             switch (ObjTexArchive)
             {
+                case 200:
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 6) { hudText = "You see a goblet."; } // Change later based on the material of the goblet/cup, etc.
+                    break;
+                case 204:
+                    if (ObjTexRecord == 0) { hudText = "You see a pile of clothing."; }
+                    else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) { hudText = "You see some footware."; }
+                    else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) { hudText = "You see a hat."; }
+                    else if (ObjTexRecord == 9) { hudText = "You see some straps."; }
+                    break;
                 case 205:
                     if (IsPotionBottleTextureGroups()) { hudText = "You see a glass bottle filled with an unknown liquid."; } // Will likely change these later to better describe the individual sprite graphic used, will see.
                     else if (ObjTexRecord == 42) { hudText = "You see a quiver carrying a few arrows."; }
                     else if (ObjTexRecord == 41) { hudText = "You see a clay pot."; }
                     else if (ObjTexRecord == 10) { hudText = "You see a basket full of fish."; }
                     else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) { hudText = "You see a sack."; }
+                    break;
+                case 207:
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 2) { hudText = "You see a sword."; }
+                    else if (ObjTexRecord == 3 || ObjTexRecord == 5) { hudText = "You see a small blade."; }
+                    else if (ObjTexRecord == 4) { hudText = "You see an axe."; }
+                    else if (ObjTexRecord == 6) { hudText = "You see a mace."; }
+                    else if (ObjTexRecord == 7) { hudText = "You see a staff."; }
+                    else if (ObjTexRecord == 8) { hudText = "You see a bow."; }
+                    else if (ObjTexRecord == 9) { hudText = "You see a large shield."; }
+                    else if (ObjTexRecord == 10) { hudText = "You see a shield."; }
+                    else if (ObjTexRecord == 11) { hudText = "You see a piece of chest armor."; }
+                    else if (ObjTexRecord == 12 || ObjTexRecord == 14) { hudText = "You see a helmet."; }
+                    else if (ObjTexRecord == 13) { hudText = "You see a bracer."; }
+                    else if (ObjTexRecord == 15) { hudText = "You see a large sword."; }
+                    else if (ObjTexRecord == 16) { hudText = "You see an arrow."; }
                     break;
                 case 208:
                     if (IsPotionBottleTextureGroups()) { hudText = "You see a glass bottle filled with an unknown liquid."; }
@@ -598,6 +723,62 @@ namespace Kleptomania
                     if (IsBookTextureGroups()) { hudText = "You see a book."; } // Will want to change this later on based on if it is a "stack" of books or just a singular one, etc.
                     else if (IsPaperTextureGroups()) { hudText = "You see a piece of parchment."; } // Will want to change this later on based on if it is a "stack" of paper or just a singular one or scroll.
                     else if (ObjTexRecord == 9) { hudText = "You see a cloth mark."; }
+                    break;
+                case 210:
+                    if (ObjTexRecord == 5) { hudText = "You see a candelabra."; }
+                    break;
+                case 211:
+                    if (ObjTexRecord == 0) { hudText = "You see a bandage."; }
+                    else if (ObjTexRecord == 1) { hudText = "You see an inkwell."; }
+                    else if (ObjTexRecord == 2) { hudText = "You see a clay pot."; }
+                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) { hudText = "You see a pile of fish."; }
+                    else if (ObjTexRecord == 12) { hudText = "You see a stack of swords."; }
+                    else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) { hudText = "You see a wheel."; }
+                    else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { hudText = "You see a smoking pipe."; }
+                    else if (ObjTexRecord == 31) { hudText = "You see a loaf of bread."; }
+                    else if (ObjTexRecord == 40) { hudText = "You see a piece of meat."; }
+                    else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) { hudText = "You see an animal tooth."; }
+                    else if (ObjTexRecord == 47) { hudText = "You see a small bell."; }
+                    else if (ObjTexRecord == 48) { hudText = "You see a torc."; }
+                    else if (ObjTexRecord == 49) { hudText = "You see a cup of holy water."; }
+                    else if (ObjTexRecord == 50) { hudText = "You see a talisman."; }
+                    else if (ObjTexRecord == 51 || ObjTexRecord == 53) { hudText = "You see a religious icon."; }
+                    else if (ObjTexRecord == 52) { hudText = "You see a scarab."; }
+                    else if (ObjTexRecord == 57) { hudText = "You see a painting."; }
+                    break;
+                case 213:
+                    if (ObjTexRecord == 0) { hudText = "You see an apple."; }
+                    else if (ObjTexRecord == 1) { hudText = "You see an orange."; }
+                    else if (ObjTexRecord == 6) { hudText = "You see a clay pot."; }
+                    break;
+                case 214:
+                    if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { hudText = "You see a wooden scoop."; }
+                    else if (ObjTexRecord == 1) { hudText = "You see a shovel."; }
+                    else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) { hudText = "You see a hammer."; }
+                    else if (ObjTexRecord == 5) { hudText = "You see a butter churn."; }
+                    else if (ObjTexRecord == 6) { hudText = "You see a pickaxe."; }
+                    else if (ObjTexRecord == 7) { hudText = "You see a scythe."; }
+                    else if (ObjTexRecord == 8) { hudText = "You see a pile of rope."; }
+                    else if (ObjTexRecord == 9) { hudText = "You see a bellows."; }
+                    else if (ObjTexRecord == 10) { hudText = "You see a broom."; }
+                    else if (ObjTexRecord == 12) { hudText = "You see a brush."; }
+                    else if (ObjTexRecord == 13) { hudText = "You see a pair of tongs."; }
+                    else if (ObjTexRecord == 14) { hudText = "You see a pair of shears."; }
+                    else if (ObjTexRecord == 15) { hudText = "You see a wooden trowel."; }
+                    break;
+                case 216:
+                    if (IsBookTextureGroups()) { hudText = "You see a book."; } // Will want to change this later on based on if it is a "stack" of books or just a singular one, etc.
+                    else if (ObjTexRecord == 3) { hudText = "You see a solid gold bar."; }
+                    else if (ObjTexRecord >= 6 && ObjTexRecord <= 7) { hudText = "You see a crown."; } // Change later based on the material of the crown, etc.
+                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 9) { hudText = "You see a tiara."; } // Change later based on the material of the tiara, etc.
+                    else if (ObjTexRecord >= 10 && ObjTexRecord <= 19) { hudText = "You see a gem."; } // Change later based on the gem itself, etc.
+                    else if (ObjTexRecord == 21) { hudText = "You see a bracelet."; }
+                    else if (ObjTexRecord == 30) { hudText = "You see a small pouch."; }
+                    break;
+                case 218:
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 3) { hudText = "You see a clay pot."; }
+                    else if (ObjTexRecord == 4) { hudText = "You see an iron skillet."; }
+                    else if (ObjTexRecord == 6) { hudText = "You see a wooden spoon."; }
                     break;
                 case 253:
                     if (IsPotionBottleTextureGroups()) { hudText = "You see a glass bottle filled with an unknown liquid."; }
@@ -618,6 +799,9 @@ namespace Kleptomania
                     else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { hudText = "You see a sack."; }
                     else if (ObjTexRecord == 63 || ObjTexRecord == 85) { hudText = "You see a clay pot."; }
                     break;
+                case 254:
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 71) { hudText = "You see an alchemical ingredient."; }
+                    break;
                 default:
                     break;
             }
@@ -635,6 +819,7 @@ namespace Kleptomania
         public static bool IsBookTextureGroups()
         {
             if (ObjTexArchive == 209) { return (ObjTexRecord >= 0 && ObjTexRecord <= 4); }
+            else if (ObjTexArchive == 216) { return ObjTexRecord == 40; }
             else if (ObjTexArchive == 253) { return (ObjTexRecord >= 7 && ObjTexRecord <= 9) || (ObjTexRecord >= 57 && ObjTexRecord <= 58); }
             else { return false; }
         }
