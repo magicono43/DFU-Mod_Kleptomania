@@ -3,7 +3,7 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Author:          Kirk.O
 // Created On: 	    4/29/2023, 11:20 PM
-// Last Edit:		5/9/2023, 2:20 PM
+// Last Edit:		5/9/2023, 10:30 PM
 // Version:			1.00
 // Special Thanks:  
 // Modifier:
@@ -462,6 +462,7 @@ namespace Kleptomania
         public static void TakeOrStealItem(GameObject clickedObj)
         {
             DaggerfallUnityItem item = null;
+            string text = "";
             IsThisACrime();
             GameObject marker = CreateStolenObjectMarker(clickedObj.transform.position, clickedObj.transform.parent);
             DaggerfallAudioSource dfAudioSource = marker.GetComponent<DaggerfallAudioSource>();
@@ -469,7 +470,7 @@ namespace Kleptomania
             switch (ObjTexArchive)
             {
                 case 200:
-                    if (ObjTexRecord >= 0 && ObjTexRecord <= 6) {} // Add custom goblet/cup item that is somewhat valuable based on the "material" it looks to be made from.
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 6) { DetermineGobletCupType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 30); }
                     else { return; }
                     break;
                 case 204:
@@ -480,19 +481,15 @@ namespace Kleptomania
                     else { return; }
                     break;
                 case 205:
-                    if (IsPotionBottleTextureGroups())
-                    {
-                        item = ItemBuilder.CreateRandomPotion(); // Later on use custom audio-clips that sounds like picking up a bottle/potion, probably something from Oblivion.
-                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); // Later on use custom audio-clips that sounds like dropping glass or something.
-                    }
+                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); }
                     else if (ObjTexRecord == 42)
                     {
                         item = ItemBuilder.CreateWeapon(Weapons.Arrow, WeaponMaterialTypes.Steel);
                         item.stackCount = UnityEngine.Random.Range(3, 14);
                         GeneralItemTakingProcess(item, dfAudioSource, SoundClips.ArrowHit, SoundClips.BodyFall, 207, 16, true);
                     }
-                    else if (ObjTexRecord == 41) {} // Clay pot, will likely make a custom item later for this.
-                    else if (ObjTexRecord == 10) {} // Will likely add multiple "fish" food-items from climates & calories mod if that is currently installed, later.
+                    else if (ObjTexRecord == 41) { DeterminePotUrnJugType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
+                    else if (ObjTexRecord == 10) { DetermineFishBundleType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
                     else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) {} // Will likely add a ration food-item from climates & calories mod if that is currently installed, later.
                     else { return; }
                     break;
@@ -517,11 +514,7 @@ namespace Kleptomania
                     else { return; }
                     break;
                 case 208:
-                    if (IsPotionBottleTextureGroups())
-                    {
-                        item = ItemBuilder.CreateRandomPotion(); // Later on use custom audio-clips that sounds like picking up a bottle/potion, probably something from Oblivion.
-                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); // Later on use custom audio-clips that sounds like dropping glass or something.
-                    }
+                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); }
                     else if (ObjTexRecord == 0) {} // custom globe item, will probably be pretty heavy.
                     else if (ObjTexRecord == 1) {} // custom magnifying glass item.
                     else if (ObjTexRecord == 3) {} // custom weight scale item, will probably weight a moderate amount.
@@ -531,16 +524,8 @@ namespace Kleptomania
                     else { return; }
                     break;
                 case 209:
-                    if (IsBookTextureGroups())
-                    {
-                        item = ItemBuilder.CreateRandomBook(); // Also have skill-books mod be taken into consideration later if active and such.
-                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3);
-                    }
-                    else if (IsPaperTextureGroups())
-                    {
-                        item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Parchment); // Will have to do ALOT more with this later.
-                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 8);
-                    }
+                    if (IsBookTextureGroups()) { DetermineBookBundleType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3); }
+                    else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 8); }
                     else if (ObjTexRecord == 9) {} // Add jewelry mark item.
                     else { return; }
                     break;
@@ -551,8 +536,8 @@ namespace Kleptomania
                 case 211:
                     if (ObjTexRecord == 0) {} // bandage item
                     else if (ObjTexRecord == 1) {} // custom inkwell item
-                    else if (ObjTexRecord == 2) {} // Clay pot, will likely make a custom item later for this.
-                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) {} // Multiple fishes from C&C
+                    else if (ObjTexRecord == 2) { DeterminePotUrnJugType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
+                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) { DetermineFishBundleType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
                     else if (ObjTexRecord == 12) {} // Maybe add 3 low value long-swords
                     else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) {} // add a wagon wheel item from realistic wagons mod if active.
                     else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) {} // add a custom smoking pipe item.
@@ -571,7 +556,7 @@ namespace Kleptomania
                 case 213:
                     if (ObjTexRecord == 0) {} // Apple from C&C
                     else if (ObjTexRecord == 1) {} // Orange from C&C
-                    else if (ObjTexRecord == 6) {} // Clay pot, will likely make a custom item later for this.
+                    else if (ObjTexRecord == 6) { DeterminePotUrnJugType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else { return; }
                     break;
                 case 214:
@@ -591,55 +576,38 @@ namespace Kleptomania
                     else { return; }
                     break;
                 case 216:
-                    if (IsBookTextureGroups())
-                    {
-                        item = ItemBuilder.CreateRandomBook(); // Also have skill-books mod be taken into consideration later if active and such.
-                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3);
-                    }
+                    if (IsBookTextureGroups()) { DetermineBookBundleType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3); }
                     else if (ObjTexRecord == 3) {} // possibly custom item that gives much more value and weight to this "solid gold bar" instead of the vanilla ingredient form.
-                    else if (ObjTexRecord >= 6 && ObjTexRecord <= 7) {} // Crown item from Jewelry Additions if active.
-                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 9) {} // Tiara item from Jewelry Additions if active.
-                    else if (ObjTexRecord >= 10 && ObjTexRecord <= 19) {} // A gem item from either vanilla or Jewelry Additions if active, etc.
+                    else if (ObjTexRecord >= 6 && ObjTexRecord <= 7) { DetermineCrownPieceType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 6); }
+                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 9) { DetermineTiaraPieceType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 9); }
+                    else if (ObjTexRecord >= 10 && ObjTexRecord <= 19) { DetermineGemStonePieceType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 10); }
                     else if (ObjTexRecord == 21) {} // Add jewelry bracelet item, may change as well if Jewelry Additions is active.
                     else if (ObjTexRecord == 30) {} // Will likely just hold a random small amount of gold, or later something more random based on the context and such, will see.
                     else { return; }
                     break;
                 case 218:
-                    if (ObjTexRecord >= 0 && ObjTexRecord <= 3) {} // Clay pot, will likely make a custom item later for this.
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 3) { DeterminePotUrnJugType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else if (ObjTexRecord == 4) {} // add "skillet" item from C&C
                     else if (ObjTexRecord == 6) {} // add a custom "spoon" or scoop item.
                     else { return; }
                     break;
                 case 253:
-                    if (IsPotionBottleTextureGroups())
-                    {
-                        item = ItemBuilder.CreateRandomPotion(); // Later on use custom audio-clips that sounds like picking up a bottle/potion, probably something from Oblivion.
-                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); // Later on use custom audio-clips that sounds like dropping glass or something.
-                    }
-                    else if (IsBookTextureGroups())
-                    {
-                        item = ItemBuilder.CreateRandomBook(); // Also have skill-books mod be taken into consideration later if active and such.
-                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3);
-                    }
-                    else if (IsPaperTextureGroups())
-                    {
-                        item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Parchment); // Will have to do ALOT more with this later.
-                        GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 8);
-                    }
+                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); }
+                    else if (IsBookTextureGroups()) { DetermineBookBundleType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3); }
+                    else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 8); }
                     else if (ObjTexRecord == 0) {} // Apple from C&C
                     else if (ObjTexRecord == 1) {} // Will likely just hold a random small amount of gold, or later something more random based on the context and such, will see.
                     else if (ObjTexRecord == 2) {} // Bandage item
                     else if (ObjTexRecord == 16) {} // Add a random piece(s) of clothing
                     else if (ObjTexRecord == 19) {} // Add a moderately valuable candelabra custom item.
-                    else if (ObjTexRecord == 23) {} // Multiple raw fishes from C&C
-                    else if (ObjTexRecord == 24) {} // Single raw fish from C&C
+                    else if (ObjTexRecord == 23 || ObjTexRecord == 24) { DetermineFishBundleType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
                     else if (ObjTexRecord == 28) {} // custom globe item, will probably be pretty heavy.
-                    else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) {} // Add custom goblet/cup item that is somewhat valuable based on the "material" it looks to be made from.
+                    else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) { DetermineGobletCupType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 30); }
                     else if (ObjTexRecord == 39) {} // custom inkwell item.
                     else if (ObjTexRecord == 54) {} // custom magnifying glass item.
                     else if (ObjTexRecord == 55) {} // Orange from C&C
                     else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) {} // Will likely add a ration food-item from climates & calories mod if that is currently installed, later.
-                    else if (ObjTexRecord == 63 || ObjTexRecord == 85) {} // Clay pot, will likely make a custom item later for this.
+                    else if (ObjTexRecord == 63 || ObjTexRecord == 85) { DeterminePotUrnJugType(out item, out text); GeneralItemTakingProcess(item, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else { return; }
                     break;
                 case 254:
@@ -673,139 +641,315 @@ namespace Kleptomania
             DaggerfallUI.AddHUDText(GetItemNameOrDescription(), 2f);
         }
 
+        public static void DetermineGobletCupType(out DaggerfallUnityItem item, out string desc, bool justText = false)
+        {
+            item = null;
+            desc = "";
+            if (ObjTexArchive == 200)
+            {
+                if (ObjTexRecord == 0 || ObjTexRecord == 2) { item = null; desc = "You see a silver goblet."; }
+                else if (ObjTexRecord == 1 || ObjTexRecord == 3) { item = null; desc = "You see a gold goblet."; }
+                else if (ObjTexRecord == 4) { item = null; desc = "You see a gem studded silver goblet."; }
+                else if (ObjTexRecord == 5) { item = null; desc = "You see a gem studded gold goblet."; }
+                else if (ObjTexRecord == 6) { item = null; desc = "You see a wooden cup."; }
+            }
+            else if (ObjTexArchive == 253)
+            {
+                if (ObjTexRecord == 30 || ObjTexRecord == 32) { item = null; desc = "You see a silver goblet."; }
+                else if (ObjTexRecord == 31 || ObjTexRecord == 33) { item = null; desc = "You see a gold goblet."; }
+                else if (ObjTexRecord == 34) { item = null; desc = "You see a gem studded silver goblet."; }
+                else if (ObjTexRecord == 35) { item = null; desc = "You see a gem studded gold goblet."; }
+            }
+        }
+
+        public static void DeterminePotUrnJugType(out DaggerfallUnityItem item, out string desc, bool justText = false)
+        {
+            item = null;
+            desc = "";
+            if (ObjTexArchive == 205)
+            {
+                if (ObjTexRecord == 41) { item = null; desc = "You see an urn."; }
+            }
+            else if (ObjTexArchive == 211)
+            {
+                if (ObjTexRecord == 2) { item = null; desc = "You see an urn."; }
+            }
+            else if (ObjTexArchive == 213)
+            {
+                if (ObjTexRecord == 6) { item = null; desc = "You see a blue pot with flowers in it."; }
+            }
+            else if (ObjTexArchive == 218)
+            {
+                if (ObjTexRecord == 0) { item = null; desc = "You see an engraved brown pot."; }
+                else if (ObjTexRecord == 1) { item = null; desc = "You see a gray pot."; }
+                else if (ObjTexRecord == 2) { item = null; desc = "You see a brown pot."; }
+                else if (ObjTexRecord == 3) { item = null; desc = "You see a green pot."; }
+            }
+            else if (ObjTexArchive == 253)
+            {
+                if (ObjTexRecord == 63) { item = null; desc = "You see an urn."; }
+                else if (ObjTexRecord == 85) { item = null; desc = "You see a blue pot with flowers in it."; }
+            }
+        }
+
+        public static void DetermineFishBundleType(out DaggerfallUnityItem item, out string desc, bool justText = false)
+        {
+            item = null;
+            desc = "";
+            if (ObjTexArchive == 205)
+            {
+                if (ObjTexRecord == 10) { item = null; desc = "You see a basket full of prepared fish."; }
+            }
+            else if (ObjTexArchive == 211)
+            {
+                if (ObjTexRecord == 8) { item = null; desc = "You see a pile of raw fish."; }
+                else if (ObjTexRecord == 9) { item = null; desc = "You see a fish."; }
+                else if (ObjTexRecord == 10) { item = null; desc = "You see a cooked fish."; }
+                else if (ObjTexRecord == 11) { item = null; desc = "You see a bundle of cooked fish."; }
+            }
+            else if (ObjTexArchive == 253)
+            {
+                if (ObjTexRecord == 23) { item = null; desc = "You see a pile of raw fish."; }
+                else if (ObjTexRecord == 24) { item = null; desc = "You see a fish."; }
+            }
+        }
+
+        public static void DetermineBookBundleType(out DaggerfallUnityItem item, out string desc, bool justText = false)
+        {
+            item = null;
+            desc = "";
+            if (ObjTexArchive == 209)
+            {
+                if (ObjTexRecord == 0) { item = null; desc = "You see a large stack of books."; }
+                else if (ObjTexRecord == 1) { item = null; desc = "You see a small stack of books."; }
+                else if (ObjTexRecord >= 2 && ObjTexRecord <= 4) { item = null; desc = "You see a book.";}
+            }
+            else if (ObjTexArchive == 216)
+            {
+                if (ObjTexRecord == 40) { item = null; desc = "You see a large stack of books."; }
+            }
+            else if (ObjTexArchive == 253)
+            {
+                if (ObjTexRecord >= 7 && ObjTexRecord <= 9) { item = null; desc = "You see a book."; }
+                else if (ObjTexRecord == 57) { item = null; desc = "You see a large stack of books."; }
+                else if (ObjTexRecord == 58) { item = null; desc = "You see a small stack of books."; }
+            }
+        }
+
+        public static void DeterminePaperScrollStackType(out DaggerfallUnityItem item, out string desc, bool justText = false)
+        {
+            item = null;
+            desc = "";
+            if (ObjTexArchive == 209)
+            {
+                if (ObjTexRecord >= 5) { item = null; desc = "You see a piece of parchment.";}
+                else if (ObjTexRecord == 6) { item = null; desc = "You see a stack of papers."; }
+                else if (ObjTexRecord >= 7 && ObjTexRecord <= 8) { item = null; desc = "You see a piece of parchment."; }
+                else if (ObjTexRecord == 10) { item = null; desc = "You see a stack of papers."; }
+            }
+            else if (ObjTexArchive == 253)
+            {
+                if (ObjTexRecord >= 53) { item = null; desc = "You see a piece of parchment."; }
+                else if (ObjTexRecord == 56) { item = null; desc = "You see a piece of parchment."; }
+                else if (ObjTexRecord == 64) { item = null; desc = "You see a stack of papers."; }
+                else if (ObjTexRecord == 74) { item = null; desc = "You see a piece of parchment."; }
+                else if (ObjTexRecord == 80) { item = null; desc = "You see a stack of papers."; }
+            }
+        }
+
+        public static void DetermineCrownPieceType(out DaggerfallUnityItem item, out string desc, bool justText = false)
+        {
+            item = null;
+            desc = "";
+            if (ObjTexArchive == 216)
+            {
+                if (ObjTexRecord >= 6) { item = null; desc = "You see a gold crown."; }
+                else if (ObjTexRecord == 7) { item = null; desc = "You see a silver crown."; }
+            }
+        }
+
+        public static void DetermineTiaraPieceType(out DaggerfallUnityItem item, out string desc, bool justText = false)
+        {
+            item = null;
+            desc = "";
+            if (ObjTexArchive == 216)
+            {
+                if (ObjTexRecord >= 8) { item = null; desc = "You see a silver tiara."; }
+                else if (ObjTexRecord == 9) { item = null; desc = "You see a gold tiara."; }
+            }
+        }
+
+        public static void DetermineGemStonePieceType(out DaggerfallUnityItem item, out string desc, bool justText = false)
+        {
+            item = null;
+            desc = "";
+            if (ObjTexArchive == 216)
+            {
+                if (ObjTexRecord >= 10 && ObjTexRecord <= 17) { item = null; desc = "You see a gem."; }
+                else if (ObjTexRecord >= 18 && ObjTexRecord <= 19) { item = null; desc = "You see a small stack of gems."; }
+            }
+        }
+
+        public static void DetermineGlassBottlePotionType(out DaggerfallUnityItem item, out string desc, bool justText = false)
+        {
+            item = null;
+            desc = "";
+            if (ObjTexArchive == 205)
+            {
+                if (ObjTexRecord >= 1 && ObjTexRecord <= 7) { item = null; desc = "You see a large glass bottle filled with an unknown liquid."; }
+                else if (ObjTexRecord >= 11 && ObjTexRecord <= 16) { item = null; desc = "You see a glass bottle filled with an unknown liquid."; }
+                else if (ObjTexRecord == 31) { item = null; desc = "You see a bunch of glass bottles filled with unknown liquids."; }
+                else if (ObjTexRecord >= 32 && ObjTexRecord <= 35) { item = null; desc = "You see a glass bottle filled with an unknown liquid."; }
+                else if (ObjTexRecord == 43) { item = null; desc = "You see a small glass bottle filled with an unknown liquid."; }
+            }
+            else if (ObjTexArchive == 208)
+            {
+                if (ObjTexRecord == 2) { item = null; desc = "You see a glass bottle filled with an unknown liquid, being heated by a flame."; }
+            }
+            else if (ObjTexArchive == 253)
+            {
+                if (ObjTexRecord >= 4 && ObjTexRecord <= 6) { item = null; desc = "You see a glass bottle filled with an unknown liquid."; }
+                else if (ObjTexRecord >= 25 && ObjTexRecord <= 27) { item = null; desc = "You see a glass bottle filled with an unknown liquid."; }
+                else if (ObjTexRecord == 40) { item = null; desc = "You see a large glass bottle filled with an unknown liquid."; }
+                else if (ObjTexRecord == 41) { item = null; desc = "You see a glass bottle filled with an unknown liquid, being heated by a flame."; }
+                else if (ObjTexRecord >= 42 && ObjTexRecord <= 47) { item = null; desc = "You see a large glass bottle filled with an unknown liquid."; }
+                else if (ObjTexRecord == 48) { item = null; desc = "You see a glass bottle filled with an unknown liquid, being heated by a flame."; }
+            }
+        }
+
         public static string GetItemNameOrDescription()
         {
-            string hudText = "";
+            DaggerfallUnityItem item = null;
+            string text = "";
 
             switch (ObjTexArchive)
             {
                 case 200:
-                    if (ObjTexRecord >= 0 && ObjTexRecord <= 6) { hudText = "You see a goblet."; } // Change later based on the material of the goblet/cup, etc.
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 6) { DetermineGobletCupType(out item, out text, true); }
                     break;
                 case 204:
-                    if (ObjTexRecord == 0) { hudText = "You see a pile of clothing."; }
-                    else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) { hudText = "You see some footware."; }
-                    else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) { hudText = "You see a hat."; }
-                    else if (ObjTexRecord == 9) { hudText = "You see some straps."; }
+                    if (ObjTexRecord == 0) { text = "You see a pile of clothing."; }
+                    else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) { text = "You see some footware."; }
+                    else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) { text = "You see a hat."; }
+                    else if (ObjTexRecord == 9) { text = "You see some straps."; }
                     break;
                 case 205:
-                    if (IsPotionBottleTextureGroups()) { hudText = "You see a glass bottle filled with an unknown liquid."; } // Will likely change these later to better describe the individual sprite graphic used, will see.
-                    else if (ObjTexRecord == 42) { hudText = "You see a quiver carrying a few arrows."; }
-                    else if (ObjTexRecord == 41) { hudText = "You see a clay pot."; }
-                    else if (ObjTexRecord == 10) { hudText = "You see a basket full of fish."; }
-                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) { hudText = "You see a sack."; }
+                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out item, out text, true); }
+                    else if (ObjTexRecord == 42) { text = "You see a quiver carrying a few arrows."; }
+                    else if (ObjTexRecord == 41) { DeterminePotUrnJugType(out item, out text, true); }
+                    else if (ObjTexRecord == 10) { DetermineFishBundleType(out item, out text, true); }
+                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) { text = "You see a sack."; }
                     break;
                 case 207:
-                    if (ObjTexRecord >= 0 && ObjTexRecord <= 2) { hudText = "You see a sword."; }
-                    else if (ObjTexRecord == 3 || ObjTexRecord == 5) { hudText = "You see a small blade."; }
-                    else if (ObjTexRecord == 4) { hudText = "You see an axe."; }
-                    else if (ObjTexRecord == 6) { hudText = "You see a mace."; }
-                    else if (ObjTexRecord == 7) { hudText = "You see a staff."; }
-                    else if (ObjTexRecord == 8) { hudText = "You see a bow."; }
-                    else if (ObjTexRecord == 9) { hudText = "You see a large shield."; }
-                    else if (ObjTexRecord == 10) { hudText = "You see a shield."; }
-                    else if (ObjTexRecord == 11) { hudText = "You see a piece of chest armor."; }
-                    else if (ObjTexRecord == 12 || ObjTexRecord == 14) { hudText = "You see a helmet."; }
-                    else if (ObjTexRecord == 13) { hudText = "You see a bracer."; }
-                    else if (ObjTexRecord == 15) { hudText = "You see a large sword."; }
-                    else if (ObjTexRecord == 16) { hudText = "You see an arrow."; }
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 2) { text = "You see a sword."; }
+                    else if (ObjTexRecord == 3 || ObjTexRecord == 5) { text = "You see a small blade."; }
+                    else if (ObjTexRecord == 4) { text = "You see an axe."; }
+                    else if (ObjTexRecord == 6) { text = "You see a mace."; }
+                    else if (ObjTexRecord == 7) { text = "You see a staff."; }
+                    else if (ObjTexRecord == 8) { text = "You see a bow."; }
+                    else if (ObjTexRecord == 9) { text = "You see a large shield."; }
+                    else if (ObjTexRecord == 10) { text = "You see a shield."; }
+                    else if (ObjTexRecord == 11) { text = "You see a piece of chest armor."; }
+                    else if (ObjTexRecord == 12 || ObjTexRecord == 14) { text = "You see a helmet."; }
+                    else if (ObjTexRecord == 13) { text = "You see a bracer."; }
+                    else if (ObjTexRecord == 15) { text = "You see a large sword."; }
+                    else if (ObjTexRecord == 16) { text = "You see an arrow."; }
                     break;
                 case 208:
-                    if (IsPotionBottleTextureGroups()) { hudText = "You see a glass bottle filled with an unknown liquid."; }
-                    else if (ObjTexRecord == 0) { hudText = "You see a globe."; }
-                    else if (ObjTexRecord == 1) { hudText = "You see a magnifying glass."; }
-                    else if (ObjTexRecord == 3) { hudText = "You see a scale."; }
-                    else if (ObjTexRecord == 4) { hudText = "You see a telescope."; }
-                    else if (ObjTexRecord == 5) { hudText = "You see a hand mirror."; }
-                    else if (ObjTexRecord == 6) { hudText = "You see an hourglass."; }
+                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out item, out text, true); }
+                    else if (ObjTexRecord == 0) { text = "You see a globe."; }
+                    else if (ObjTexRecord == 1) { text = "You see a magnifying glass."; }
+                    else if (ObjTexRecord == 3) { text = "You see a scale."; }
+                    else if (ObjTexRecord == 4) { text = "You see a telescope."; }
+                    else if (ObjTexRecord == 5) { text = "You see a hand mirror."; }
+                    else if (ObjTexRecord == 6) { text = "You see an hourglass."; }
                     break;
                 case 209:
-                    if (IsBookTextureGroups()) { hudText = "You see a book."; } // Will want to change this later on based on if it is a "stack" of books or just a singular one, etc.
-                    else if (IsPaperTextureGroups()) { hudText = "You see a piece of parchment."; } // Will want to change this later on based on if it is a "stack" of paper or just a singular one or scroll.
-                    else if (ObjTexRecord == 9) { hudText = "You see a cloth mark."; }
+                    if (IsBookTextureGroups()) { DetermineBookBundleType(out item, out text, true); }
+                    else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out item, out text, true); }
+                    else if (ObjTexRecord == 9) { text = "You see a cloth mark."; }
                     break;
                 case 210:
-                    if (ObjTexRecord == 5) { hudText = "You see a candelabra."; }
+                    if (ObjTexRecord == 5) { text = "You see a candelabra."; }
                     break;
                 case 211:
-                    if (ObjTexRecord == 0) { hudText = "You see a bandage."; }
-                    else if (ObjTexRecord == 1) { hudText = "You see an inkwell."; }
-                    else if (ObjTexRecord == 2) { hudText = "You see a clay pot."; }
-                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) { hudText = "You see a pile of fish."; }
-                    else if (ObjTexRecord == 12) { hudText = "You see a stack of swords."; }
-                    else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) { hudText = "You see a wheel."; }
-                    else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { hudText = "You see a smoking pipe."; }
-                    else if (ObjTexRecord == 31) { hudText = "You see a loaf of bread."; }
-                    else if (ObjTexRecord == 40) { hudText = "You see a piece of meat."; }
-                    else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) { hudText = "You see an animal tooth."; }
-                    else if (ObjTexRecord == 47) { hudText = "You see a small bell."; }
-                    else if (ObjTexRecord == 48) { hudText = "You see a torc."; }
-                    else if (ObjTexRecord == 49) { hudText = "You see a cup of holy water."; }
-                    else if (ObjTexRecord == 50) { hudText = "You see a talisman."; }
-                    else if (ObjTexRecord == 51 || ObjTexRecord == 53) { hudText = "You see a religious icon."; }
-                    else if (ObjTexRecord == 52) { hudText = "You see a scarab."; }
-                    else if (ObjTexRecord == 57) { hudText = "You see a painting."; }
+                    if (ObjTexRecord == 0) { text = "You see a bandage."; }
+                    else if (ObjTexRecord == 1) { text = "You see an inkwell."; }
+                    else if (ObjTexRecord == 2) { DeterminePotUrnJugType(out item, out text, true); }
+                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) { DetermineFishBundleType(out item, out text, true); }
+                    else if (ObjTexRecord == 12) { text = "You see a stack of swords."; }
+                    else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) { text = "You see a wheel."; }
+                    else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { text = "You see a smoking pipe."; }
+                    else if (ObjTexRecord == 31) { text = "You see a loaf of bread."; }
+                    else if (ObjTexRecord == 40) { text = "You see a piece of meat."; }
+                    else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) { text = "You see an animal tooth."; }
+                    else if (ObjTexRecord == 47) { text = "You see a small bell."; }
+                    else if (ObjTexRecord == 48) { text = "You see a torc."; }
+                    else if (ObjTexRecord == 49) { text = "You see a cup of holy water."; }
+                    else if (ObjTexRecord == 50) { text = "You see a talisman."; }
+                    else if (ObjTexRecord == 51 || ObjTexRecord == 53) { text = "You see a religious icon."; }
+                    else if (ObjTexRecord == 52) { text = "You see a scarab."; }
+                    else if (ObjTexRecord == 57) { text = "You see a painting."; }
                     break;
                 case 213:
-                    if (ObjTexRecord == 0) { hudText = "You see an apple."; }
-                    else if (ObjTexRecord == 1) { hudText = "You see an orange."; }
-                    else if (ObjTexRecord == 6) { hudText = "You see a clay pot."; }
+                    if (ObjTexRecord == 0) { text = "You see an apple."; }
+                    else if (ObjTexRecord == 1) { text = "You see an orange."; }
+                    else if (ObjTexRecord == 6) { DeterminePotUrnJugType(out item, out text, true); }
                     break;
                 case 214:
-                    if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { hudText = "You see a wooden scoop."; }
-                    else if (ObjTexRecord == 1) { hudText = "You see a shovel."; }
-                    else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) { hudText = "You see a hammer."; }
-                    else if (ObjTexRecord == 5) { hudText = "You see a butter churn."; }
-                    else if (ObjTexRecord == 6) { hudText = "You see a pickaxe."; }
-                    else if (ObjTexRecord == 7) { hudText = "You see a scythe."; }
-                    else if (ObjTexRecord == 8) { hudText = "You see a pile of rope."; }
-                    else if (ObjTexRecord == 9) { hudText = "You see a bellows."; }
-                    else if (ObjTexRecord == 10) { hudText = "You see a broom."; }
-                    else if (ObjTexRecord == 12) { hudText = "You see a brush."; }
-                    else if (ObjTexRecord == 13) { hudText = "You see a pair of tongs."; }
-                    else if (ObjTexRecord == 14) { hudText = "You see a pair of shears."; }
-                    else if (ObjTexRecord == 15) { hudText = "You see a wooden trowel."; }
+                    if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { text = "You see a wooden scoop."; }
+                    else if (ObjTexRecord == 1) { text = "You see a shovel."; }
+                    else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) { text = "You see a hammer."; }
+                    else if (ObjTexRecord == 5) { text = "You see a butter churn."; }
+                    else if (ObjTexRecord == 6) { text = "You see a pickaxe."; }
+                    else if (ObjTexRecord == 7) { text = "You see a scythe."; }
+                    else if (ObjTexRecord == 8) { text = "You see a pile of rope."; }
+                    else if (ObjTexRecord == 9) { text = "You see a bellows."; }
+                    else if (ObjTexRecord == 10) { text = "You see a broom."; }
+                    else if (ObjTexRecord == 12) { text = "You see a brush."; }
+                    else if (ObjTexRecord == 13) { text = "You see a pair of tongs."; }
+                    else if (ObjTexRecord == 14) { text = "You see a pair of shears."; }
+                    else if (ObjTexRecord == 15) { text = "You see a wooden trowel."; }
                     break;
                 case 216:
-                    if (IsBookTextureGroups()) { hudText = "You see a book."; } // Will want to change this later on based on if it is a "stack" of books or just a singular one, etc.
-                    else if (ObjTexRecord == 3) { hudText = "You see a solid gold bar."; }
-                    else if (ObjTexRecord >= 6 && ObjTexRecord <= 7) { hudText = "You see a crown."; } // Change later based on the material of the crown, etc.
-                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 9) { hudText = "You see a tiara."; } // Change later based on the material of the tiara, etc.
-                    else if (ObjTexRecord >= 10 && ObjTexRecord <= 19) { hudText = "You see a gem."; } // Change later based on the gem itself, etc.
-                    else if (ObjTexRecord == 21) { hudText = "You see a bracelet."; }
-                    else if (ObjTexRecord == 30) { hudText = "You see a small pouch."; }
+                    if (IsBookTextureGroups()) { DetermineBookBundleType(out item, out text, true); }
+                    else if (ObjTexRecord == 3) { text = "You see a solid gold bar."; }
+                    else if (ObjTexRecord >= 6 && ObjTexRecord <= 7) { DetermineCrownPieceType(out item, out text, true); }
+                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 9) { DetermineTiaraPieceType(out item, out text, true); }
+                    else if (ObjTexRecord >= 10 && ObjTexRecord <= 19) { DetermineGemStonePieceType(out item, out text, true); }
+                    else if (ObjTexRecord == 21) { text = "You see a bracelet."; }
+                    else if (ObjTexRecord == 30) { text = "You see a small pouch."; }
                     break;
                 case 218:
-                    if (ObjTexRecord >= 0 && ObjTexRecord <= 3) { hudText = "You see a clay pot."; }
-                    else if (ObjTexRecord == 4) { hudText = "You see an iron skillet."; }
-                    else if (ObjTexRecord == 6) { hudText = "You see a wooden spoon."; }
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 3) { DeterminePotUrnJugType(out item, out text, true); }
+                    else if (ObjTexRecord == 4) { text = "You see an iron skillet."; }
+                    else if (ObjTexRecord == 6) { text = "You see a wooden spoon."; }
                     break;
                 case 253:
-                    if (IsPotionBottleTextureGroups()) { hudText = "You see a glass bottle filled with an unknown liquid."; }
-                    else if (IsBookTextureGroups()) { hudText = "You see a book."; } // Will want to change this later on based on if it is a "stack" of books or just a singular one, etc.
-                    else if (IsPaperTextureGroups()) { hudText = "You see a piece of parchment."; } // Will want to change this later on based on if it is a "stack" of paper or just a singular one or scroll.
-                    else if (ObjTexRecord == 0) { hudText = "You see an apple."; }
-                    else if (ObjTexRecord == 1) { hudText = "You see a small pouch."; }
-                    else if (ObjTexRecord == 2) { hudText = "You see a bandage."; }
-                    else if (ObjTexRecord == 16) { hudText = "You see a pile of clothing."; }
-                    else if (ObjTexRecord == 19) { hudText = "You see a candelabra."; }
-                    else if (ObjTexRecord == 23) { hudText = "You see a pile of fish."; }
-                    else if (ObjTexRecord == 24) { hudText = "You see a fish."; }
-                    else if (ObjTexRecord == 28) { hudText = "You see a globe."; }
-                    else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) { hudText = "You see a goblet."; } // Change later based on the material of the goblet/cup, etc.
-                    else if (ObjTexRecord == 39) { hudText = "You see an inkwell."; }
-                    else if (ObjTexRecord == 54) { hudText = "You see a magnifying glass."; }
-                    else if (ObjTexRecord == 55) { hudText = "You see an orange."; }
-                    else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { hudText = "You see a sack."; }
-                    else if (ObjTexRecord == 63 || ObjTexRecord == 85) { hudText = "You see a clay pot."; }
+                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out item, out text, true); }
+                    else if (IsBookTextureGroups()) { DetermineBookBundleType(out item, out text, true); }
+                    else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out item, out text, true); }
+                    else if (ObjTexRecord == 0) { text = "You see an apple."; }
+                    else if (ObjTexRecord == 1) { text = "You see a small pouch."; }
+                    else if (ObjTexRecord == 2) { text = "You see a bandage."; }
+                    else if (ObjTexRecord == 16) { text = "You see a pile of clothing."; }
+                    else if (ObjTexRecord == 19) { text = "You see a candelabra."; }
+                    else if (ObjTexRecord == 23 || ObjTexRecord == 24) { DetermineFishBundleType(out item, out text, true); }
+                    else if (ObjTexRecord == 28) { text = "You see a globe."; }
+                    else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) { DetermineGobletCupType(out item, out text, true); }
+                    else if (ObjTexRecord == 39) { text = "You see an inkwell."; }
+                    else if (ObjTexRecord == 54) { text = "You see a magnifying glass."; }
+                    else if (ObjTexRecord == 55) { text = "You see an orange."; }
+                    else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { text = "You see a sack."; }
+                    else if (ObjTexRecord == 63 || ObjTexRecord == 85) { DeterminePotUrnJugType(out item, out text, true); }
                     break;
                 case 254:
-                    if (ObjTexRecord >= 0 && ObjTexRecord <= 71) { hudText = "You see an alchemical ingredient."; }
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 71) { text = "You see an alchemical ingredient."; }
                     break;
                 default:
                     break;
             }
-            return hudText;
+            return text;
         }
 
         public static bool IsPotionBottleTextureGroups()
@@ -837,7 +981,7 @@ namespace Kleptomania
             return (Player.CarriedWeight + item.weightInKg) > Player.MaxEncumbrance;
         }
 
-        public static void IsThisACrime()
+        public static void IsThisACrime() // Later will likely have the weight of the item be a factor in the odds of being detected or not, will see later on.
         {
             if (IsValidCrimeLocation())
             {
