@@ -453,7 +453,7 @@ namespace Kleptomania
             }
             else if (ObjTexArchive == 213)
             {
-                if (ObjTexRecord == 6) { item = null; desc = "You see a blue pot with flowers in it."; }
+                if (ObjTexRecord == 6) { item = null; desc = "You see a blue vase with flowers in it."; }
             }
             else if (ObjTexArchive == 218)
             {
@@ -465,7 +465,7 @@ namespace Kleptomania
             else if (ObjTexArchive == 253)
             {
                 if (ObjTexRecord == 63) { item = null; desc = "You see an urn."; }
-                else if (ObjTexRecord == 85) { item = null; desc = "You see a blue pot with flowers in it."; }
+                else if (ObjTexRecord == 85) { item = null; desc = "You see a blue vase with flowers in it."; }
             }
         }
 

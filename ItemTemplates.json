@@ -23,7 +23,7 @@
 		"variants": 7,
 		"isIngredient": false,
 		"worldTextureArchive": 200,
-		"worldTextureRecord": 6,
+		"worldTextureRecord": 0,
 		"playerTextureArchive": 0,
 		"playerTextureRecord": 0
 	},
@@ -160,7 +160,7 @@
 		"hitPoints": 100,
 		"basePrice": 5,
 		"rarity": 1,
-		"variants": 6,
+		"variants": 4,
 		"isIngredient": false,
 		"worldTextureArchive": 218,
 		"worldTextureRecord": 2,
@@ -169,6 +169,34 @@
 	},
     {
 		"index": 4745,
+		"name": "Urn",
+		"baseWeight": 3.5,
+		"hitPoints": 100,
+		"basePrice": 20,
+		"rarity": 1,
+		"variants": 0,
+		"isIngredient": false,
+		"worldTextureArchive": 211,
+		"worldTextureRecord": 2,
+		"playerTextureArchive": 0,
+		"playerTextureRecord": 0
+	},
+    {
+		"index": 4746,
+		"name": "Vase",
+		"baseWeight": 2.25,
+		"hitPoints": 100,
+		"basePrice": 10,
+		"rarity": 1,
+		"variants": 0,
+		"isIngredient": false,
+		"worldTextureArchive": 213,
+		"worldTextureRecord": 6,
+		"playerTextureArchive": 0,
+		"playerTextureRecord": 0
+	},
+    {
+		"index": 4747,
 		"name": "Wooden Spoon",
 		"baseWeight": 0.07,
 		"hitPoints": 100,
@@ -182,7 +210,7 @@
 		"playerTextureRecord": 0
 	},
     {
-		"index": 4746,
+		"index": 4748,
 		"name": "Scoop",
 		"baseWeight": 0.25,
 		"hitPoints": 100,
@@ -196,7 +224,7 @@
 		"playerTextureRecord": 0
 	},
     {
-		"index": 4747,
+		"index": 4749,
 		"name": "Shovel",
 		"baseWeight": 3.0,
 		"hitPoints": 100,
@@ -210,7 +238,7 @@
 		"playerTextureRecord": 0
 	},
     {
-		"index": 4748,
+		"index": 4750,
 		"name": "Butter Churn",
 		"baseWeight": 6.25,
 		"hitPoints": 100,
@@ -224,7 +252,7 @@
 		"playerTextureRecord": 0
 	},
     {
-		"index": 4749,
+		"index": 4751,
 		"name": "Pickaxe",
 		"baseWeight": 3.5,
 		"hitPoints": 100,
@@ -238,7 +266,7 @@
 		"playerTextureRecord": 0
 	},
     {
-		"index": 4750,
+		"index": 4752,
 		"name": "Scythe",
 		"baseWeight": 2.75,
 		"hitPoints": 100,
@@ -252,7 +280,7 @@
 		"playerTextureRecord": 0
 	},
     {
-		"index": 4751,
+		"index": 4753,
 		"name": "Rope",
 		"baseWeight": 2.25,
 		"hitPoints": 100,
@@ -266,7 +294,7 @@
 		"playerTextureRecord": 0
 	},
     {
-		"index": 4752,
+		"index": 4754,
 		"name": "Bellows",
 		"baseWeight": 1.0,
 		"hitPoints": 100,
@@ -280,7 +308,7 @@
 		"playerTextureRecord": 0
 	},
     {
-		"index": 4753,
+		"index": 4755,
 		"name": "Broom",
 		"baseWeight": 1.25,
 		"hitPoints": 100,
@@ -294,7 +322,7 @@
 		"playerTextureRecord": 0
 	},
     {
-		"index": 4754,
+		"index": 4756,
 		"name": "Brush",
 		"baseWeight": 0.15,
 		"hitPoints": 100,
@@ -308,7 +336,7 @@
 		"playerTextureRecord": 0
 	},
     {
-		"index": 4755,
+		"index": 4757,
 		"name": "Tongs",
 		"baseWeight": 0.4,
 		"hitPoints": 100,
@@ -322,7 +350,7 @@
 		"playerTextureRecord": 0
 	},
     {
-		"index": 4756,
+		"index": 4758,
 		"name": "Shears",
 		"baseWeight": 0.25,
 		"hitPoints": 100,
@@ -336,7 +364,7 @@
 		"playerTextureRecord": 0
 	},
     {
-		"index": 4757,
+		"index": 4759,
 		"name": "Wooden Trowel",
 		"baseWeight": 0.15,
 		"hitPoints": 100,

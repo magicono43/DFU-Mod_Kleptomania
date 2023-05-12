@@ -5,6 +5,7 @@ using DaggerfallWorkshop.Utility;
 using DaggerfallWorkshop.Game.Utility.ModSupport;
 using System;
 using System.Collections.Generic;
+using DaggerfallWorkshop.Game.Questing;
 
 namespace Kleptomania
 {
@@ -96,6 +97,15 @@ namespace Kleptomania
                             continue;
 
                         if (go.GetComponent<KleptomaniaStolenMarker>()) // Ignore any gameobjects with "KleptomaniaStolenMarker" attached to them
+                            continue;
+
+                        if (go.GetComponent<DaggerfallLoot>())
+                            continue;
+
+                        if (go.GetComponent<DaggerfallAction>())
+                            continue;
+
+                        if (go.GetComponent<QuestResourceBehaviour>())
                             continue;
 
                         if (go.name == "CombinedModels") // Ignore the entire combinedmodels gameobject

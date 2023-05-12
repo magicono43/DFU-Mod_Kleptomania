@@ -3,7 +3,7 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Author:          Kirk.O
 // Created On: 	    4/29/2023, 11:20 PM
-// Last Edit:		5/11/2023, 11:45 PM
+// Last Edit:		5/12/2023, 7:50 PM
 // Version:			1.00
 // Special Thanks:  
 // Modifier:
@@ -93,7 +93,9 @@ namespace Kleptomania
             DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemHandMirror.templateIndex, ItemGroups.UselessItems1, typeof(ItemHandMirror));
             DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemInkwell.templateIndex, ItemGroups.UselessItems1, typeof(ItemInkwell));
             DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemSmokingPipe.templateIndex, ItemGroups.UselessItems1, typeof(ItemSmokingPipe));
-            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemJugsJarsPots.templateIndex, ItemGroups.UselessItems1, typeof(ItemJugsJarsPots));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemClayPot.templateIndex, ItemGroups.UselessItems1, typeof(ItemClayPot));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemUrn.templateIndex, ItemGroups.UselessItems1, typeof(ItemUrn));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemVase.templateIndex, ItemGroups.UselessItems1, typeof(ItemVase));
             DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemSpoon.templateIndex, ItemGroups.UselessItems1, typeof(ItemSpoon));
             DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemScoop.templateIndex, ItemGroups.UselessItems1, typeof(ItemScoop));
             DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemShovel.templateIndex, ItemGroups.UselessItems1, typeof(ItemShovel));
@@ -442,11 +444,11 @@ namespace Kleptomania
             // Oh yeah, don't forget to eventually exclude all of these if currently inside a player-owned ship/building.
 
             // Ignore any objects that have "DaggerfallAction" or "QuestResourceBehavior" attached to them. Will need to test to make sure this actually works as I intend.
+            if (ClickedObjRef.GetComponent<DaggerfallLoot>()) { return false; }
+
             if (ClickedObjRef.GetComponent<DaggerfallAction>()) { return false; }
 
             if (ClickedObjRef.GetComponent<QuestResourceBehaviour>()) { return false; }
-
-            if (ClickedObjRef.GetComponent<DaggerfallLoot>()) { return false; }
 
             if (hit.distance > PlayerActivate.DefaultActivationDistance)
             {
