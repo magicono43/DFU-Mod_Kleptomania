@@ -3,7 +3,7 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Author:          Kirk.O
 // Created On: 	    4/29/2023, 11:20 PM
-// Last Edit:		5/9/2023, 11:40 PM
+// Last Edit:		5/11/2023, 11:45 PM
 // Version:			1.00
 // Special Thanks:  
 // Modifier:
@@ -13,6 +13,7 @@ using DaggerfallWorkshop.Game;
 using DaggerfallWorkshop.Game.Utility.ModSupport;
 using DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings;
 using DaggerfallWorkshop;
+using DaggerfallWorkshop.Game.Items;
 using DaggerfallWorkshop.Game.Questing;
 using DaggerfallWorkshop.Game.Entity;
 using DaggerfallWorkshop.Game.UserInterfaceWindows;
@@ -80,6 +81,32 @@ namespace Kleptomania
             mod.LoadSettings();
 
             PlayerLayerMask = ~(1 << LayerMask.NameToLayer("Player"));
+
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemGoldBar.templateIndex, ItemGroups.UselessItems1, typeof(ItemGoldBar));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemGobletCup.templateIndex, ItemGroups.UselessItems1, typeof(ItemGobletCup));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemCandelabra.templateIndex, ItemGroups.UselessItems1, typeof(ItemCandelabra));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemGlobe.templateIndex, ItemGroups.UselessItems1, typeof(ItemGlobe));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemTelescope.templateIndex, ItemGroups.UselessItems1, typeof(ItemTelescope));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemWeightScale.templateIndex, ItemGroups.UselessItems1, typeof(ItemWeightScale));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemHourglass.templateIndex, ItemGroups.UselessItems1, typeof(ItemHourglass));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemMagnifyingGlass.templateIndex, ItemGroups.UselessItems1, typeof(ItemMagnifyingGlass));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemHandMirror.templateIndex, ItemGroups.UselessItems1, typeof(ItemHandMirror));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemInkwell.templateIndex, ItemGroups.UselessItems1, typeof(ItemInkwell));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemSmokingPipe.templateIndex, ItemGroups.UselessItems1, typeof(ItemSmokingPipe));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemJugsJarsPots.templateIndex, ItemGroups.UselessItems1, typeof(ItemJugsJarsPots));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemSpoon.templateIndex, ItemGroups.UselessItems1, typeof(ItemSpoon));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemScoop.templateIndex, ItemGroups.UselessItems1, typeof(ItemScoop));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemShovel.templateIndex, ItemGroups.UselessItems1, typeof(ItemShovel));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemButterChurn.templateIndex, ItemGroups.UselessItems1, typeof(ItemButterChurn));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemPickaxe.templateIndex, ItemGroups.UselessItems1, typeof(ItemPickaxe));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemScythe.templateIndex, ItemGroups.UselessItems1, typeof(ItemScythe));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemRope.templateIndex, ItemGroups.UselessItems1, typeof(ItemRope));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemBellows.templateIndex, ItemGroups.UselessItems1, typeof(ItemBellows));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemBroom.templateIndex, ItemGroups.UselessItems1, typeof(ItemBroom));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemBrush.templateIndex, ItemGroups.UselessItems1, typeof(ItemBrush));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemTongs.templateIndex, ItemGroups.UselessItems1, typeof(ItemTongs));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemShears.templateIndex, ItemGroups.UselessItems1, typeof(ItemShears));
+            DaggerfallUnity.Instance.ItemHelper.RegisterCustomItem(ItemTrowel.templateIndex, ItemGroups.UselessItems1, typeof(ItemTrowel));
 
             if (TogglePotionsGlassBottles)
             {
@@ -256,7 +283,7 @@ namespace Kleptomania
                 // Weight Scales:
                 RegisterActivationsWithinRange(208, 3, 3, DoNothingActivation);
 
-                // Hour-glass:
+                // Hourglass:
                 RegisterActivationsWithinRange(208, 6, 6, DoNothingActivation);
 
                 // Magnifying Glass:
