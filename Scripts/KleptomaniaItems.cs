@@ -600,12 +600,10 @@ namespace Kleptomania
         }
     }
 
-    public static class KleptomaniaItemBuilder
+    public static class KMItemBuilder
     {
-        public static DaggerfallUnityItem CreateGobletCupVariant()
+        public static DaggerfallUnityItem CreateGobletCupVariant(int cupMat = 0)
         {
-            int cupMat = 0;
-
             DaggerfallUnityItem item = ItemBuilder.CreateItem(ItemGroups.ReligiousItems, ItemGobletCup.templateIndex);
             switch (cupMat)
             {
@@ -641,10 +639,8 @@ namespace Kleptomania
             return item;
         }
 
-        public static DaggerfallUnityItem CreateClayPotVariant()
+        public static DaggerfallUnityItem CreateClayPotVariant(int potMat = 0)
         {
-            int potMat = 0;
-
             DaggerfallUnityItem item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemClayPot.templateIndex);
             switch (potMat)
             {

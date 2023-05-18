@@ -30,10 +30,9 @@ namespace Kleptomania
         public static int Mysti { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Mysticism); } }
         public static int Thaum { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Thaumaturgy); } }
 
-        public static bool DoesThisEncumberPlayer(DaggerfallUnityItem item)
+        public static bool DoesThisEncumberPlayer(float itemWeights)
         {
-            if (item == null) { return false; }
-            return (Player.CarriedWeight + item.weightInKg) > Player.MaxEncumbrance;
+            return (Player.CarriedWeight + itemWeights) > Player.MaxEncumbrance;
         }
 
         public static void IsThisACrime() // Later will likely have the weight of the item be a factor in the odds of being detected or not, will see later on.
