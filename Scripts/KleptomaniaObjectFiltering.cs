@@ -24,10 +24,10 @@ namespace Kleptomania
                     else { return; }
                     break;
                 case 204:
-                    if (ObjTexRecord == 0) {} // Add a random piece(s) of clothing. Start here tomorrow, with adding a method to add clothing, as well as multiple items in an array probably, etc. Start here tomorrow.
-                    else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) {} // add a random pare of footware clothing.
-                    else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) {} // add a random piece of headware clothing (might not exist still)
-                    else if (ObjTexRecord == 9) {} // add a random piece of straps clothing item.
+                    if (ObjTexRecord == 0) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 0); }
+                    else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 2); }
+                    else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 4); }
+                    else if (ObjTexRecord == 9) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 9); }
                     else { return; }
                     break;
                 case 205:
@@ -44,7 +44,7 @@ namespace Kleptomania
                     else { return; }
                     break;
                 case 207:
-                    if (ObjTexRecord >= 0 && ObjTexRecord <= 2) {} // add a one-handed "long-sword" of some random (possibly limited) material value.
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 2) {} // add a one-handed "long-sword" of some random (possibly limited) material value. Will likely start work on these tomorrow.
                     else if (ObjTexRecord == 3 || ObjTexRecord == 5) {} // add a "short-sword" of some random (possibly limited) material value.
                     else if (ObjTexRecord == 4) {} // add a one-handed axe of some random material value.
                     else if (ObjTexRecord == 6) {} // add a mace or club of some random material value.
@@ -170,7 +170,7 @@ namespace Kleptomania
             clickedObj.SetActive(false);
         }
 
-        public static string GetItemNameOrDescription()
+        public static string GetItemNameOrDescription() // Suppose I will do something with the "JustText" value later on in the methods, not a big deal atm.
         {
             List<DaggerfallUnityItem> items = new List<DaggerfallUnityItem>();
             string text = "";
@@ -181,10 +181,10 @@ namespace Kleptomania
                     if (ObjTexRecord >= 0 && ObjTexRecord <= 6) { DetermineGobletCupType(out items, out text, true); }
                     break;
                 case 204:
-                    if (ObjTexRecord == 0) { text = "You see a pile of clothing."; }
-                    else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) { text = "You see some footware."; }
-                    else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) { text = "You see a hat."; }
-                    else if (ObjTexRecord == 9) { text = "You see some straps."; }
+                    if (ObjTexRecord == 0) { DetermineClothingItemType(out items, out text, true); }
+                    else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) { DetermineClothingItemType(out items, out text, true); }
+                    else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) { DetermineClothingItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 9) { DetermineClothingItemType(out items, out text, true); }
                     break;
                 case 205:
                     if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text, true); }
@@ -489,6 +489,27 @@ namespace Kleptomania
             {
                 if (ObjTexRecord == 63) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemUrn.templateIndex)); desc = "You see an urn."; }
                 else if (ObjTexRecord == 85) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemVase.templateIndex)); desc = "You see a blue vase with flowers in it."; }
+            }
+        }
+
+        public static void DetermineClothingItemType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        {
+            items = new List<DaggerfallUnityItem>();
+            desc = "";
+            if (ObjTexArchive == 204)
+            {
+                if (ObjTexRecord == 0)
+                {
+                    int amount = UnityEngine.Random.Range(0, 5);
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(KMItemBuilder.ChooseRandomClothingPiece());
+                    }
+                    desc = "You see a pile of clothing.";
+                }
+                else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) { items.Add(KMItemBuilder.ChooseRandomFootwear()); desc = "You see a pair of footwear."; }
+                else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) { items = null; desc = "You see a hat."; } // No headwear for the time being, but maybe eventually.
+                else if (ObjTexRecord == 9) { items.Add(KMItemBuilder.ChooseRandomStraps()); desc = "You see some straps of cloth."; }
             }
         }
 

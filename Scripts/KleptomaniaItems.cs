@@ -1,5 +1,8 @@
+using DaggerfallWorkshop.Game;
+using DaggerfallWorkshop.Game.Entity;
 using DaggerfallWorkshop.Game.Items;
 using DaggerfallWorkshop.Game.Serialization;
+using System;
 
 namespace Kleptomania
 {
@@ -668,6 +671,103 @@ namespace Kleptomania
             }
             item.message = potMat;
 
+            return item;
+        }
+
+        public static DaggerfallUnityItem ChooseRandomClothingPiece()
+        {
+            Array enumArray;
+            int enumIndex = -1;
+            DaggerfallUnityItem item = null;
+            Genders gender = GameManager.Instance.PlayerEntity.Gender;
+            Races race = GameManager.Instance.PlayerEntity.Race;
+            float conditionMod = (float)UnityEngine.Random.Range(15, 65 + 1) / 100f;
+
+            if (gender == Genders.Female)
+            {
+                enumArray = Enum.GetValues(typeof(WomensClothing));
+                enumIndex = UnityEngine.Random.Range(0, enumArray.Length);
+                item = ItemBuilder.CreateWomensClothing((DaggerfallWorkshop.Game.Items.WomensClothing)enumArray.GetValue(enumIndex), race, -1, ItemBuilder.RandomClothingDye());
+            }
+            else
+            {
+                enumArray = Enum.GetValues(typeof(MensClothing));
+                enumIndex = UnityEngine.Random.Range(0, enumArray.Length);
+                item = ItemBuilder.CreateMensClothing((DaggerfallWorkshop.Game.Items.MensClothing)enumArray.GetValue(enumIndex), race, -1, ItemBuilder.RandomClothingDye());
+            }
+            if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
+            return item;
+        }
+
+        public static DaggerfallUnityItem ChooseRandomFootwear()
+        {
+            DaggerfallUnityItem item = null;
+            Genders gender = GameManager.Instance.PlayerEntity.Gender;
+            Races race = GameManager.Instance.PlayerEntity.Race;
+            float conditionMod = (float)UnityEngine.Random.Range(15, 65 + 1) / 100f;
+            int piece = UnityEngine.Random.Range(0, 4);
+
+            if (gender == Genders.Female)
+            {
+                if (piece == 0) { item = ItemBuilder.CreateItem(ItemGroups.WomensClothing, (int)WomensClothing.Shoes); }
+                else if (piece == 1) { item = ItemBuilder.CreateItem(ItemGroups.WomensClothing, (int)WomensClothing.Sandals); }
+                else if (piece == 2) { item = ItemBuilder.CreateItem(ItemGroups.WomensClothing, (int)WomensClothing.Boots); }
+                else { item = ItemBuilder.CreateItem(ItemGroups.WomensClothing, (int)WomensClothing.Tall_boots); }
+            }
+            else
+            {
+                if (piece == 0) { item = ItemBuilder.CreateItem(ItemGroups.MensClothing, (int)MensClothing.Shoes); }
+                else if (piece == 1) { item = ItemBuilder.CreateItem(ItemGroups.MensClothing, (int)MensClothing.Sandals); }
+                else if (piece == 2) { item = ItemBuilder.CreateItem(ItemGroups.MensClothing, (int)MensClothing.Boots); }
+                else { item = ItemBuilder.CreateItem(ItemGroups.MensClothing, (int)MensClothing.Tall_Boots); }
+            }
+
+            if (item != null)
+            {
+                int variant = UnityEngine.Random.Range(0, item.ItemTemplate.variants);
+                ItemBuilder.SetRace(item, race);
+                ItemBuilder.SetVariant(item, variant);
+                item.dyeColor = ItemBuilder.RandomClothingDye();
+                item.currentCondition = (int)(item.maxCondition * conditionMod);
+            }
+            return item;
+        }
+
+        public static DaggerfallUnityItem ChooseRandomStraps()
+        {
+            DaggerfallUnityItem item = null;
+            Genders gender = GameManager.Instance.PlayerEntity.Gender;
+            Races race = GameManager.Instance.PlayerEntity.Race;
+            float conditionMod = (float)UnityEngine.Random.Range(15, 65 + 1) / 100f;
+
+            if (gender == Genders.Female)
+            {
+                int piece = UnityEngine.Random.Range(0, 4);
+                if (piece == 0) { item = ItemBuilder.CreateItem(ItemGroups.WomensClothing, (int)WomensClothing.Loincloth); }
+                else if (piece == 1) { item = ItemBuilder.CreateItem(ItemGroups.WomensClothing, (int)WomensClothing.Formal_brassier); }
+                else if (piece == 2) { item = ItemBuilder.CreateItem(ItemGroups.WomensClothing, (int)WomensClothing.Wrap); }
+                else { item = ItemBuilder.CreateItem(ItemGroups.WomensClothing, (int)WomensClothing.Brassier); }
+            }
+            else
+            {
+                int piece = UnityEngine.Random.Range(0, 7);
+                if (piece == 0) { item = ItemBuilder.CreateItem(ItemGroups.MensClothing, (int)MensClothing.Loincloth); }
+                else if (piece == 1) { item = ItemBuilder.CreateItem(ItemGroups.MensClothing, (int)MensClothing.Toga); }
+                else if (piece == 2) { item = ItemBuilder.CreateItem(ItemGroups.MensClothing, (int)MensClothing.Wrap); }
+                else if (piece == 3) { item = ItemBuilder.CreateItem(ItemGroups.MensClothing, (int)MensClothing.Challenger_Straps); }
+                else if (piece == 4) { item = ItemBuilder.CreateItem(ItemGroups.MensClothing, (int)MensClothing.Champion_straps); }
+                else if (piece == 5) { item = ItemBuilder.CreateItem(ItemGroups.MensClothing, (int)MensClothing.Sash); }
+                else { item = ItemBuilder.CreateItem(ItemGroups.MensClothing, (int)MensClothing.Straps); }
+            }
+
+            if (item != null)
+            {
+                int variant = UnityEngine.Random.Range(0, item.ItemTemplate.variants);
+                ItemBuilder.SetRace(item, race);
+                ItemBuilder.SetVariant(item, variant);
+                item.dyeColor = ItemBuilder.RandomClothingDye();
+                item.currentCondition = (int)(item.maxCondition * conditionMod);
+            }
             return item;
         }
     }
