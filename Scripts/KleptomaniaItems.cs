@@ -674,6 +674,62 @@ namespace Kleptomania
             return item;
         }
 
+        public static DaggerfallUnityItem ChooseRandomWeapon(int weaponGroup, int templateIndex = -1)
+        {
+            int randomValue = 0;
+            DaggerfallUnityItem item = null;
+            float conditionMod = (float)UnityEngine.Random.Range(5, 35 + 1) / 100f;
+
+            if (templateIndex == -1)
+            {
+                if (weaponGroup == 0)
+                {
+                    randomValue = UnityEngine.Random.Range(0, 4);
+                    if (randomValue == 0) { templateIndex = (int)Weapons.Broadsword; }
+                    else if (randomValue == 1) { templateIndex = (int)Weapons.Saber; }
+                    else if (randomValue == 2) { templateIndex = (int)Weapons.Longsword; }
+                    else { templateIndex = (int)Weapons.Katana; }
+                }
+                else if (weaponGroup == 1)
+                {
+                    randomValue = UnityEngine.Random.Range(0, 4);
+                    if (randomValue == 0) { templateIndex = (int)Weapons.Dagger; }
+                    else if (randomValue == 1) { templateIndex = (int)Weapons.Tanto; }
+                    else if (randomValue == 2) { templateIndex = (int)Weapons.Shortsword; }
+                    else { templateIndex = (int)Weapons.Wakazashi; }
+                }
+                else if (weaponGroup == 2)
+                {
+                    templateIndex = (int)Weapons.Battle_Axe;
+                }
+                else if (weaponGroup == 3)
+                {
+                    templateIndex = (int)Weapons.Mace;
+                }
+                else if (weaponGroup == 4)
+                {
+                    templateIndex = (int)Weapons.Staff;
+                }
+                else if (weaponGroup == 5)
+                {
+                    randomValue = UnityEngine.Random.Range(0, 2);
+                    if (randomValue == 0) { templateIndex = (int)Weapons.Short_Bow; }
+                    else { templateIndex = (int)Weapons.Long_Bow; }
+                }
+                else if (weaponGroup == 6)
+                {
+                    randomValue = UnityEngine.Random.Range(0, 2);
+                    if (randomValue == 0) { templateIndex = (int)Weapons.Claymore; }
+                    else { templateIndex = (int)Weapons.Dai_Katana; }
+                }
+                else { return null; }
+            }
+
+            item = ItemBuilder.CreateWeapon((Weapons)templateIndex, (WeaponMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial()); // Will need to test to see if casting "templateIndex" to Weapons will work.
+            if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
+            return item;
+        }
+
         public static DaggerfallUnityItem ChooseRandomClothingPiece()
         {
             Array enumArray;

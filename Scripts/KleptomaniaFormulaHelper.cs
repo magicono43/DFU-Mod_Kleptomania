@@ -9,6 +9,7 @@ using DaggerfallWorkshop.Game;
 using DaggerfallWorkshop.Game.Guilds;
 using DaggerfallConnect.Arena2;
 using DaggerfallWorkshop.Utility;
+using System.Linq;
 
 namespace Kleptomania
 {
@@ -33,6 +34,60 @@ namespace Kleptomania
         public static bool DoesThisEncumberPlayer(float itemWeights)
         {
             return (Player.CarriedWeight + itemWeights) > Player.MaxEncumbrance;
+        }
+
+        public static int RollWeaponOrArmorMaterial(bool isWeapon = true, bool isShield = false)
+        {
+            // Iron, Steel, Silver, Elven, Dwarven, Mithril, Adamantium, Ebony, Orcish, Daedric
+            List<float> matOdds = new List<float>() { 17.8f, 16.5f, 15.0f, 13.7f, 11.6f, 9.5f, 6.8f, 4.8f, 2.8f, 1.5f };
+
+            if (isShield)
+            {
+                int shieldMat = UnityEngine.Random.Range(0, 4);
+
+                if (shieldMat == 0)
+                    return (int)ArmorMaterialTypes.Leather;
+                else if (shieldMat == 1)
+                    return (int)ArmorMaterialTypes.Chain;
+            }
+
+            matOdds = new List<float>() { 54.0f, 46.5f, 42.2f, 26.4f, 10.3f, 6.8f, 3.7f, 2.7f, 1.7f, 0.8f };
+
+            // Makes sure any matOdds value can't go below 0.5f at the lowest.
+            for (int i = 0; i < matOdds.Count; i++)
+            {
+                if (matOdds[i] < 0.5f) { matOdds[i] = 0.5f; }
+            }
+
+            // Normalize matOdds values to ensure they all add up to 100.
+            float totalOddsSum = matOdds.Sum();
+            for (int i = 0; i < matOdds.Count; i++)
+            {
+                matOdds[i] = (matOdds[i] / totalOddsSum) * 100f;
+            }
+
+            // Choose a material using the weighted random selection algorithm.
+            float randomValue = UnityEngine.Random.Range(0f, 101f);
+            float cumulativeOdds = 0f;
+            int index = 0;
+            for (int i = 0; i < matOdds.Count; i++)
+            {
+                cumulativeOdds += matOdds[i];
+                if (randomValue < cumulativeOdds)
+                {
+                    index = i; // Material i is chosen
+                    break;
+                }
+            }
+
+            if (isWeapon)
+            {
+                return index;
+            }
+            else
+            {
+                return 0x0200 + index;
+            }
         }
 
         public static void IsThisACrime() // Later will likely have the weight of the item be a factor in the odds of being detected or not, will see later on.

@@ -44,18 +44,18 @@ namespace Kleptomania
                     else { return; }
                     break;
                 case 207:
-                    if (ObjTexRecord >= 0 && ObjTexRecord <= 2) {} // add a one-handed "long-sword" of some random (possibly limited) material value. Will likely start work on these tomorrow.
-                    else if (ObjTexRecord == 3 || ObjTexRecord == 5) {} // add a "short-sword" of some random (possibly limited) material value.
-                    else if (ObjTexRecord == 4) {} // add a one-handed axe of some random material value.
-                    else if (ObjTexRecord == 6) {} // add a mace or club of some random material value.
-                    else if (ObjTexRecord == 7) {} // add a staff (or maybe also wand) of some random material value.
-                    else if (ObjTexRecord == 8) {} // add a short or long-bow of some random material value.
-                    else if (ObjTexRecord == 9) {} // add a tower-shield of some random material value.
+                    if (ObjTexRecord == 0 || ObjTexRecord == 2 || ObjTexRecord == 3) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLongBlade, SoundClips.Parry5, 207, 3); }
+                    else if (ObjTexRecord == 1 || ObjTexRecord == 5) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipShortBlade, SoundClips.Parry7, 207, 5); }
+                    else if (ObjTexRecord == 4) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipAxe, SoundClips.Parry9, 207, 4); }
+                    else if (ObjTexRecord == 6) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.Parry2, 207, 6); }
+                    else if (ObjTexRecord == 7) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.EquipBow, 207, 7); }
+                    else if (ObjTexRecord == 8) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipBow, SoundClips.EquipBow, 207, 8); }
+                    else if (ObjTexRecord == 9) {} // add a tower-shield of some random material value. Start here tomorrow. Same as with the weapons I just did basically.
                     else if (ObjTexRecord == 10) {} // add a random buckler, round-shield, or kite-shield of some random material value.
                     else if (ObjTexRecord == 11) {} // add a random piece of chest-armor of some random material, include RPR:I stuff as well if active.
                     else if (ObjTexRecord == 12 || ObjTexRecord == 14) {} // add a random piece of head-armor of some random material, include RPR:I stuff as well if active.
                     else if (ObjTexRecord == 13) {} // add a bracer jewelry item.
-                    else if (ObjTexRecord == 15) {} // add a two-handed sword of some random (possibly limited) material value.
+                    else if (ObjTexRecord == 15) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipTwoHandedBlade, SoundClips.Parry3, 207, 15); }
                     else if (ObjTexRecord == 16)
                     {
                         items.Add(ItemBuilder.CreateWeapon(Weapons.Arrow, WeaponMaterialTypes.Steel));
@@ -194,18 +194,18 @@ namespace Kleptomania
                     else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) { text = "You see a sack."; }
                     break;
                 case 207:
-                    if (ObjTexRecord >= 0 && ObjTexRecord <= 2) { text = "You see a sword."; }
-                    else if (ObjTexRecord == 3 || ObjTexRecord == 5) { text = "You see a small blade."; }
-                    else if (ObjTexRecord == 4) { text = "You see an axe."; }
-                    else if (ObjTexRecord == 6) { text = "You see a mace."; }
-                    else if (ObjTexRecord == 7) { text = "You see a staff."; }
-                    else if (ObjTexRecord == 8) { text = "You see a bow."; }
+                    if (ObjTexRecord == 0 || ObjTexRecord == 2 || ObjTexRecord == 3) { DetermineWeaponItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 1 || ObjTexRecord == 5) { DetermineWeaponItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 4) { DetermineWeaponItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 6) { DetermineWeaponItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 7) { DetermineWeaponItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 8) { DetermineWeaponItemType(out items, out text, true); }
                     else if (ObjTexRecord == 9) { text = "You see a large shield."; }
                     else if (ObjTexRecord == 10) { text = "You see a shield."; }
                     else if (ObjTexRecord == 11) { text = "You see a piece of chest armor."; }
                     else if (ObjTexRecord == 12 || ObjTexRecord == 14) { text = "You see a helmet."; }
                     else if (ObjTexRecord == 13) { text = "You see a bracer."; }
-                    else if (ObjTexRecord == 15) { text = "You see a large sword."; }
+                    else if (ObjTexRecord == 15) { DetermineWeaponItemType(out items, out text, true); }
                     else if (ObjTexRecord == 16) { text = "You see an arrow."; }
                     break;
                 case 208:
@@ -510,6 +510,22 @@ namespace Kleptomania
                 else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) { items.Add(KMItemBuilder.ChooseRandomFootwear()); desc = "You see a pair of footwear."; }
                 else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) { items = null; desc = "You see a hat."; } // No headwear for the time being, but maybe eventually.
                 else if (ObjTexRecord == 9) { items.Add(KMItemBuilder.ChooseRandomStraps()); desc = "You see some straps of cloth."; }
+            }
+        }
+
+        public static void DetermineWeaponItemType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        {
+            items = new List<DaggerfallUnityItem>();
+            desc = "";
+            if (ObjTexArchive == 207)
+            {
+                if (ObjTexRecord == 0 || ObjTexRecord == 2 || ObjTexRecord == 3) { items.Add(KMItemBuilder.ChooseRandomWeapon(0)); desc = "You see a sword."; }
+                else if (ObjTexRecord == 1 || ObjTexRecord == 5) { items.Add(KMItemBuilder.ChooseRandomWeapon(1)); desc = "You see a small blade."; }
+                else if (ObjTexRecord == 4) { items.Add(KMItemBuilder.ChooseRandomWeapon(2)); desc = "You see an axe."; }
+                else if (ObjTexRecord == 6) { items.Add(KMItemBuilder.ChooseRandomWeapon(3)); desc = "You see a mace."; }
+                else if (ObjTexRecord == 7) { items.Add(KMItemBuilder.ChooseRandomWeapon(4)); desc = "You see a staff."; }
+                else if (ObjTexRecord == 8) { items.Add(KMItemBuilder.ChooseRandomWeapon(5)); desc = "You see a bow."; }
+                else if (ObjTexRecord == 15) { items.Add(KMItemBuilder.ChooseRandomWeapon(6)); desc = "You see a large sword."; }
             }
         }
 
