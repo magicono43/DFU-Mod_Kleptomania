@@ -36,7 +36,7 @@ namespace Kleptomania
             return (Player.CarriedWeight + itemWeights) > Player.MaxEncumbrance;
         }
 
-        public static int RollWeaponOrArmorMaterial(bool isWeapon = true, bool isShield = false)
+        public static int RollWeaponOrArmorMaterial(bool isWeapon = true, bool isShield = false, bool multiple = false)
         {
             // Iron, Steel, Silver, Elven, Dwarven, Mithril, Adamantium, Ebony, Orcish, Daedric
             List<float> matOdds = new List<float>() { 17.8f, 16.5f, 15.0f, 13.7f, 11.6f, 9.5f, 6.8f, 4.8f, 2.8f, 1.5f };
@@ -57,6 +57,11 @@ namespace Kleptomania
             for (int i = 0; i < matOdds.Count; i++)
             {
                 if (matOdds[i] < 0.5f) { matOdds[i] = 0.5f; }
+            }
+
+            if (multiple) // This is to restrict the materials that can be selected for instances that clicking an object gives multiple of some item, like a stack of swords, etc.
+            {
+                matOdds = new List<float>() { 54.0f, 46.5f, 42.2f, 26.4f, 10.3f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
             }
 
             // Normalize matOdds values to ensure they all add up to 100.

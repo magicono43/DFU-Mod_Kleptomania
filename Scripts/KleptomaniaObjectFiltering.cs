@@ -65,7 +65,7 @@ namespace Kleptomania
                     break;
                 case 208:
                     if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); }
-                    else if (ObjTexRecord == 0) {} // custom globe item, will probably be pretty heavy.
+                    else if (ObjTexRecord == 0) {} // custom globe item, will probably be pretty heavy. Start work on these tomorrow most likely, that being more in the "DetermineMiscItemType" method group and such.
                     else if (ObjTexRecord == 1) {} // custom magnifying glass item.
                     else if (ObjTexRecord == 3) {} // custom weight scale item, will probably weight a moderate amount.
                     else if (ObjTexRecord == 4) {} // custom telescope item, maybe add that "spy-glass" item from that old mod or something if installed, will see.
@@ -84,22 +84,22 @@ namespace Kleptomania
                     else { return; }
                     break;
                 case 211:
-                    if (ObjTexRecord == 0) {} // bandage item
+                    if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipClothing, 211, 0); }
                     else if (ObjTexRecord == 1) {} // custom inkwell item
                     else if (ObjTexRecord == 2) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) { DetermineFishBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
-                    else if (ObjTexRecord == 12) {} // Maybe add 3 low value long-swords
+                    else if (ObjTexRecord == 12) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLongBlade, SoundClips.Parry5, 211, 12); }
                     else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) {} // add a wagon wheel item from realistic wagons mod if active.
                     else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) {} // add a custom smoking pipe item.
                     else if (ObjTexRecord == 31) {} // add a bread item from C&C
                     else if (ObjTexRecord == 40) {} // add a piece of meat item from C&C
                     else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) {} // add a random small, medium, or large animal fang ingredient.
-                    else if (ObjTexRecord == 47) {} // add a small bell item
-                    else if (ObjTexRecord == 48) {} // add a torc jewelry item. Possibly start off here tomorrow and add this to the "DetermineJewelryItemType" method like the other jewelry items so far, will see.
-                    else if (ObjTexRecord == 49) {} // add a holy water item.
-                    else if (ObjTexRecord == 50) {} // add a talisman or whatever those types of "junk" items are.
-                    else if (ObjTexRecord == 51 || ObjTexRecord == 53) {} // add an "icon" item.
-                    else if (ObjTexRecord == 52) {} // add a scarab item.
+                    else if (ObjTexRecord == 47) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 47); }
+                    else if (ObjTexRecord == 48) { DetermineJewelryItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 48); }
+                    else if (ObjTexRecord == 49) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.SplashSmall, 211, 49); }
+                    else if (ObjTexRecord == 50) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 50); }
+                    else if (ObjTexRecord == 51 || ObjTexRecord == 53) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 51); }
+                    else if (ObjTexRecord == 52) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 52); }
                     else if (ObjTexRecord == 57) {} // add a randomly generated painting.
                     else { return; }
                     break;
@@ -131,7 +131,7 @@ namespace Kleptomania
                     else if (ObjTexRecord >= 6 && ObjTexRecord <= 7) { DetermineCrownPieceType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 6); }
                     else if (ObjTexRecord >= 8 && ObjTexRecord <= 9) { DetermineTiaraPieceType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 9); }
                     else if (ObjTexRecord >= 10 && ObjTexRecord <= 19) { DetermineGemStonePieceType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 10); }
-                    else if (ObjTexRecord == 21) {} // Add jewelry bracelet item, may change as well if Jewelry Additions is active.
+                    else if (ObjTexRecord == 21) { DetermineJewelryItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 216, 21); }
                     else if (ObjTexRecord == 30) {} // Will likely just hold a random small amount of gold, or later something more random based on the context and such, will see.
                     else { return; }
                     break;
@@ -147,8 +147,8 @@ namespace Kleptomania
                     else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 8); }
                     else if (ObjTexRecord == 0) {} // Apple from C&C
                     else if (ObjTexRecord == 1) {} // Will likely just hold a random small amount of gold, or later something more random based on the context and such, will see.
-                    else if (ObjTexRecord == 2) {} // Bandage item
-                    else if (ObjTexRecord == 16) {} // Add a random piece(s) of clothing
+                    else if (ObjTexRecord == 2) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipClothing, 211, 0); }
+                    else if (ObjTexRecord == 16) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 0); }
                     else if (ObjTexRecord == 19) {} // Add a moderately valuable candelabra custom item.
                     else if (ObjTexRecord == 23 || ObjTexRecord == 24) { DetermineFishBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
                     else if (ObjTexRecord == 28) {} // custom globe item, will probably be pretty heavy.
@@ -226,22 +226,22 @@ namespace Kleptomania
                     if (ObjTexRecord == 5) { text = "You see a candelabra."; }
                     break;
                 case 211:
-                    if (ObjTexRecord == 0) { text = "You see a bandage."; }
+                    if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); }
                     else if (ObjTexRecord == 1) { text = "You see an inkwell."; }
                     else if (ObjTexRecord == 2) { DeterminePotUrnJugType(out items, out text, true); }
                     else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) { DetermineFishBundleType(out items, out text, true); }
-                    else if (ObjTexRecord == 12) { text = "You see a stack of swords."; }
+                    else if (ObjTexRecord == 12) { DetermineWeaponItemType(out items, out text, true); }
                     else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) { text = "You see a wheel."; }
                     else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { text = "You see a smoking pipe."; }
                     else if (ObjTexRecord == 31) { text = "You see a loaf of bread."; }
                     else if (ObjTexRecord == 40) { text = "You see a piece of meat."; }
                     else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) { text = "You see an animal tooth."; }
-                    else if (ObjTexRecord == 47) { text = "You see a small bell."; }
-                    else if (ObjTexRecord == 48) { text = "You see a torc."; }
-                    else if (ObjTexRecord == 49) { text = "You see a cup of holy water."; }
-                    else if (ObjTexRecord == 50) { text = "You see a talisman."; }
-                    else if (ObjTexRecord == 51 || ObjTexRecord == 53) { text = "You see a religious icon."; }
-                    else if (ObjTexRecord == 52) { text = "You see a scarab."; }
+                    else if (ObjTexRecord == 47) { DetermineReligiousItemType(out items, out text); }
+                    else if (ObjTexRecord == 48) { DetermineJewelryItemType(out items, out text); }
+                    else if (ObjTexRecord == 49) { DetermineReligiousItemType(out items, out text); }
+                    else if (ObjTexRecord == 50) { DetermineReligiousItemType(out items, out text); }
+                    else if (ObjTexRecord == 51 || ObjTexRecord == 53) { DetermineReligiousItemType(out items, out text); }
+                    else if (ObjTexRecord == 52) { DetermineReligiousItemType(out items, out text); }
                     else if (ObjTexRecord == 57) { text = "You see a painting."; }
                     break;
                 case 213:
@@ -270,7 +270,7 @@ namespace Kleptomania
                     else if (ObjTexRecord >= 6 && ObjTexRecord <= 7) { DetermineCrownPieceType(out items, out text, true); }
                     else if (ObjTexRecord >= 8 && ObjTexRecord <= 9) { DetermineTiaraPieceType(out items, out text, true); }
                     else if (ObjTexRecord >= 10 && ObjTexRecord <= 19) { DetermineGemStonePieceType(out items, out text, true); }
-                    else if (ObjTexRecord == 21) { text = "You see a bracelet."; }
+                    else if (ObjTexRecord == 21) { DetermineJewelryItemType(out items, out text); }
                     else if (ObjTexRecord == 30) { text = "You see a small pouch."; }
                     break;
                 case 218:
@@ -284,8 +284,8 @@ namespace Kleptomania
                     else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text, true); }
                     else if (ObjTexRecord == 0) { text = "You see an apple."; }
                     else if (ObjTexRecord == 1) { text = "You see a small pouch."; }
-                    else if (ObjTexRecord == 2) { text = "You see a bandage."; }
-                    else if (ObjTexRecord == 16) { text = "You see a pile of clothing."; }
+                    else if (ObjTexRecord == 2) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 16) { DetermineClothingItemType(out items, out text, true); }
                     else if (ObjTexRecord == 19) { text = "You see a candelabra."; }
                     else if (ObjTexRecord == 23 || ObjTexRecord == 24) { DetermineFishBundleType(out items, out text, true); }
                     else if (ObjTexRecord == 28) { text = "You see a globe."; }
@@ -492,6 +492,20 @@ namespace Kleptomania
             }
         }
 
+        public static void DetermineMiscItemType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        {
+            items = new List<DaggerfallUnityItem>();
+            desc = "";
+            if (ObjTexArchive == 211)
+            {
+                if (ObjTexRecord == 0) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Bandage)); desc = "You see a bandage."; }
+            }
+            else if (ObjTexArchive == 253)
+            {
+                if (ObjTexRecord == 2) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Bandage)); desc = "You see a bandage."; }
+            }
+        }
+
         public static void DetermineClothingItemType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
         {
             items = new List<DaggerfallUnityItem>();
@@ -500,7 +514,7 @@ namespace Kleptomania
             {
                 if (ObjTexRecord == 0)
                 {
-                    int amount = UnityEngine.Random.Range(0, 5);
+                    int amount = UnityEngine.Random.Range(1, 5);
                     for (int i = 0; i < amount; i++)
                     {
                         items.Add(KMItemBuilder.ChooseRandomClothingPiece());
@@ -510,6 +524,18 @@ namespace Kleptomania
                 else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) { items.Add(KMItemBuilder.ChooseRandomFootwear()); desc = "You see a pair of footwear."; }
                 else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) { items = null; desc = "You see a hat."; } // No headwear for the time being, but maybe eventually.
                 else if (ObjTexRecord == 9) { items.Add(KMItemBuilder.ChooseRandomStraps()); desc = "You see some straps of cloth."; }
+            }
+            else if (ObjTexArchive == 253)
+            {
+                if (ObjTexRecord == 16)
+                {
+                    int amount = UnityEngine.Random.Range(1, 5);
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(KMItemBuilder.ChooseRandomClothingPiece());
+                    }
+                    desc = "You see a pile of clothing.";
+                }
             }
         }
 
@@ -526,6 +552,18 @@ namespace Kleptomania
                 else if (ObjTexRecord == 7) { items.Add(KMItemBuilder.ChooseRandomWeapon(4)); desc = "You see a staff."; }
                 else if (ObjTexRecord == 8) { items.Add(KMItemBuilder.ChooseRandomWeapon(5)); desc = "You see a bow."; }
                 else if (ObjTexRecord == 15) { items.Add(KMItemBuilder.ChooseRandomWeapon(6)); desc = "You see a large sword."; }
+            }
+            else if (ObjTexArchive == 211)
+            {
+                if (ObjTexRecord == 12)
+                {
+                    int amount = 3;
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(KMItemBuilder.ChooseRandomWeapon(0, -1, true));
+                    }
+                    desc = "You see a stack of swords.";
+                }
             }
         }
 
@@ -549,6 +587,32 @@ namespace Kleptomania
             if (ObjTexArchive == 207)
             {
                 if (ObjTexRecord == 9) { items.Add(ItemBuilder.CreateItem(ItemGroups.Jewellery, (int)Jewellery.Bracer)); desc = "You see a bracer."; }
+            }
+            else if (ObjTexArchive == 209)
+            {
+                if (ObjTexRecord == 9) { items.Add(ItemBuilder.CreateItem(ItemGroups.Jewellery, (int)Jewellery.Mark)); desc = "You see a cloth mark."; }
+            }
+            else if (ObjTexArchive == 211)
+            {
+                if (ObjTexRecord == 48) { items.Add(ItemBuilder.CreateItem(ItemGroups.Jewellery, (int)Jewellery.Torc)); desc = "You see a torc."; }
+            }
+            else if (ObjTexArchive == 216)
+            {
+                if (ObjTexRecord == 21) { items.Add(ItemBuilder.CreateItem(ItemGroups.Jewellery, (int)Jewellery.Bracelet)); desc = "You see a bracelet."; }
+            }
+        }
+
+        public static void DetermineReligiousItemType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        {
+            items = new List<DaggerfallUnityItem>();
+            desc = "";
+            if (ObjTexArchive == 211)
+            {
+                if (ObjTexRecord == 47) { items.Add(ItemBuilder.CreateItem(ItemGroups.ReligiousItems, (int)ReligiousItems.Bell)); desc = "You see a small bell."; }
+                else if (ObjTexRecord == 49) { items.Add(ItemBuilder.CreateItem(ItemGroups.ReligiousItems, (int)ReligiousItems.Holy_water)); desc = "You see a cup of holy water."; }
+                else if (ObjTexRecord == 50) { items.Add(ItemBuilder.CreateItem(ItemGroups.ReligiousItems, (int)ReligiousItems.Talisman)); desc = "You see a talisman."; }
+                else if (ObjTexRecord == 51 || ObjTexRecord == 53) { items.Add(ItemBuilder.CreateItem(ItemGroups.ReligiousItems, (int)ReligiousItems.Icon)); desc = "You see a religious icon."; }
+                else if (ObjTexRecord == 52) { items.Add(ItemBuilder.CreateItem(ItemGroups.ReligiousItems, (int)ReligiousItems.Scarab)); desc = "You see a scarab."; }
             }
             else if (ObjTexArchive == 209)
             {

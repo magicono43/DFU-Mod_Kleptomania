@@ -674,7 +674,7 @@ namespace Kleptomania
             return item;
         }
 
-        public static DaggerfallUnityItem ChooseRandomWeapon(int weaponGroup, int templateIndex = -1)
+        public static DaggerfallUnityItem ChooseRandomWeapon(int weaponGroup, int templateIndex = -1, bool multiple = false)
         {
             int randomValue = 0;
             DaggerfallUnityItem item = null;
@@ -723,6 +723,13 @@ namespace Kleptomania
                     else { templateIndex = (int)Weapons.Dai_Katana; }
                 }
                 else { return null; }
+            }
+
+            if (multiple)
+            {
+                conditionMod = (float)UnityEngine.Random.Range(5, 20 + 1) / 100f;
+                item = ItemBuilder.CreateWeapon((Weapons)templateIndex, (WeaponMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(true, false, true)); // Will need to test to see if casting "templateIndex" to Weapons will work.
+                if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
             }
 
             item = ItemBuilder.CreateWeapon((Weapons)templateIndex, (WeaponMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial()); // Will need to test to see if casting "templateIndex" to Weapons will work.
