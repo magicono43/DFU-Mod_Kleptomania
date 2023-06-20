@@ -730,6 +730,46 @@ namespace Kleptomania
             return item;
         }
 
+        public static DaggerfallUnityItem ChooseRandomArmor(int armorGroup, int templateIndex = -1)
+        {
+            int randomValue = 0;
+            DaggerfallUnityItem item = null;
+            Genders gender = GameManager.Instance.PlayerEntity.Gender;
+            Races race = GameManager.Instance.PlayerEntity.Race;
+            float conditionMod = (float)UnityEngine.Random.Range(10, 40 + 1) / 100f;
+
+            if (templateIndex == -1)
+            {
+                if (armorGroup == 0)
+                {
+                    templateIndex = (int)Armor.Tower_Shield;
+                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false, true)); // Will need to test to see if casting "templateIndex" to Armor will work.
+                }
+                else if (armorGroup == 1)
+                {
+                    randomValue = UnityEngine.Random.Range(0, 3);
+                    if (randomValue == 0) { templateIndex = (int)Armor.Buckler; }
+                    else if (randomValue == 1) { templateIndex = (int)Armor.Round_Shield; }
+                    else { templateIndex = (int)Armor.Kite_Shield; }
+                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false, true)); // Will need to test to see if casting "templateIndex" to Armor will work.
+                }
+                else if (armorGroup == 2)
+                {
+                    templateIndex = (int)Armor.Cuirass;
+                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false)); // Will need to test to see if casting "templateIndex" to Armor will work.
+                }
+                else if (armorGroup == 3)
+                {
+                    templateIndex = (int)Armor.Helm;
+                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false)); // Will need to test to see if casting "templateIndex" to Armor will work.
+                }
+                else { return null; }
+            }
+
+            if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
+            return item;
+        }
+
         public static DaggerfallUnityItem ChooseRandomClothingPiece()
         {
             Array enumArray;
