@@ -873,6 +873,17 @@ namespace Kleptomania
             }
             return item;
         }
+
+        public static DaggerfallUnityItem CreateRandomPainting()
+        {
+            DaggerfallUnityItem item = null;
+            float conditionMod = (float)UnityEngine.Random.Range(10, 70 + 1) / 100f;
+
+            item = ItemBuilder.CreateItem(ItemGroups.Paintings, (int)Paintings.Painting);
+
+            if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
+            return item;
+        }
     }
 }
 
