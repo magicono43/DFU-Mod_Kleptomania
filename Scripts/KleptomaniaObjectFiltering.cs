@@ -40,7 +40,7 @@ namespace Kleptomania
                     }
                     else if (ObjTexRecord == 41) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else if (ObjTexRecord == 10) { DetermineFishBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
-                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) {} // Will likely add a ration food-item from climates & calories mod if that is currently installed, later.
+                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) {} // Will likely add a ration food-item from climates & calories mod if that is currently installed, later. Start work here tomorrow maybe.
                     else { return; }
                     break;
                 case 207:
@@ -110,35 +110,35 @@ namespace Kleptomania
                     else { return; }
                     break;
                 case 214:
-                    if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) {} // add a wooden scoop custom item. Start on these "misc" items next or tomorrow when I work on this again.
-                    else if (ObjTexRecord == 1) {} // add a shovel custom item.
+                    if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 4); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 1); }
                     else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) {} // add a armorers hammer item from Repair Tools if active.
-                    else if (ObjTexRecord == 5) {} // add a butter churn custom item, that or use the churn and make butter or something.
-                    else if (ObjTexRecord == 6) {} // add a pickaxe custom item
-                    else if (ObjTexRecord == 7) {} // add a scythe custom item.
-                    else if (ObjTexRecord == 8) {} // add a rope custom item.
-                    else if (ObjTexRecord == 9) {} // add a bellows custom item.
-                    else if (ObjTexRecord == 10) {} // add a broom custom item.
-                    else if (ObjTexRecord == 12) {} // add a brush custom item.
-                    else if (ObjTexRecord == 13) {} // add a tongs custom item.
-                    else if (ObjTexRecord == 14) {} // add a shears custom item.
-                    else if (ObjTexRecord == 15) {} // add a trowel custom item.
+                    else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.BodyFall, 214, 5); }
+                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipAxe, SoundClips.Parry3, 214, 6); }
+                    else if (ObjTexRecord == 7) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLongBlade, SoundClips.Parry2, 214, 7); }
+                    else if (ObjTexRecord == 8) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 214, 8); }
+                    else if (ObjTexRecord == 9) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 214, 9); }
+                    else if (ObjTexRecord == 10) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 10); }
+                    else if (ObjTexRecord == 12) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 12); }
+                    else if (ObjTexRecord == 13) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.Parry4, 214, 13); }
+                    else if (ObjTexRecord == 14) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.Parry4, 214, 14); }
+                    else if (ObjTexRecord == 15) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 15); }
                     else { return; }
                     break;
                 case 216:
                     if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3); }
-                    else if (ObjTexRecord == 3) {} // possibly custom item that gives much more value and weight to this "solid gold bar" instead of the vanilla ingredient form.
+                    else if (ObjTexRecord == 3) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 216, 3); }
                     else if (ObjTexRecord >= 6 && ObjTexRecord <= 7) { DetermineCrownPieceType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 6); }
                     else if (ObjTexRecord >= 8 && ObjTexRecord <= 9) { DetermineTiaraPieceType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 9); }
                     else if (ObjTexRecord >= 10 && ObjTexRecord <= 19) { DetermineGemStonePieceType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 10); }
                     else if (ObjTexRecord == 21) { DetermineJewelryItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 216, 21); }
-                    else if (ObjTexRecord == 30) {} // Will likely just hold a random small amount of gold, or later something more random based on the context and such, will see.
+                    else if (ObjTexRecord == 30) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.GoldPieces, SoundClips.AmbientGoldPieces, 216, 1); }
                     else { return; }
                     break;
                 case 218:
                     if (ObjTexRecord >= 0 && ObjTexRecord <= 3) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else if (ObjTexRecord == 4) {} // add "skillet" item from C&C
-                    else if (ObjTexRecord == 6) {} // add a custom "spoon" or scoop item.
+                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 218, 6); }
                     else { return; }
                     break;
                 case 253:
@@ -146,15 +146,15 @@ namespace Kleptomania
                     else if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3); }
                     else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 8); }
                     else if (ObjTexRecord == 0) {} // Apple from C&C
-                    else if (ObjTexRecord == 1) {} // Will likely just hold a random small amount of gold, or later something more random based on the context and such, will see.
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.GoldPieces, SoundClips.AmbientGoldPieces, 216, 1); }
                     else if (ObjTexRecord == 2) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipClothing, 211, 0); }
                     else if (ObjTexRecord == 16) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 0); }
-                    else if (ObjTexRecord == 19) {} // Add a moderately valuable candelabra custom item.
+                    else if (ObjTexRecord == 19) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 210, 5); }
                     else if (ObjTexRecord == 23 || ObjTexRecord == 24) { DetermineFishBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
-                    else if (ObjTexRecord == 28) {} // custom globe item, will probably be pretty heavy.
+                    else if (ObjTexRecord == 28) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.BodyFall, 208, 0); }
                     else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) { DetermineGobletCupType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 30); }
-                    else if (ObjTexRecord == 39) {} // custom inkwell item.
-                    else if (ObjTexRecord == 54) {} // custom magnifying glass item.
+                    else if (ObjTexRecord == 39) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 1); }
+                    else if (ObjTexRecord == 54) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 208, 1); }
                     else if (ObjTexRecord == 55) {} // Orange from C&C
                     else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) {} // Will likely add a ration food-item from climates & calories mod if that is currently installed, later.
                     else if (ObjTexRecord == 63 || ObjTexRecord == 85) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
@@ -200,49 +200,49 @@ namespace Kleptomania
                     else if (ObjTexRecord == 6) { DetermineWeaponItemType(out items, out text, true); }
                     else if (ObjTexRecord == 7) { DetermineWeaponItemType(out items, out text, true); }
                     else if (ObjTexRecord == 8) { DetermineWeaponItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 9) { DetermineArmorItemType(out items, out text); }
-                    else if (ObjTexRecord == 10) { DetermineArmorItemType(out items, out text); }
-                    else if (ObjTexRecord == 11) { DetermineArmorItemType(out items, out text); }
-                    else if (ObjTexRecord == 12 || ObjTexRecord == 14) { DetermineArmorItemType(out items, out text); }
-                    else if (ObjTexRecord == 13) { DetermineJewelryItemType(out items, out text); }
+                    else if (ObjTexRecord == 9) { DetermineArmorItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 10) { DetermineArmorItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 11) { DetermineArmorItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 12 || ObjTexRecord == 14) { DetermineArmorItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 13) { DetermineJewelryItemType(out items, out text, true); }
                     else if (ObjTexRecord == 15) { DetermineWeaponItemType(out items, out text, true); }
                     else if (ObjTexRecord == 16) { text = "You see an arrow."; }
                     break;
                 case 208:
                     if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text, true); }
-                    else if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); }
-                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); }
-                    else if (ObjTexRecord == 3) { DetermineMiscItemType(out items, out text); }
-                    else if (ObjTexRecord == 4) { DetermineMiscItemType(out items, out text); }
-                    else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); }
-                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 3) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 4) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text, true); }
                     break;
                 case 209:
                     if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text, true); }
                     else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text, true); }
-                    else if (ObjTexRecord == 9) { DetermineJewelryItemType(out items, out text); }
+                    else if (ObjTexRecord == 9) { DetermineJewelryItemType(out items, out text, true); }
                     break;
                 case 210:
-                    if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); }
+                    if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text, true); }
                     break;
                 case 211:
-                    if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); }
-                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); }
+                    if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 2) { DeterminePotUrnJugType(out items, out text, true); }
                     else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) { DetermineFishBundleType(out items, out text, true); }
                     else if (ObjTexRecord == 12) { DetermineWeaponItemType(out items, out text, true); }
                     else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) { text = "You see a wheel."; }
-                    else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 31) { text = "You see a loaf of bread."; }
                     else if (ObjTexRecord == 40) { text = "You see a piece of meat."; }
                     else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) { text = "You see an animal tooth."; }
-                    else if (ObjTexRecord == 47) { DetermineReligiousItemType(out items, out text); }
-                    else if (ObjTexRecord == 48) { DetermineJewelryItemType(out items, out text); }
-                    else if (ObjTexRecord == 49) { DetermineReligiousItemType(out items, out text); }
-                    else if (ObjTexRecord == 50) { DetermineReligiousItemType(out items, out text); }
-                    else if (ObjTexRecord == 51 || ObjTexRecord == 53) { DetermineReligiousItemType(out items, out text); }
-                    else if (ObjTexRecord == 52) { DetermineReligiousItemType(out items, out text); }
-                    else if (ObjTexRecord == 57) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 47) { DetermineReligiousItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 48) { DetermineJewelryItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 49) { DetermineReligiousItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 50) { DetermineReligiousItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 51 || ObjTexRecord == 53) { DetermineReligiousItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 52) { DetermineReligiousItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 57) { DetermineMiscItemType(out items, out text, true); }
                     break;
                 case 213:
                     if (ObjTexRecord == 0) { text = "You see an apple."; }
@@ -250,48 +250,48 @@ namespace Kleptomania
                     else if (ObjTexRecord == 6) { DeterminePotUrnJugType(out items, out text, true); }
                     break;
                 case 214:
-                    if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { text = "You see a wooden scoop."; }
-                    else if (ObjTexRecord == 1) { text = "You see a shovel."; }
+                    if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) { text = "You see a hammer."; }
-                    else if (ObjTexRecord == 5) { text = "You see a butter churn."; }
-                    else if (ObjTexRecord == 6) { text = "You see a pickaxe."; }
-                    else if (ObjTexRecord == 7) { text = "You see a scythe."; }
-                    else if (ObjTexRecord == 8) { text = "You see a pile of rope."; }
-                    else if (ObjTexRecord == 9) { text = "You see a bellows."; }
-                    else if (ObjTexRecord == 10) { text = "You see a broom."; }
-                    else if (ObjTexRecord == 12) { text = "You see a brush."; }
-                    else if (ObjTexRecord == 13) { text = "You see a pair of tongs."; }
-                    else if (ObjTexRecord == 14) { text = "You see a pair of shears."; }
-                    else if (ObjTexRecord == 15) { text = "You see a wooden trowel."; }
+                    else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 7) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 8) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 9) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 10) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 12) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 13) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 14) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 15) { DetermineMiscItemType(out items, out text, true); }
                     break;
                 case 216:
                     if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text, true); }
-                    else if (ObjTexRecord == 3) { text = "You see a solid gold bar."; }
+                    else if (ObjTexRecord == 3) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord >= 6 && ObjTexRecord <= 7) { DetermineCrownPieceType(out items, out text, true); }
                     else if (ObjTexRecord >= 8 && ObjTexRecord <= 9) { DetermineTiaraPieceType(out items, out text, true); }
                     else if (ObjTexRecord >= 10 && ObjTexRecord <= 19) { DetermineGemStonePieceType(out items, out text, true); }
-                    else if (ObjTexRecord == 21) { DetermineJewelryItemType(out items, out text); }
-                    else if (ObjTexRecord == 30) { text = "You see a small pouch."; }
+                    else if (ObjTexRecord == 21) { DetermineJewelryItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 30) { DetermineMiscItemType(out items, out text, true); }
                     break;
                 case 218:
                     if (ObjTexRecord >= 0 && ObjTexRecord <= 3) { DeterminePotUrnJugType(out items, out text, true); }
                     else if (ObjTexRecord == 4) { text = "You see an iron skillet."; }
-                    else if (ObjTexRecord == 6) { text = "You see a wooden spoon."; }
+                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text, true); }
                     break;
                 case 253:
                     if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text, true); }
                     else if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text, true); }
                     else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text, true); }
                     else if (ObjTexRecord == 0) { text = "You see an apple."; }
-                    else if (ObjTexRecord == 1) { text = "You see a small pouch."; }
-                    else if (ObjTexRecord == 2) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 2) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 16) { DetermineClothingItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 19) { text = "You see a candelabra."; }
+                    else if (ObjTexRecord == 19) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 23 || ObjTexRecord == 24) { DetermineFishBundleType(out items, out text, true); }
-                    else if (ObjTexRecord == 28) { text = "You see a globe."; }
+                    else if (ObjTexRecord == 28) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) { DetermineGobletCupType(out items, out text, true); }
-                    else if (ObjTexRecord == 39) { text = "You see an inkwell."; }
-                    else if (ObjTexRecord == 54) { text = "You see a magnifying glass."; }
+                    else if (ObjTexRecord == 39) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord == 54) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 55) { text = "You see an orange."; }
                     else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { text = "You see a sack."; }
                     else if (ObjTexRecord == 63 || ObjTexRecord == 85) { DeterminePotUrnJugType(out items, out text, true); }
@@ -516,9 +516,38 @@ namespace Kleptomania
                 else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemSmokingPipe.templateIndex)); desc = "You see a smoking pipe."; }
                 else if (ObjTexRecord == 57) { items.Add(KMItemBuilder.CreateRandomPainting()); desc = "You see a painting."; }
             }
+            else if (ObjTexArchive == 214)
+            {
+                if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemScoop.templateIndex)); desc = "You see a scoop."; }
+                else if (ObjTexRecord == 1) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemShovel.templateIndex)); desc = "You see a shovel."; }
+                else if (ObjTexRecord == 5) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemButterChurn.templateIndex)); desc = "You see a butter churn."; }
+                else if (ObjTexRecord == 6) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemPickaxe.templateIndex)); desc = "You see a pickaxe."; }
+                else if (ObjTexRecord == 7) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemScythe.templateIndex)); desc = "You see a scythe."; }
+                else if (ObjTexRecord == 8) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemRope.templateIndex)); desc = "You see a pile of rope."; }
+                else if (ObjTexRecord == 9) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemBellows.templateIndex)); desc = "You see a bellows."; }
+                else if (ObjTexRecord == 10) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemBroom.templateIndex)); desc = "You see a broom."; }
+                else if (ObjTexRecord == 12) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemBrush.templateIndex)); desc = "You see a brush."; }
+                else if (ObjTexRecord == 13) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemTongs.templateIndex)); desc = "You see a pair of tongs."; }
+                else if (ObjTexRecord == 14) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemShears.templateIndex)); desc = "You see a pair of shears."; }
+                else if (ObjTexRecord == 15) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemShears.templateIndex)); desc = "You see a wooden trowel."; }
+            }
+            else if (ObjTexArchive == 216)
+            {
+                if (ObjTexRecord == 3) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemGoldBar.templateIndex)); desc = "You see a solid gold bar."; }
+                else if (ObjTexRecord == 30) { items.Add(KMItemBuilder.CreatePouchDrops()); desc = "You see a small pouch."; }
+            }
+            else if (ObjTexArchive == 218)
+            {
+                if (ObjTexRecord == 6) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemSpoon.templateIndex)); desc = "You see a wooden spoon."; }
+            }
             else if (ObjTexArchive == 253)
             {
-                if (ObjTexRecord == 2) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Bandage)); desc = "You see a bandage."; }
+                if (ObjTexRecord == 1) { items.Add(KMItemBuilder.CreatePouchDrops()); desc = "You see a small pouch."; }
+                else if (ObjTexRecord == 2) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Bandage)); desc = "You see a bandage."; }
+                else if (ObjTexRecord == 19) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemCandelabra.templateIndex)); desc = "You see a candelabra."; }
+                else if (ObjTexRecord == 28) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemGlobe.templateIndex)); desc = "You see a globe."; }
+                else if (ObjTexRecord == 39) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemInkwell.templateIndex)); desc = "You see an inkwell."; }
+                else if (ObjTexRecord == 54) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemMagnifyingGlass.templateIndex)); desc = "You see a magnifying glass."; }
             }
         }
 

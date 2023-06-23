@@ -874,6 +874,15 @@ namespace Kleptomania
             return item;
         }
 
+        public static DaggerfallUnityItem CreatePouchDrops() // May add more possible items later, but for now just gold pieces.
+        {
+            DaggerfallUnityItem item = null;
+            int amount = UnityEngine.Random.Range(10, 120 + 1);
+
+            item = ItemBuilder.CreateGoldPieces(amount);
+            return item;
+        }
+
         public static DaggerfallUnityItem CreateRandomPainting()
         {
             DaggerfallUnityItem item = null;
