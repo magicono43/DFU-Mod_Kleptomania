@@ -40,7 +40,7 @@ namespace Kleptomania
                     }
                     else if (ObjTexRecord == 41) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else if (ObjTexRecord == 10) { DetermineFishBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
-                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) {} // Will likely add a ration food-item from climates & calories mod if that is currently installed, later. Start work here tomorrow maybe.
+                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 205, 17); }
                     else { return; }
                     break;
                 case 207:
@@ -91,7 +91,7 @@ namespace Kleptomania
                     else if (ObjTexRecord == 12) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLongBlade, SoundClips.Parry5, 211, 12); }
                     else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) {} // add a wagon wheel item from realistic wagons mod if active.
                     else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.EquipStaff, 211, 24); }
-                    else if (ObjTexRecord == 31) {} // add a bread item from C&C
+                    else if (ObjTexRecord == 31) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 211, 31); }
                     else if (ObjTexRecord == 40) {} // add a piece of meat item from C&C
                     else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) {} // add a random small, medium, or large animal fang ingredient.
                     else if (ObjTexRecord == 47) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 47); }
@@ -156,7 +156,7 @@ namespace Kleptomania
                     else if (ObjTexRecord == 39) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 1); }
                     else if (ObjTexRecord == 54) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 208, 1); }
                     else if (ObjTexRecord == 55) {} // Orange from C&C
-                    else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) {} // Will likely add a ration food-item from climates & calories mod if that is currently installed, later.
+                    else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 205, 17); }
                     else if (ObjTexRecord == 63 || ObjTexRecord == 85) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else { return; }
                     break;
@@ -191,7 +191,7 @@ namespace Kleptomania
                     else if (ObjTexRecord == 42) { text = "You see a quiver carrying a few arrows."; }
                     else if (ObjTexRecord == 41) { DeterminePotUrnJugType(out items, out text, true); }
                     else if (ObjTexRecord == 10) { DetermineFishBundleType(out items, out text, true); }
-                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) { text = "You see a sack."; }
+                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) { DetermineMiscItemType(out items, out text); }
                     break;
                 case 207:
                     if (ObjTexRecord == 0 || ObjTexRecord == 2 || ObjTexRecord == 3) { DetermineWeaponItemType(out items, out text, true); }
@@ -233,7 +233,7 @@ namespace Kleptomania
                     else if (ObjTexRecord == 12) { DetermineWeaponItemType(out items, out text, true); }
                     else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) { text = "You see a wheel."; }
                     else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 31) { text = "You see a loaf of bread."; }
+                    else if (ObjTexRecord == 31) { DetermineMiscItemType(out items, out text); }
                     else if (ObjTexRecord == 40) { text = "You see a piece of meat."; }
                     else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) { text = "You see an animal tooth."; }
                     else if (ObjTexRecord == 47) { DetermineReligiousItemType(out items, out text, true); }
@@ -293,7 +293,7 @@ namespace Kleptomania
                     else if (ObjTexRecord == 39) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 54) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 55) { text = "You see an orange."; }
-                    else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { text = "You see a sack."; }
+                    else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { DetermineMiscItemType(out items, out text); }
                     else if (ObjTexRecord == 63 || ObjTexRecord == 85) { DeterminePotUrnJugType(out items, out text, true); }
                     break;
                 case 254:
@@ -496,7 +496,11 @@ namespace Kleptomania
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
-            if (ObjTexArchive == 208)
+            if (ObjTexArchive == 205)
+            {
+                if (ObjTexRecord >= 17 && ObjTexRecord <= 20) { items.Add(CreateCNCRations()); desc = "You see a sack."; }
+            }
+            else if (ObjTexArchive == 208)
             {
                 if (ObjTexRecord == 0) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemGlobe.templateIndex)); desc = "You see a globe."; }
                 else if (ObjTexRecord == 1) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemMagnifyingGlass.templateIndex)); desc = "You see a magnifying glass."; }
@@ -514,6 +518,7 @@ namespace Kleptomania
                 if (ObjTexRecord == 0) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Bandage)); desc = "You see a bandage."; }
                 else if (ObjTexRecord == 1) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemInkwell.templateIndex)); desc = "You see an inkwell."; }
                 else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemSmokingPipe.templateIndex)); desc = "You see a smoking pipe."; }
+                else if (ObjTexRecord == 31) { items.Add(CreateCNCBread()); desc = "You see a loaf of bread."; }
                 else if (ObjTexRecord == 57) { items.Add(KMItemBuilder.CreateRandomPainting()); desc = "You see a painting."; }
             }
             else if (ObjTexArchive == 214)
@@ -548,6 +553,7 @@ namespace Kleptomania
                 else if (ObjTexRecord == 28) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemGlobe.templateIndex)); desc = "You see a globe."; }
                 else if (ObjTexRecord == 39) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemInkwell.templateIndex)); desc = "You see an inkwell."; }
                 else if (ObjTexRecord == 54) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemMagnifyingGlass.templateIndex)); desc = "You see a magnifying glass."; }
+                else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { items.Add(CreateCNCRations()); desc = "You see a sack."; }
             }
         }
 

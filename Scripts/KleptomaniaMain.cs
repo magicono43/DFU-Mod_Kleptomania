@@ -3,7 +3,7 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Author:          Kirk.O
 // Created On: 	    4/29/2023, 11:20 PM
-// Last Edit:		6/23/2023, 5:15 PM
+// Last Edit:		6/25/2023, 11:55 PM
 // Version:			1.00
 // Special Thanks:  
 // Modifier:
@@ -45,6 +45,17 @@ namespace Kleptomania
         public static bool ToggleFoodAndCooking { get; set; }
         public static bool ToggleAlchemyIngredients { get; set; }
 
+        // Mod Compatibility Check Values
+        public static bool RepairToolsCheck { get; set; }
+        public static bool JewelryAdditionsCheck { get; set; }
+        public static bool ClimatesAndCaloriesCheck { get; set; }
+        public static bool RealisticWagonCheck { get; set; }
+        public static bool SkillBooksCheck { get; set; }
+        public static bool RolePlayRealismLootRebalanceCheck { get; set; }
+        public static bool RolePlayRealismBandagingCheck { get; set; }
+        public static bool RolePlayRealismNewWeaponCheck { get; set; }
+        public static bool RolePlayRealismNewArmorCheck { get; set; }
+
         // Global Variables
         public static GameObject ClickedObjRef { get; set; }
         public static int PlayerLayerMask { get; set; }
@@ -79,6 +90,8 @@ namespace Kleptomania
             mod.SaveDataInterface = ModSaveData;
 
             mod.LoadSettings();
+
+            ModCompatibilityChecking();
 
             PlayerLayerMask = ~(1 << LayerMask.NameToLayer("Player"));
 
@@ -405,6 +418,34 @@ namespace Kleptomania
             ToggleLaborTools = mod.GetSettings().GetValue<bool>("ToggleInteractables", "LaborTools");
             ToggleFoodAndCooking = mod.GetSettings().GetValue<bool>("ToggleInteractables", "Food&Cooking");
             ToggleAlchemyIngredients = mod.GetSettings().GetValue<bool>("ToggleInteractables", "AlchemyIngredients");
+        }
+
+        private void ModCompatibilityChecking()
+        {
+            Mod repairTools = ModManager.Instance.GetMod("RepairTools");
+            RepairToolsCheck = repairTools != null ? true : false;
+
+            Mod jewelryAdditions = ModManager.Instance.GetMod("JewelryAdditions");
+            JewelryAdditionsCheck = jewelryAdditions != null ? true : false;
+
+            Mod climatesAndCalories = ModManager.Instance.GetMod("Climates & Calories");
+            ClimatesAndCaloriesCheck = climatesAndCalories != null ? true : false;
+
+            Mod realisticWagon = ModManager.Instance.GetMod("Realistic Wagon");
+            RealisticWagonCheck = realisticWagon != null ? true : false;
+
+            Mod skillBooks = ModManager.Instance.GetMod("Skill Books");
+            SkillBooksCheck = skillBooks != null ? true : false;
+
+            Mod roleplayRealismItems = ModManager.Instance.GetMod("RoleplayRealism-Items");
+            if (roleplayRealismItems != null)
+            {
+                ModSettings rolePlayRealismSettings = roleplayRealismItems.GetSettings();
+                RolePlayRealismLootRebalanceCheck = rolePlayRealismSettings.GetBool("Modules", "lootRebalance");
+                RolePlayRealismBandagingCheck = rolePlayRealismSettings.GetBool("Modules", "bandaging");
+                RolePlayRealismNewWeaponCheck = rolePlayRealismSettings.GetBool("Modules", "newWeapons");
+                RolePlayRealismNewArmorCheck = rolePlayRealismSettings.GetBool("Modules", "newArmor");
+            }
         }
 
         private void LoadTextures() // Example taken from Penwick Papers Mod
