@@ -893,6 +893,18 @@ namespace Kleptomania
             if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
             return item;
         }
+
+        public static DaggerfallUnityItem CreateRandomAnimalTooth()
+        {
+            DaggerfallUnityItem item = null;
+            int size = UnityEngine.Random.Range(0, 3);
+
+            if (size == 0) { item = ItemBuilder.CreateItem(ItemGroups.MiscellaneousIngredients1, (int)MiscellaneousIngredients1.Small_tooth); }
+            else if (size == 1) { item = ItemBuilder.CreateItem(ItemGroups.MiscellaneousIngredients1, (int)MiscellaneousIngredients1.Medium_tooth); }
+            else if (size == 2) { item = ItemBuilder.CreateItem(ItemGroups.MiscellaneousIngredients1, (int)MiscellaneousIngredients1.Big_tooth); }
+
+            return item;
+        }
     }
 }
 

@@ -89,11 +89,11 @@ namespace Kleptomania
                     else if (ObjTexRecord == 2) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) { DetermineFishBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
                     else if (ObjTexRecord == 12) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLongBlade, SoundClips.Parry5, 211, 12); }
-                    else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) {} // add a wagon wheel item from realistic wagons mod if active.
+                    else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.BodyFall, 211, 17); }
                     else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.EquipStaff, 211, 24); }
                     else if (ObjTexRecord == 31) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 211, 31); }
-                    else if (ObjTexRecord == 40) {} // add a piece of meat item from C&C
-                    else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) {} // add a random small, medium, or large animal fang ingredient.
+                    else if (ObjTexRecord == 40) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 211, 40); }
+                    else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.EquipStaff, 211, 41); }
                     else if (ObjTexRecord == 47) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 47); }
                     else if (ObjTexRecord == 48) { DetermineJewelryItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 48); }
                     else if (ObjTexRecord == 49) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.SplashSmall, 211, 49); }
@@ -104,15 +104,15 @@ namespace Kleptomania
                     else { return; }
                     break;
                 case 213:
-                    if (ObjTexRecord == 0) {} // Apple from C&C
-                    else if (ObjTexRecord == 1) {} // Orange from C&C
+                    if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 213, 0); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 213, 1); }
                     else if (ObjTexRecord == 6) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else { return; }
                     break;
                 case 214:
                     if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 4); }
                     else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 1); }
-                    else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) {} // add a armorers hammer item from Repair Tools if active.
+                    else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipMaceOrHammer, SoundClips.Parry5, 214, 3); }
                     else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.BodyFall, 214, 5); }
                     else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipAxe, SoundClips.Parry3, 214, 6); }
                     else if (ObjTexRecord == 7) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLongBlade, SoundClips.Parry2, 214, 7); }
@@ -137,7 +137,7 @@ namespace Kleptomania
                     break;
                 case 218:
                     if (ObjTexRecord >= 0 && ObjTexRecord <= 3) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
-                    else if (ObjTexRecord == 4) {} // add "skillet" item from C&C
+                    else if (ObjTexRecord == 4) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.Parry4, 218, 4); }
                     else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 218, 6); }
                     else { return; }
                     break;
@@ -145,7 +145,7 @@ namespace Kleptomania
                     if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); }
                     else if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3); }
                     else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 8); }
-                    else if (ObjTexRecord == 0) {} // Apple from C&C
+                    else if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 213, 0); }
                     else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.GoldPieces, SoundClips.AmbientGoldPieces, 216, 1); }
                     else if (ObjTexRecord == 2) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipClothing, 211, 0); }
                     else if (ObjTexRecord == 16) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 0); }
@@ -155,7 +155,7 @@ namespace Kleptomania
                     else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) { DetermineGobletCupType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 30); }
                     else if (ObjTexRecord == 39) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 1); }
                     else if (ObjTexRecord == 54) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 208, 1); }
-                    else if (ObjTexRecord == 55) {} // Orange from C&C
+                    else if (ObjTexRecord == 55) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 213, 1); }
                     else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 205, 17); }
                     else if (ObjTexRecord == 63 || ObjTexRecord == 85) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else { return; }
@@ -231,11 +231,11 @@ namespace Kleptomania
                     else if (ObjTexRecord == 2) { DeterminePotUrnJugType(out items, out text, true); }
                     else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) { DetermineFishBundleType(out items, out text, true); }
                     else if (ObjTexRecord == 12) { DetermineWeaponItemType(out items, out text, true); }
-                    else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) { text = "You see a wheel."; }
+                    else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) { DetermineMiscItemType(out items, out text); }
                     else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 31) { DetermineMiscItemType(out items, out text); }
-                    else if (ObjTexRecord == 40) { text = "You see a piece of meat."; }
-                    else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) { text = "You see an animal tooth."; }
+                    else if (ObjTexRecord == 40) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 47) { DetermineReligiousItemType(out items, out text, true); }
                     else if (ObjTexRecord == 48) { DetermineJewelryItemType(out items, out text, true); }
                     else if (ObjTexRecord == 49) { DetermineReligiousItemType(out items, out text, true); }
@@ -245,14 +245,14 @@ namespace Kleptomania
                     else if (ObjTexRecord == 57) { DetermineMiscItemType(out items, out text, true); }
                     break;
                 case 213:
-                    if (ObjTexRecord == 0) { text = "You see an apple."; }
-                    else if (ObjTexRecord == 1) { text = "You see an orange."; }
+                    if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); }
                     else if (ObjTexRecord == 6) { DeterminePotUrnJugType(out items, out text, true); }
                     break;
                 case 214:
                     if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) { text = "You see a hammer."; }
+                    else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 7) { DetermineMiscItemType(out items, out text, true); }
@@ -275,14 +275,14 @@ namespace Kleptomania
                     break;
                 case 218:
                     if (ObjTexRecord >= 0 && ObjTexRecord <= 3) { DeterminePotUrnJugType(out items, out text, true); }
-                    else if (ObjTexRecord == 4) { text = "You see an iron skillet."; }
+                    else if (ObjTexRecord == 4) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text, true); }
                     break;
                 case 253:
                     if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text, true); }
                     else if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text, true); }
                     else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text, true); }
-                    else if (ObjTexRecord == 0) { text = "You see an apple."; }
+                    else if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 2) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 16) { DetermineClothingItemType(out items, out text, true); }
@@ -292,7 +292,7 @@ namespace Kleptomania
                     else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) { DetermineGobletCupType(out items, out text, true); }
                     else if (ObjTexRecord == 39) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord == 54) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 55) { text = "You see an orange."; }
+                    else if (ObjTexRecord == 55) { DetermineMiscItemType(out items, out text, true); }
                     else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { DetermineMiscItemType(out items, out text); }
                     else if (ObjTexRecord == 63 || ObjTexRecord == 85) { DeterminePotUrnJugType(out items, out text, true); }
                     break;
@@ -498,7 +498,7 @@ namespace Kleptomania
             desc = "";
             if (ObjTexArchive == 205)
             {
-                if (ObjTexRecord >= 17 && ObjTexRecord <= 20) { items.Add(CreateCNCRations()); desc = "You see a sack."; }
+                if (ObjTexRecord >= 17 && ObjTexRecord <= 20) { items.Add(CreateCNCItems(0)); desc = "You see a sack."; }
             }
             else if (ObjTexArchive == 208)
             {
@@ -517,14 +517,23 @@ namespace Kleptomania
             {
                 if (ObjTexRecord == 0) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Bandage)); desc = "You see a bandage."; }
                 else if (ObjTexRecord == 1) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemInkwell.templateIndex)); desc = "You see an inkwell."; }
+                else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) { items.Add(CreateRealisticWagonItems(0)); desc = "You see a wheel."; }
                 else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemSmokingPipe.templateIndex)); desc = "You see a smoking pipe."; }
-                else if (ObjTexRecord == 31) { items.Add(CreateCNCBread()); desc = "You see a loaf of bread."; }
+                else if (ObjTexRecord == 31) { items.Add(CreateCNCItems(3)); desc = "You see a loaf of bread."; }
+                else if (ObjTexRecord == 40) { items.Add(CreateCNCItems(6)); desc = "You see a piece of meat."; }
+                else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) { items.Add(KMItemBuilder.CreateRandomAnimalTooth()); desc = "You see an animal tooth."; }
                 else if (ObjTexRecord == 57) { items.Add(KMItemBuilder.CreateRandomPainting()); desc = "You see a painting."; }
+            }
+            else if (ObjTexArchive == 213)
+            {
+                if (ObjTexRecord == 0) { items.Add(CreateCNCItems(1)); desc = "You see an apple."; }
+                else if (ObjTexRecord == 1) { items.Add(CreateCNCItems(2)); desc = "You see an orange."; }
             }
             else if (ObjTexArchive == 214)
             {
                 if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemScoop.templateIndex)); desc = "You see a scoop."; }
                 else if (ObjTexRecord == 1) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemShovel.templateIndex)); desc = "You see a shovel."; }
+                else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) { items.Add(CreateRepairToolsItems(0)); desc = "You see a hammer."; }
                 else if (ObjTexRecord == 5) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemButterChurn.templateIndex)); desc = "You see a butter churn."; }
                 else if (ObjTexRecord == 6) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemPickaxe.templateIndex)); desc = "You see a pickaxe."; }
                 else if (ObjTexRecord == 7) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemScythe.templateIndex)); desc = "You see a scythe."; }
@@ -543,17 +552,20 @@ namespace Kleptomania
             }
             else if (ObjTexArchive == 218)
             {
-                if (ObjTexRecord == 6) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemSpoon.templateIndex)); desc = "You see a wooden spoon."; }
+                if (ObjTexRecord == 4) { items.Add(CreateCNCItems(8)); desc = "You see an iron skillet."; }
+                else if (ObjTexRecord == 6) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemSpoon.templateIndex)); desc = "You see a wooden spoon."; }
             }
             else if (ObjTexArchive == 253)
             {
-                if (ObjTexRecord == 1) { items.Add(KMItemBuilder.CreatePouchDrops()); desc = "You see a small pouch."; }
+                if (ObjTexRecord == 0) { items.Add(CreateCNCItems(1)); desc = "You see an apple."; }
+                else if (ObjTexRecord == 1) { items.Add(KMItemBuilder.CreatePouchDrops()); desc = "You see a small pouch."; }
                 else if (ObjTexRecord == 2) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Bandage)); desc = "You see a bandage."; }
                 else if (ObjTexRecord == 19) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemCandelabra.templateIndex)); desc = "You see a candelabra."; }
                 else if (ObjTexRecord == 28) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemGlobe.templateIndex)); desc = "You see a globe."; }
                 else if (ObjTexRecord == 39) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemInkwell.templateIndex)); desc = "You see an inkwell."; }
                 else if (ObjTexRecord == 54) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemMagnifyingGlass.templateIndex)); desc = "You see a magnifying glass."; }
-                else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { items.Add(CreateCNCRations()); desc = "You see a sack."; }
+                else if (ObjTexRecord == 55) { items.Add(CreateCNCItems(2)); desc = "You see an orange."; }
+                else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { items.Add(CreateCNCItems(0)); desc = "You see a sack."; }
             }
         }
 
@@ -677,19 +689,51 @@ namespace Kleptomania
             desc = "";
             if (ObjTexArchive == 205)
             {
-                if (ObjTexRecord == 10) { items = null; desc = "You see a basket full of prepared fish."; }
+                if (ObjTexRecord == 10)
+                {
+                    int amount = UnityEngine.Random.Range(4, 11);
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(CreateCNCItems(5));
+                    }
+                    desc = "You see a basket full of prepared fish.";
+                }
             }
             else if (ObjTexArchive == 211)
             {
-                if (ObjTexRecord == 8) { items = null; desc = "You see a pile of raw fish."; }
-                else if (ObjTexRecord == 9) { items = null; desc = "You see a fish."; }
-                else if (ObjTexRecord == 10) { items = null; desc = "You see a cooked fish."; }
-                else if (ObjTexRecord == 11) { items = null; desc = "You see a bundle of cooked fish."; }
+                if (ObjTexRecord == 8)
+                {
+                    int amount = UnityEngine.Random.Range(4, 11);
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(CreateCNCItems(4));
+                    }
+                    desc = "You see a pile of raw fish.";
+                }
+                else if (ObjTexRecord == 9) { items.Add(CreateCNCItems(4)); desc = "You see a fish."; }
+                else if (ObjTexRecord == 10) { items.Add(CreateCNCItems(5)); desc = "You see a cooked fish."; }
+                else if (ObjTexRecord == 11)
+                {
+                    int amount = UnityEngine.Random.Range(2, 4);
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(CreateCNCItems(5));
+                    }
+                    desc = "You see a bundle of cooked fish.";
+                }
             }
             else if (ObjTexArchive == 253)
             {
-                if (ObjTexRecord == 23) { items = null; desc = "You see a pile of raw fish."; }
-                else if (ObjTexRecord == 24) { items = null; desc = "You see a fish."; }
+                if (ObjTexRecord == 23)
+                {
+                    int amount = UnityEngine.Random.Range(4, 11);
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(CreateCNCItems(4));
+                    }
+                    desc = "You see a pile of raw fish.";
+                }
+                else if (ObjTexRecord == 24) { items.Add(CreateCNCItems(4)); desc = "You see a fish."; }
             }
         }
 
@@ -699,7 +743,7 @@ namespace Kleptomania
             desc = "";
             if (ObjTexArchive == 216)
             {
-                if (ObjTexRecord >= 10 && ObjTexRecord <= 17) { items = null; desc = "You see a gem."; }
+                if (ObjTexRecord >= 10 && ObjTexRecord <= 17) { items = null; desc = "You see a gem."; } // I guess work on this next or tomorrow etc.
                 else if (ObjTexRecord >= 18 && ObjTexRecord <= 19) { items = null; desc = "You see a small stack of gems."; }
             }
         }
