@@ -47,6 +47,63 @@ namespace Kleptomania
             return item;
         }
 
+        public static DaggerfallUnityItem CreateRandomBookItems(bool multiple = false)
+        {
+            int basicSkillBook = 551;
+            int advSkillBook = 552;
+            int tomesofArcaneKnowledge = 553;
+            int tabletofArcaneKnowledge = 554;
+
+            DaggerfallUnityItem item = null;
+            if (SkillBooksCheck)
+            {
+                if (Dice100.SuccessRoll(80)) // Create a vanilla book most of the time.
+                {
+                    item = ItemBuilder.CreateRandomBook();
+                }
+                else
+                {
+                    int roll = UnityEngine.Random.Range(0, 101);
+                    if (roll > 95) { item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, tabletofArcaneKnowledge); }
+                    else if (roll > 85) { item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, tomesofArcaneKnowledge); }
+                    else if (roll > 60) { item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, advSkillBook); }
+                    else { item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, basicSkillBook); }
+                }
+            }
+            else
+            {
+                item = ItemBuilder.CreateRandomBook();
+            }
+
+            float conditionMod = (float)UnityEngine.Random.Range(20, 75 + 1) / 100f;
+            if (multiple == true) { conditionMod /= 4; }
+            if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
+
+            return item;
+        }
+
+        public static DaggerfallUnityItem CreateRandomGemStoneItems()
+        {
+            DaggerfallUnityItem item = null;
+            if (JewelryAdditionsCheck)
+            {
+                if (Dice100.SuccessRoll(60)) // Create a vanilla gemstone most of the time.
+                {
+                    item = ItemBuilder.CreateRandomGem();
+                }
+                else
+                {
+                    int gemTI = 4708 + UnityEngine.Random.Range(0, 7);
+                    item = ItemBuilder.CreateItem(ItemGroups.Gems, gemTI);
+                }
+            }
+            else
+            {
+                item = ItemBuilder.CreateRandomGem();
+            }
+            return item;
+        }
+
         public static DaggerfallUnityItem CreateRealisticWagonItems(int itemType = -1)
         {
             int wagonPartsTI = 542;

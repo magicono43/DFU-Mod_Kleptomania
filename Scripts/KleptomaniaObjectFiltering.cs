@@ -425,19 +425,59 @@ namespace Kleptomania
             desc = "";
             if (ObjTexArchive == 209)
             {
-                if (ObjTexRecord == 0) { items = null; desc = "You see a large stack of books."; }
-                else if (ObjTexRecord == 1) { items = null; desc = "You see a small stack of books."; }
-                else if (ObjTexRecord >= 2 && ObjTexRecord <= 4) { items = null; desc = "You see a book.";}
+                if (ObjTexRecord == 0)
+                {
+                    int amount = 3;
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(CreateRandomBookItems(true));
+                    }
+                    desc = "You see a large stack of books.";
+                }
+                else if (ObjTexRecord == 1)
+                {
+                    int amount = 2;
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(CreateRandomBookItems(true));
+                    }
+                    desc = "You see a small stack of books.";
+                }
+                else if (ObjTexRecord >= 2 && ObjTexRecord <= 4) { items.Add(CreateRandomBookItems()); desc = "You see a book.";}
             }
             else if (ObjTexArchive == 216)
             {
-                if (ObjTexRecord == 40) { items = null; desc = "You see a large stack of books."; }
+                if (ObjTexRecord == 40)
+                {
+                    int amount = 3;
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(CreateRandomBookItems(true));
+                    }
+                    desc = "You see a large stack of books.";
+                }
             }
             else if (ObjTexArchive == 253)
             {
-                if (ObjTexRecord >= 7 && ObjTexRecord <= 9) { items = null; desc = "You see a book."; }
-                else if (ObjTexRecord == 57) { items = null; desc = "You see a large stack of books."; }
-                else if (ObjTexRecord == 58) { items = null; desc = "You see a small stack of books."; }
+                if (ObjTexRecord >= 7 && ObjTexRecord <= 9) { items.Add(CreateRandomBookItems()); desc = "You see a book."; }
+                else if (ObjTexRecord == 57)
+                {
+                    int amount = 3;
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(CreateRandomBookItems(true));
+                    }
+                    desc = "You see a large stack of books.";
+                }
+                else if (ObjTexRecord == 58)
+                {
+                    int amount = 2;
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(CreateRandomBookItems(true));
+                    }
+                    desc = "You see a small stack of books.";
+                }
             }
         }
 
@@ -743,8 +783,16 @@ namespace Kleptomania
             desc = "";
             if (ObjTexArchive == 216)
             {
-                if (ObjTexRecord >= 10 && ObjTexRecord <= 17) { items = null; desc = "You see a gem."; } // I guess work on this next or tomorrow etc.
-                else if (ObjTexRecord >= 18 && ObjTexRecord <= 19) { items = null; desc = "You see a small stack of gems."; }
+                if (ObjTexRecord >= 10 && ObjTexRecord <= 17) { items.Add(CreateRandomGemStoneItems()); desc = "You see a gem."; }
+                else if (ObjTexRecord >= 18 && ObjTexRecord <= 19)
+                {
+                    int amount = 3;
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(CreateRandomGemStoneItems());
+                    }
+                    desc = "You see a small stack of gems.";
+                }
             }
         }
 
@@ -754,7 +802,7 @@ namespace Kleptomania
             desc = "";
             if (ObjTexArchive == 216)
             {
-                if (ObjTexRecord >= 6) { items = null; desc = "You see a gold crown."; }
+                if (ObjTexRecord >= 6) { items = null; desc = "You see a gold crown."; } // Start work back here tomorrow most likely.
                 else if (ObjTexRecord == 7) { items = null; desc = "You see a silver crown."; }
             }
         }
