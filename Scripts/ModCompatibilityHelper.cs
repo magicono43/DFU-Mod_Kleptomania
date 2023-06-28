@@ -104,6 +104,38 @@ namespace Kleptomania
             return item;
         }
 
+        public static DaggerfallUnityItem CreateRandomCrownItems() // For now, Jewelry Additions can't have other mods specify what "type" of crown they want, so just random for now atleast, will fix eventually.
+        {
+            int jewelryAddCrownTI = 4705;
+
+            DaggerfallUnityItem item = null;
+            if (JewelryAdditionsCheck)
+            {
+                item = ItemBuilder.CreateItem(ItemGroups.Jewellery, jewelryAddCrownTI);
+            }
+
+            float conditionMod = (float)UnityEngine.Random.Range(15, 65 + 1) / 100f;
+            if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
+
+            return item;
+        }
+
+        public static DaggerfallUnityItem CreateRandomTiaraItems() // For now, Jewelry Additions can't have other mods specify what "type" of tiara they want, so just random for now atleast, will fix eventually.
+        {
+            int jewelryAddTiaraTI = 4704;
+
+            DaggerfallUnityItem item = null;
+            if (JewelryAdditionsCheck)
+            {
+                item = ItemBuilder.CreateItem(ItemGroups.Jewellery, jewelryAddTiaraTI);
+            }
+
+            float conditionMod = (float)UnityEngine.Random.Range(15, 65 + 1) / 100f;
+            if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
+
+            return item;
+        }
+
         public static DaggerfallUnityItem CreateRealisticWagonItems(int itemType = -1)
         {
             int wagonPartsTI = 542;
@@ -130,6 +162,21 @@ namespace Kleptomania
                 if (itemType == 0) { item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, armorersHammerTI); }
 
                 if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
+            }
+            return item;
+        }
+
+        public static DaggerfallUnityItem CreateRandomPotionItems()
+        {
+            DaggerfallUnityItem item = null;
+            if (Dice100.SuccessRoll(70))
+            {
+                if (Dice100.SuccessRoll(60)) { item = ItemBuilder.CreatePotion(221871); } // Potion of Stamina recipe key
+                else { item = ItemBuilder.CreatePotion(4975678); } // Potion of Healing recipe key
+            }
+            else
+            {
+                item = ItemBuilder.CreateRandomPotion();
             }
             return item;
         }

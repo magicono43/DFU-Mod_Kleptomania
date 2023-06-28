@@ -371,36 +371,44 @@ namespace Kleptomania
             else { return false; }
         }
 
-        public static void DetermineGlassBottlePotionType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DetermineGlassBottlePotionType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false) // Was thinking of having potions picked up in this way be unidentified and potentially poisoned or some other effects. While I still would like to do something like this eventually, I think for now for the initial release I'll just have be more basic, as to avoid the headache of implementing it the way I initially wanted, eventually but not for v1.0 atleast.
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
             if (ObjTexArchive == 205)
             {
-                if (ObjTexRecord >= 1 && ObjTexRecord <= 7) { items = null; desc = "You see a large glass bottle filled with an unknown liquid."; }
-                else if (ObjTexRecord >= 11 && ObjTexRecord <= 16) { items = null; desc = "You see a glass bottle filled with an unknown liquid."; }
-                else if (ObjTexRecord == 31) { items = null; desc = "You see a bunch of glass bottles filled with unknown liquids."; }
-                else if (ObjTexRecord >= 32 && ObjTexRecord <= 35) { items = null; desc = "You see a glass bottle filled with an unknown liquid."; }
-                else if (ObjTexRecord == 43) { items = null; desc = "You see a small glass bottle filled with an unknown liquid."; }
+                if (ObjTexRecord >= 1 && ObjTexRecord <= 7) { items.Add(CreateRandomPotionItems()); desc = "You see a large glass bottle filled with an unknown liquid."; }
+                else if (ObjTexRecord >= 11 && ObjTexRecord <= 16) { items.Add(CreateRandomPotionItems()); desc = "You see a glass bottle filled with an unknown liquid."; }
+                else if (ObjTexRecord == 31)
+                {
+                    int amount = 5;
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(CreateRandomPotionItems());
+                    }
+                    desc = "You see a bunch of glass bottles filled with unknown liquids.";
+                }
+                else if (ObjTexRecord >= 32 && ObjTexRecord <= 35) { items.Add(CreateRandomPotionItems()); desc = "You see a glass bottle filled with an unknown liquid."; }
+                else if (ObjTexRecord == 43) { items.Add(CreateRandomPotionItems()); desc = "You see a small glass bottle filled with an unknown liquid."; }
             }
             else if (ObjTexArchive == 208)
             {
-                if (ObjTexRecord == 2) { items = null; desc = "You see a glass bottle filled with an unknown liquid, being heated by a flame."; }
+                if (ObjTexRecord == 2) { items.Add(CreateRandomPotionItems()); desc = "You see a glass bottle filled with an unknown liquid, being heated by a flame."; }
             }
             else if (ObjTexArchive == 253)
             {
-                if (ObjTexRecord >= 4 && ObjTexRecord <= 6) { items = null; desc = "You see a glass bottle filled with an unknown liquid."; }
-                else if (ObjTexRecord >= 25 && ObjTexRecord <= 27) { items = null; desc = "You see a glass bottle filled with an unknown liquid."; }
-                else if (ObjTexRecord == 40) { items = null; desc = "You see a large glass bottle filled with an unknown liquid."; }
-                else if (ObjTexRecord == 41) { items = null; desc = "You see a glass bottle filled with an unknown liquid, being heated by a flame."; }
-                else if (ObjTexRecord >= 42 && ObjTexRecord <= 47) { items = null; desc = "You see a large glass bottle filled with an unknown liquid."; }
-                else if (ObjTexRecord == 48) { items = null; desc = "You see a glass bottle filled with an unknown liquid, being heated by a flame."; }
+                if (ObjTexRecord >= 4 && ObjTexRecord <= 6) { items.Add(CreateRandomPotionItems()); desc = "You see a glass bottle filled with an unknown liquid."; }
+                else if (ObjTexRecord >= 25 && ObjTexRecord <= 27) { items.Add(CreateRandomPotionItems()); desc = "You see a glass bottle filled with an unknown liquid."; }
+                else if (ObjTexRecord == 40) { items.Add(CreateRandomPotionItems()); desc = "You see a large glass bottle filled with an unknown liquid."; }
+                else if (ObjTexRecord == 41) { items.Add(CreateRandomPotionItems()); desc = "You see a glass bottle filled with an unknown liquid, being heated by a flame."; }
+                else if (ObjTexRecord >= 42 && ObjTexRecord <= 47) { items.Add(CreateRandomPotionItems()); desc = "You see a large glass bottle filled with an unknown liquid."; }
+                else if (ObjTexRecord == 48) { items.Add(CreateRandomPotionItems()); desc = "You see a glass bottle filled with an unknown liquid, being heated by a flame."; }
             }
         }
 
-        public static void DeterminePaperScrollStackType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DeterminePaperScrollStackType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false) // This is where alot of the flavor text and various other efforts are likely going to go into, so get comfy being around here for awhile...
         {
-            items = new List<DaggerfallUnityItem>();
+            items = new List<DaggerfallUnityItem>(); // Likely start work on this tomorrow, will see.
             desc = "";
             if (ObjTexArchive == 209)
             {
@@ -802,8 +810,8 @@ namespace Kleptomania
             desc = "";
             if (ObjTexArchive == 216)
             {
-                if (ObjTexRecord >= 6) { items = null; desc = "You see a gold crown."; } // Start work back here tomorrow most likely.
-                else if (ObjTexRecord == 7) { items = null; desc = "You see a silver crown."; }
+                if (ObjTexRecord >= 6) { items.Add(CreateRandomCrownItems()); desc = "You see a gold crown."; }
+                else if (ObjTexRecord == 7) { items.Add(CreateRandomCrownItems()); desc = "You see a silver crown."; }
             }
         }
 
@@ -813,8 +821,8 @@ namespace Kleptomania
             desc = "";
             if (ObjTexArchive == 216)
             {
-                if (ObjTexRecord >= 8) { items = null; desc = "You see a silver tiara."; }
-                else if (ObjTexRecord == 9) { items = null; desc = "You see a gold tiara."; }
+                if (ObjTexRecord >= 8) { items.Add(CreateRandomTiaraItems()); desc = "You see a silver tiara."; }
+                else if (ObjTexRecord == 9) { items.Add(CreateRandomTiaraItems()); desc = "You see a gold tiara."; }
             }
         }
     }
