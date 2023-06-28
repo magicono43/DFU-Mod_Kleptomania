@@ -905,6 +905,27 @@ namespace Kleptomania
 
             return item;
         }
+
+        public static DaggerfallUnityItem CreateRandomPotionRecipe()
+        {
+            DaggerfallUnityItem item = null;
+            int recipeIdx = UnityEngine.Random.Range(0, DaggerfallWorkshop.Game.MagicAndEffects.PotionRecipe.classicRecipeKeys.Length);
+            int recipeKey = DaggerfallWorkshop.Game.MagicAndEffects.PotionRecipe.classicRecipeKeys[recipeIdx];
+            item = new DaggerfallUnityItem(ItemGroups.MiscItems, 4) { PotionRecipeKey = recipeKey };
+            return item;
+        }
+
+        public static DaggerfallUnityItem CreateRandomLetterofCredit(int min, int max)
+        {
+            DaggerfallUnityItem item = null;
+            int amount = UnityEngine.Random.Range(min, max + 1);
+            if (amount > 0)
+            {
+                item = ItemBuilder.CreateItem(ItemGroups.MiscItems, (int)MiscItems.Letter_of_credit);
+                item.value = KleptomaniaMain.RolePlayRealismLootRebalanceCheck ? UnityEngine.Mathf.CeilToInt(amount / 3f) : amount;
+            }
+            return item;
+        }
     }
 }
 
