@@ -3,6 +3,8 @@ using DaggerfallWorkshop.Game;
 using DaggerfallConnect;
 using DaggerfallWorkshop;
 using DaggerfallConnect.Arena2;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Kleptomania
 {
@@ -178,6 +180,10 @@ namespace Kleptomania
             DFLocation.BuildingTypes buildingType = GameManager.Instance.PlayerEnterExit.BuildingDiscoveryData.buildingType;
             PlayerGPS.DiscoveredBuilding buildingData = GameManager.Instance.PlayerEnterExit.BuildingDiscoveryData;
 
+            List<string> genShopListItems = new List<string>();
+
+            if (type == 1) { genShopListItems = GetGeneralShoppingListItems(); }
+
             if (GameManager.Instance.PlayerEnterExit.IsPlayerInside)
             {
                 if (IsValidShop(buildingType))
@@ -185,8 +191,13 @@ namespace Kleptomania
                     switch (buildingType)
                     {
                         case DFLocation.BuildingTypes.Alchemist:
-                            if (type == 1) { } // Somehow will choose what specific letter type and format gets used. Maybe continue work on this tomorrow to get a better idea how this will all be broken down.
-                            else if (type == 2) { }
+                            if (type == 1)
+                            {
+                                List<string> alchShopListItems = new List<string>() { "Four", "Five" };
+                                genShopListItems.Concat(alchShopListItems);
+                                PickListsLogic(1);
+                            }
+                            else if (type == 2) { } // Somehow will choose what specific letter type and format gets used. Maybe continue work on this tomorrow to get a better idea how this will all be broken down.
                             else if (type == 3) { }
                             else if (type == 4) { }
                             else if (type == 5) { }
@@ -247,6 +258,15 @@ namespace Kleptomania
                 {
                     return;
                 }
+            }
+        }
+
+        public static void PickListsLogic(int type)
+        {
+            if (type == 1)
+            {
+                if (CoinFlip()) { PopulateShoppingList(); }
+                else { PopulateToDoList(); }
             }
         }
 
