@@ -51,13 +51,55 @@ namespace Kleptomania
 
         public static string RandomFishName()
         {
+            string[] names = { "Salmon", "Tuna", "Cod", "Trout", "Sardine", "Mackerel", "Halibut", "Snapper", "Bass", "Catfish", "Haddock", "Swordfish", "Mahi Mahi", "Grouper", "Perch", "Pike", "Flounder",
+                "Tilapia", "Anchovy", "Trout", "Pollock", "Yellowtail", "Sea Bass", "Herring" };
+            return names[UnityEngine.Random.Range(0, names.Length + 1)]; // Might cause "index out of range" but will see with testing.
+        }
+
+        public static string RandomShellfishName()
+        {
+            string[] names = { "Shrimp", "Lobster", "Crab", "Crayfish", "Prawn", "Mussels", "Clams", "Oysters", "Scallops", "Squid", "Octopus", "Crab", "Scampi", "Crawfish", "Lobster" };
+            return names[UnityEngine.Random.Range(0, names.Length + 1)]; // Might cause "index out of range" but will see with testing.
+        }
+
+        public static string RandomFruitName()
+        {
+            string[] names = { "Apples", "Bananas", "Oranges", "Mandarins", "Grapes", "Strawberries", "Blueberries", "Raspberries", "Blackberries", "Mangos", "Pineapple", "Watermelon", "Cantaloupe", "Honeydew",
+                "Kiwis", "Peaches", "Plums", "Pears", "Cherries", "Lemons", "Limes", "Grapefruits", "Pomegranate", "Coconuts", "Avocados", "Figs", "Papaya", "Apricots", "Nectarines", "Guavas", "Passion Fruits",
+                "Lychees", "Cranberries", "Blackcurrants", "Raisins", "Dates", "Persimmons", "Mulberries", "Dragon Fruit", "Pawpaws", "Quinces", "Star Fruit" };
+            return names[UnityEngine.Random.Range(0, names.Length + 1)]; // Might cause "index out of range" but will see with testing.
+        }
+
+        public static string RandomVegetableName()
+        {
+            string[] names = { "Carrots", "Tomatos", "Cucumber", "Lettuce", "Broccoli", "Cauliflower", "Spinach", "Cabbage", "Bell Pepper", "Zucchini", "Eggplant", "Onions", "Garlic", "Potatoes", "Sweet Potatoes",
+                "Pumpkin", "Butternut Squash", "Acorn Squash", "Brussels Sprouts", "Asparagus", "Green Beans", "Peas", "Corn", "Radish", "Celery", "Mushroom", "Artichoke", "Beets", "Turnips", "Okra", "Leek",
+                "Celeriac", "Jicama", "Kohlrabi", "Watercress", "Arugula", "Endive", "Rhubarb" };
+            return names[UnityEngine.Random.Range(0, names.Length + 1)]; // Might cause "index out of range" but will see with testing.
+        }
+
+        public static string RandomNutName()
+        {
+            string[] names = { "Almonds", "Peanuts", "Cashews", "Walnuts", "Pistachios", "Hazelnuts", "Macadamia Nuts", "Pecans", "Chestnuts", "Pine Nuts", "Hickory Nuts", "Flaxseeds", "Sunflower Seeds" };
+            return names[UnityEngine.Random.Range(0, names.Length + 1)]; // Might cause "index out of range" but will see with testing.
+        }
+
+        public static string RandomSpiceName()
+        {
+            string[] names = { "Cinnamon", "Cumin", "Turmeric", "Paprika", "Black Pepper", "Cloves", "Nutmeg", "Ginger", "Garlic Powder", "Onion Powder", "Chili Powder", "Cayenne Pepper", "Bay Leaf", "Fennel Seeds",
+                "Mustard Seeds", "Dill", "Thyme", "Rosemary", "Basil", "Oregano", "Parsley", "Sage", "Saffron", "Curry Powder" };
+            return names[UnityEngine.Random.Range(0, names.Length + 1)]; // Might cause "index out of range" but will see with testing.
+        }
+
+        public static string RandomBakingSupplyName()
+        {
             string[] names = { "" };
             return names[UnityEngine.Random.Range(0, names.Length + 1)]; // Might cause "index out of range" but will see with testing.
         }
 
         public static List<string> GetGeneralShoppingListItems() // Continue work on filling these out tomorrow or next time.
         {
-            return new List<string> { RandomBreadName(), RandomMilkName(), RandomEggName(), RandomFatName(), RandomCheeseName(), RandomMeatName(), RandomFishName(), "Tobacco" }; // Add method to select a potential random list of alcohol, meats, drugs, fruits, vegetables, nuts, etc.
+            return new List<string> { RandomBreadName(), RandomMilkName(), RandomEggName(), RandomFatName(), RandomCheeseName(), RandomMeatName(), RandomFishName(), RandomShellfishName(), RandomFruitName(), RandomVegetableName(), RandomNutName(), RandomSpiceName(), RandomBakingSupplyName(), "Tobacco" }; // Add method to select a potential random list of alcohol, drugs, etc.
         }
     }
 }
