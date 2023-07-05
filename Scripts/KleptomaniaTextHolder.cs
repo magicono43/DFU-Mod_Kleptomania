@@ -86,20 +86,106 @@ namespace Kleptomania
 
         public static string RandomSpiceName()
         {
-            string[] names = { "Cinnamon", "Cumin", "Turmeric", "Paprika", "Black Pepper", "Cloves", "Nutmeg", "Ginger", "Garlic Powder", "Onion Powder", "Chili Powder", "Cayenne Pepper", "Bay Leaf", "Fennel Seeds",
-                "Mustard Seeds", "Dill", "Thyme", "Rosemary", "Basil", "Oregano", "Parsley", "Sage", "Saffron", "Curry Powder" };
+            string[] names = { "Salt", "Cinnamon", "Cumin", "Turmeric", "Paprika", "Black Pepper", "Cloves", "Nutmeg", "Ginger", "Garlic Powder", "Onion Powder", "Chili Powder", "Cayenne Pepper", "Bay Leaf",
+                "Fennel Seeds", "Mustard Seeds", "Dill", "Thyme", "Rosemary", "Basil", "Oregano", "Parsley", "Sage", "Saffron", "Curry Powder" };
             return names[UnityEngine.Random.Range(0, names.Length + 1)]; // Might cause "index out of range" but will see with testing.
         }
 
         public static string RandomBakingSupplyName()
         {
-            string[] names = { "" };
+            string[] names = { "Flour", "Sugar", "Baking Powder", "Baking Soda", "Vanilla Extract", "Yeast", "Cocoa Powder", "Honey", "Cornstarch", "Cream of Tartar", "Powdered Sugar", "Chocolate", "Oats",
+                "Corn Syrup", "Maple Syrup" };
+            return names[UnityEngine.Random.Range(0, names.Length + 1)]; // Might cause "index out of range" but will see with testing.
+        }
+
+        public static string RandomDrinkName()
+        {
+            string[] names = { "Coffee", "Black Tea", "Green Tea", "White Tea", "Herbal Tea", "Chamomile Tea", "Peppermint Tea", "Jasmine Tea", "Hibiscus Tea", "Lavender Tea", "Ginseng Tea", "Mint Tea",
+                "Nettle Tea", "Fennel Tea", "Dandelion Tea" };
+            return names[UnityEngine.Random.Range(0, names.Length + 1)]; // Might cause "index out of range" but will see with testing.
+        }
+
+        public static string RandomAlcoholName()
+        {
+            string[] names = { "Beer", "Mead", "Ale", "Lager", "Stout", "Moonshine", "Cider", "Liqueur", "Tonic", "Champagne", "Spirits", "Port", "Vodka", "Gin", "Rum", "Tequila", "Whiskey", "Bourbon",
+                "Scotch", "Brandy", "Red Wine", "White Wine", "Sake", "Mazte", "Greef", "Jagga", "Klef", "Sujamma", "Flin", "Shein", "Theilul" };
+            return names[UnityEngine.Random.Range(0, names.Length + 1)]; // Might cause "index out of range" but will see with testing.
+        }
+
+        public static string RandomDrugName()
+        {
+            string[] names = { "Skooma", "Moon Sugar", "Tobacco", "Snuff", "Incense of Mara", "Indulcet", "Sursum", "Quaesto Vil", "Aegrotat" };
             return names[UnityEngine.Random.Range(0, names.Length + 1)]; // Might cause "index out of range" but will see with testing.
         }
 
         public static List<string> GetGeneralShoppingListItems() // Continue work on filling these out tomorrow or next time.
         {
-            return new List<string> { RandomBreadName(), RandomMilkName(), RandomEggName(), RandomFatName(), RandomCheeseName(), RandomMeatName(), RandomFishName(), RandomShellfishName(), RandomFruitName(), RandomVegetableName(), RandomNutName(), RandomSpiceName(), RandomBakingSupplyName(), "Tobacco" }; // Add method to select a potential random list of alcohol, drugs, etc.
+            int listSize = UnityEngine.Random.Range(3, 14);
+            List<int> groupsPicked = new List<int>();
+            List<string> listItems = new List<string>();
+
+            for (int i = 0; i < listSize; i++)
+            {
+                int retries = 0;
+                bool nextLoop = false;
+                int randGroup = 0;
+                string itemName = "";
+
+                do
+                {
+                    randGroup = UnityEngine.Random.Range(1, 17);
+                    retries++;
+
+                    if (retries > 10) { nextLoop = true; break; }
+                } while (CountGroupRepeats(groupsPicked, randGroup) >= 2);
+
+                if (nextLoop) { continue; }
+
+                itemName = GetRandomWordFromGroup(randGroup);
+
+                // Continue working here tomorrow. Where I might try to do a similar "do-while" loop as the above, but instead to check for repeated string entries, to prevent repeated list items in a shopping list, etc.
+
+                groupsPicked.Add(randGroup);
+            }
+
+            return listItems;
+        }
+
+        public static int CountGroupRepeats(List<int> numbers, int number)
+        {
+            int count = 0;
+            foreach (int num in numbers)
+            {
+                if (num == number)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public static string GetRandomWordFromGroup(int groupNum)
+        {
+            switch (groupNum)
+            {
+                case 1: return RandomBreadName();
+                case 2: return RandomMilkName();
+                case 3: return RandomEggName();
+                case 4: return RandomFatName();
+                case 5: return RandomCheeseName();
+                case 6: return RandomMeatName();
+                case 7: return RandomFishName();
+                case 8: return RandomShellfishName();
+                case 9: return RandomFruitName();
+                case 10: return RandomVegetableName();
+                case 11: return RandomNutName();
+                case 12: return RandomSpiceName();
+                case 13: return RandomBakingSupplyName();
+                case 14: return RandomDrinkName();
+                case 15: return RandomAlcoholName();
+                case 16: return RandomDrugName();
+                default: return "";
+            }
         }
     }
 }
