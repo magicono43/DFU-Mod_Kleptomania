@@ -5,6 +5,8 @@ using DaggerfallWorkshop.Game.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using DaggerfallWorkshop.Game;
+using DaggerfallWorkshop;
+using DaggerfallConnect.Arena2;
 
 namespace Kleptomania
 {
@@ -118,7 +120,41 @@ namespace Kleptomania
             return names[UnityEngine.Random.Range(0, names.Length + 1)]; // Might cause "index out of range" but will see with testing.
         }
 
-        public static List<string> GetGeneralShoppingListItems() // Continue work on filling these out tomorrow or next time.
+        public static TextFile.Token[] TextTokenFromRawString(string rawString) // Start work on this tomorrow, that being setting up the actual "letter" part read by the player. In this case for the shopping lists, likely have a "header" in some cases, then the main-body of the list afterward under that, then maybe a "footer" below that similar to the header in some cases. Will see tomorrow how exactly I plan on doing that.
+        {
+            var listOfCompLines = new List<string>();
+            int partLength = 115;
+            if (!DaggerfallUnity.Settings.SDFFontRendering)
+                partLength = 65;
+            string sentence = rawString;
+            string[] words = sentence.Split(' ');
+            var parts = new Dictionary<int, string>();
+            string part = string.Empty;
+            int partCounter = 0;
+            foreach (var word in words)
+            {
+                if (part.Length + word.Length < partLength)
+                {
+                    part += string.IsNullOrEmpty(part) ? word : " " + word;
+                }
+                else
+                {
+                    parts.Add(partCounter, part);
+                    part = word;
+                    partCounter++;
+                }
+            }
+            parts.Add(partCounter, part);
+
+            foreach (var item in parts)
+            {
+                listOfCompLines.Add(item.Value);
+            }
+
+            return DaggerfallUnity.Instance.TextProvider.CreateTokens(TextFile.Formatting.JustifyCenter, listOfCompLines.ToArray());
+        }
+
+        public static List<string> GetGeneralShoppingListItems()
         {
             int listSize = UnityEngine.Random.Range(3, 14);
             List<int> groupsPicked = new List<int>();
@@ -137,17 +173,25 @@ namespace Kleptomania
                     retries++;
 
                     if (retries > 10) { nextLoop = true; break; }
-                } while (CountGroupRepeats(groupsPicked, randGroup) >= 2);
+                } while (CountGroupRepeats(groupsPicked, randGroup) > 1);
 
                 if (nextLoop) { continue; }
+                retries = 0;
 
-                itemName = GetRandomWordFromGroup(randGroup);
+                do
+                {
+                    itemName = GetRandomWordFromGroup(randGroup);
+                    retries++;
 
-                // Continue working here tomorrow. Where I might try to do a similar "do-while" loop as the above, but instead to check for repeated string entries, to prevent repeated list items in a shopping list, etc.
+                    if (retries > 10) { nextLoop = true; break; }
+                } while (CheckWordRepeats(listItems, itemName));
+
+                if (nextLoop) { continue; }
+                if (itemName == "") { continue; }
 
                 groupsPicked.Add(randGroup);
+                listItems.Add(itemName);
             }
-
             return listItems;
         }
 
@@ -162,6 +206,18 @@ namespace Kleptomania
                 }
             }
             return count;
+        }
+
+        public static bool CheckWordRepeats(List<string> words, string word)
+        {
+            foreach (string wrd in words)
+            {
+                if (wrd == word)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static string GetRandomWordFromGroup(int groupNum)
