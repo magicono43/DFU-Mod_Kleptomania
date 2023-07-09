@@ -195,7 +195,9 @@ namespace Kleptomania
                             {
                                 List<string> alchShopListItems = new List<string>() { "Four", "Five" };
                                 genShopListItems.Concat(alchShopListItems);
-                                PickListsLogic(1);
+                                TextFile.Token[] genShoppingListToken = TextTokenFromRawStringHeads(GetShopListHeader(), genShopListItems, GetShopListFooter());
+                                // Tomorrow for testing actually have the above token be put into the message/textbox to be read? Will see.
+                                //PickListsLogic(1);
                             }
                             else if (type == 2) { } // Somehow will choose what specific letter type and format gets used. Maybe continue work on this tomorrow to get a better idea how this will all be broken down.
                             else if (type == 3) { }

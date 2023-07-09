@@ -120,6 +120,99 @@ namespace Kleptomania
             return names[UnityEngine.Random.Range(0, names.Length + 1)]; // Might cause "index out of range" but will see with testing.
         }
 
+        public static TextFile.Token[] TextTokenFromRawStringHeads(string header, List<string> body, string footer)
+        {
+            // So tomorrow or next time I work on this. I want to try and test this in-game to see if it is actually working as I'm sort of expecting, but will just have to see.
+
+            var listOfCompLines = new List<string>();
+            int partLength = 80;
+            string[] headerWords = header.Split(' ');
+            string[] footerWords = footer.Split(' ');
+            var parts = new Dictionary<int, string>();
+            string part = string.Empty;
+            int partCounter = 0;
+
+            if (header != "")
+            {
+                foreach (var word in headerWords)
+                {
+                    if (part.Length + word.Length < partLength)
+                    {
+                        part += string.IsNullOrEmpty(part) ? word : " " + word;
+                    }
+                    else
+                    {
+                        parts.Add(partCounter, part);
+                        part = word;
+                        partCounter++;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    parts.Add(partCounter, "");
+                    partCounter++;
+                }
+            }
+            parts.Add(partCounter, part);
+            part = string.Empty;
+
+            if (body.Count > 0)
+            {
+                foreach (var word in body)
+                {
+                    parts.Add(partCounter, part);
+                    part = word;
+                    partCounter++;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    parts.Add(partCounter, "");
+                    partCounter++;
+                }
+            }
+            parts.Add(partCounter, part);
+            part = string.Empty;
+
+            if (footer != "")
+            {
+                foreach (var word in footerWords)
+                {
+                    if (part.Length + word.Length < partLength)
+                    {
+                        part += string.IsNullOrEmpty(part) ? word : " " + word;
+                    }
+                    else
+                    {
+                        parts.Add(partCounter, part);
+                        part = word;
+                        partCounter++;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    parts.Add(partCounter, "");
+                    partCounter++;
+                }
+            }
+            parts.Add(partCounter, part);
+
+            foreach (var item in parts)
+            {
+                listOfCompLines.Add(item.Value);
+            }
+
+            return DaggerfallUnity.Instance.TextProvider.CreateTokens(TextFile.Formatting.JustifyCenter, listOfCompLines.ToArray());
+        }
+
         public static TextFile.Token[] TextTokenFromRawString(string rawString) // Start work on this tomorrow, that being setting up the actual "letter" part read by the player. In this case for the shopping lists, likely have a "header" in some cases, then the main-body of the list afterward under that, then maybe a "footer" below that similar to the header in some cases. Will see tomorrow how exactly I plan on doing that.
         {
             var listOfCompLines = new List<string>();
@@ -152,6 +245,24 @@ namespace Kleptomania
             }
 
             return DaggerfallUnity.Instance.TextProvider.CreateTokens(TextFile.Formatting.JustifyCenter, listOfCompLines.ToArray());
+        }
+
+        public static string GetShopListHeader()
+        {
+            if (CoinFlip()) { return ""; }
+            else
+            {
+                return "What I Need from the Store";
+            }
+        }
+
+        public static string GetShopListFooter()
+        {
+            if (CoinFlip()) { return ""; }
+            else
+            {
+                return "Don't Forget The Stuff Again This Week";
+            }
         }
 
         public static List<string> GetGeneralShoppingListItems()
