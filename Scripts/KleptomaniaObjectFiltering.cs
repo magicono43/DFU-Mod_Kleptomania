@@ -310,7 +310,7 @@ namespace Kleptomania
             float totalWeight = 0f;
             int nonNullCount = 0;
 
-            if (items.Count < 1) { return; }
+            if (items == null || items.Count < 1) { return; }
 
             for (int i = 0; i < items.Count; i++)
             {
@@ -412,14 +412,14 @@ namespace Kleptomania
             desc = "";
             if (ObjTexArchive == 209)
             {
-                if (ObjTexRecord >= 5) { items = null; desc = "You see a piece of parchment.";}
+                if (ObjTexRecord == 5) { items = null; desc = "You see a piece of parchment.";}
                 else if (ObjTexRecord == 6) { items = null; desc = "You see a stack of papers."; }
-                else if (ObjTexRecord >= 7 && ObjTexRecord <= 8) { items = null; desc = "You see a piece of parchment."; }
+                else if (ObjTexRecord >= 7 && ObjTexRecord <= 8) { items = null; desc = "You see a piece of parchment."; ShopListPickUpTesting(); }
                 else if (ObjTexRecord == 10) { items = null; desc = "You see a stack of papers."; }
             }
             else if (ObjTexArchive == 253)
             {
-                if (ObjTexRecord >= 53) { items = null; desc = "You see a piece of parchment."; }
+                if (ObjTexRecord == 53) { items = null; desc = "You see a piece of parchment."; }
                 else if (ObjTexRecord == 56) { items = null; desc = "You see a piece of parchment."; }
                 else if (ObjTexRecord == 64) { items = null; desc = "You see a stack of papers."; }
                 else if (ObjTexRecord == 74) { items = null; desc = "You see a piece of parchment."; }

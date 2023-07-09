@@ -5,6 +5,7 @@ using DaggerfallWorkshop;
 using DaggerfallConnect.Arena2;
 using System.Collections.Generic;
 using System.Linq;
+using DaggerfallWorkshop.Game.UserInterfaceWindows;
 
 namespace Kleptomania
 {
@@ -175,6 +176,18 @@ namespace Kleptomania
             else { ChooseSpecificBuildingLetter(0); } // Personal
         }
 
+        public static void ShopListPickUpTesting()
+        {
+            List<string> genShopListItems = GetGeneralShoppingListItems();
+            TextFile.Token[] genShoppingListToken = TextTokenFromRawStringHeads(GetShopListHeader(), genShopListItems, GetShopListFooter());
+
+            // Show a simple textbox pop-up
+            DaggerfallMessageBox textBox = new DaggerfallMessageBox(DaggerfallUI.UIManager, DaggerfallUI.UIManager.TopWindow);
+            textBox.SetTextTokens(genShoppingListToken);
+            textBox.ClickAnywhereToClose = true;
+            textBox.Show();
+        }
+
         public static void ChooseSpecificBuildingLetter(int type)
         {
             DFLocation.BuildingTypes buildingType = GameManager.Instance.PlayerEnterExit.BuildingDiscoveryData.buildingType;
@@ -267,8 +280,8 @@ namespace Kleptomania
         {
             if (type == 1)
             {
-                if (CoinFlip()) { PopulateShoppingList(); }
-                else { PopulateToDoList(); }
+                //if (CoinFlip()) { PopulateShoppingList(); }
+                //else { PopulateToDoList(); }
             }
         }
 
