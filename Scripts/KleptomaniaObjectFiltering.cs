@@ -414,7 +414,7 @@ namespace Kleptomania
             {
                 if (ObjTexRecord == 5) { items = null; desc = "You see a piece of parchment.";}
                 else if (ObjTexRecord == 6) { items = null; desc = "You see a stack of papers."; }
-                else if (ObjTexRecord >= 7 && ObjTexRecord <= 8) { items = null; desc = "You see a piece of parchment."; ShopListPickUpTesting(); }
+                else if (ObjTexRecord >= 7 && ObjTexRecord <= 8) { items = null; desc = "You see a piece of parchment."; }
                 else if (ObjTexRecord == 10) { items = null; desc = "You see a stack of papers."; }
             }
             else if (ObjTexArchive == 253)
