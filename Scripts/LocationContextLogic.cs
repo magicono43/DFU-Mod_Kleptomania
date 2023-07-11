@@ -36,34 +36,53 @@ namespace Kleptomania
                     switch (buildingType)
                     {
                         case DFLocation.BuildingTypes.Alchemist:
-                            if (roll >= 30 && ObjTexRecord <= 69) { item = KMItemBuilder.CreateRandomPotionRecipe(); }
-                            else if (roll >= 70 && ObjTexRecord <= 96) { } // Flavor text note/letter or quest thing.
+                            if (roll >= 65 && ObjTexRecord <= 96) { item = KMItemBuilder.CreateRandomPotionRecipe(); }
                             else if (roll >= 97 && ObjTexRecord <= 100) { item = KMItemBuilder.CreateRandomLetterofCredit(750, 1500); }
                             else { item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Parchment); }
                             break;
                         case DFLocation.BuildingTypes.Armorer:
-                            break;
                         case DFLocation.BuildingTypes.WeaponSmith:
+                            if (roll >= 91 && ObjTexRecord <= 100) { item = KMItemBuilder.CreateRandomLetterofCredit(1500, 3500); }
+                            else { item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Parchment); }
                             break;
                         case DFLocation.BuildingTypes.GeneralStore:
+                            if (roll >= 72 && ObjTexRecord <= 94) { item = KMItemBuilder.CreateRandomDungeonMap(); }
+                            else if (roll >= 95 && ObjTexRecord <= 100) { item = KMItemBuilder.CreateRandomLetterofCredit(1250, 2750); }
+                            else { item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Parchment); }
                             break;
                         case DFLocation.BuildingTypes.PawnShop:
+                            if (roll >= 35 && ObjTexRecord <= 60) { item = KMItemBuilder.CreateRandomPotionRecipe(); }
+                            else if (roll >= 61 && ObjTexRecord <= 95) { item = KMItemBuilder.CreateRandomDungeonMap(); }
+                            else if (roll >= 96 && ObjTexRecord <= 100) { item = KMItemBuilder.CreateRandomLetterofCredit(1000, 2250); }
+                            else { item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Parchment); }
                             break;
                         case DFLocation.BuildingTypes.GemStore:
+                            if (roll >= 91 && ObjTexRecord <= 100) { item = KMItemBuilder.CreateRandomLetterofCredit(1500, 3000); }
+                            else { item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Parchment); }
                             break;
                         case DFLocation.BuildingTypes.ClothingStore:
+                            if (roll >= 93 && ObjTexRecord <= 100) { item = KMItemBuilder.CreateRandomLetterofCredit(850, 1850); }
+                            else { item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Parchment); }
                             break;
                         case DFLocation.BuildingTypes.Bookseller:
                         case DFLocation.BuildingTypes.Library:
+                            if (roll >= 40 && ObjTexRecord <= 65) { item = KMItemBuilder.CreateRandomPotionRecipe(); }
+                            else if (roll >= 66 && ObjTexRecord <= 97) { item = KMItemBuilder.CreateRandomDungeonMap(); }
+                            else if (roll >= 98 && ObjTexRecord <= 100) { item = KMItemBuilder.CreateRandomLetterofCredit(500, 1000); }
+                            else { item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Parchment); }
                             break;
                         case DFLocation.BuildingTypes.Bank:
+                            if (roll >= 76 && ObjTexRecord <= 100) { item = KMItemBuilder.CreateRandomLetterofCredit(3000, 7000); }
+                            else { item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Parchment); }
                             break;
                         default:
+                            item = ItemBuilder.CreateItem(ItemGroups.UselessItems2, (int)UselessItems2.Parchment);
                             break;
                     }
                 }
                 else if (buildingType == DFLocation.BuildingTypes.Tavern)
                 {
+                    // Continue here tomorrow or next time I work on this I suppose.
                 }
                 else if (buildingType == DFLocation.BuildingTypes.Palace)
                 {

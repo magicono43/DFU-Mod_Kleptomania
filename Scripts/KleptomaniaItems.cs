@@ -915,6 +915,13 @@ namespace Kleptomania
             return item;
         }
 
+        public static DaggerfallUnityItem CreateRandomDungeonMap()
+        {
+            DaggerfallUnityItem item = null;
+            item = new DaggerfallUnityItem(ItemGroups.MiscItems, 8);
+            return item;
+        }
+
         public static DaggerfallUnityItem CreateRandomLetterofCredit(int min, int max)
         {
             DaggerfallUnityItem item = null;
