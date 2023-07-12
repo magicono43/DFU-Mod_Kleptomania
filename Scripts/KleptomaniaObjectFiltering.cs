@@ -408,22 +408,54 @@ namespace Kleptomania
 
         public static void DeterminePaperScrollStackType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false) // This is where alot of the flavor text and various other efforts are likely going to go into, so get comfy being around here for awhile...
         {
-            items = new List<DaggerfallUnityItem>(); // Likely start work on this tomorrow, will see.
+            items = new List<DaggerfallUnityItem>();
             desc = "";
             if (ObjTexArchive == 209)
             {
-                if (ObjTexRecord == 5) { items = null; desc = "You see a piece of parchment.";}
-                else if (ObjTexRecord == 6) { items = null; desc = "You see a stack of papers."; }
-                else if (ObjTexRecord >= 7 && ObjTexRecord <= 8) { items = null; desc = "You see a piece of parchment."; }
-                else if (ObjTexRecord == 10) { items = null; desc = "You see a stack of papers."; }
+                if (ObjTexRecord == 5) { items.Add(GetLetterItemDungeonOrInterior()); desc = "You see a piece of parchment.";}
+                else if (ObjTexRecord == 6)
+                {
+                    int amount = 3;
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(GetLetterItemDungeonOrInterior());
+                    }
+                    desc = "You see a stack of papers.";
+                }
+                else if (ObjTexRecord >= 7 && ObjTexRecord <= 8) { items.Add(GetLetterItemDungeonOrInterior()); desc = "You see a piece of parchment."; }
+                else if (ObjTexRecord == 10)
+                {
+                    int amount = 3;
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(GetLetterItemDungeonOrInterior());
+                    }
+                    desc = "You see a stack of papers.";
+                }
             }
             else if (ObjTexArchive == 253)
             {
-                if (ObjTexRecord == 53) { items = null; desc = "You see a piece of parchment."; }
-                else if (ObjTexRecord == 56) { items = null; desc = "You see a piece of parchment."; }
-                else if (ObjTexRecord == 64) { items = null; desc = "You see a stack of papers."; }
-                else if (ObjTexRecord == 74) { items = null; desc = "You see a piece of parchment."; }
-                else if (ObjTexRecord == 80) { items = null; desc = "You see a stack of papers."; }
+                if (ObjTexRecord == 53) { items.Add(GetLetterItemDungeonOrInterior()); desc = "You see a piece of parchment."; }
+                else if (ObjTexRecord == 56) { items.Add(GetLetterItemDungeonOrInterior()); desc = "You see a piece of parchment."; }
+                else if (ObjTexRecord == 64)
+                {
+                    int amount = 3;
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(GetLetterItemDungeonOrInterior());
+                    }
+                    desc = "You see a stack of papers.";
+                }
+                else if (ObjTexRecord == 74) { items.Add(GetLetterItemDungeonOrInterior()); desc = "You see a piece of parchment."; }
+                else if (ObjTexRecord == 80)
+                {
+                    int amount = 3;
+                    for (int i = 0; i < amount; i++)
+                    {
+                        items.Add(GetLetterItemDungeonOrInterior());
+                    }
+                    desc = "You see a stack of papers.";
+                }
             }
         }
 
