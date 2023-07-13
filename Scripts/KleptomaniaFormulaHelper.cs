@@ -15,21 +15,10 @@ namespace Kleptomania
 {
     public partial class KleptomaniaMain
     {
-        public static int Stren { get { return Player.Stats.LiveStrength - 50; } }
-        public static int Intel { get { return Player.Stats.LiveIntelligence - 50; } }
-        public static int Willp { get { return Player.Stats.LiveWillpower - 50; } }
         public static int Agili { get { return Player.Stats.LiveAgility - 50; } }
-        public static int Endur { get { return Player.Stats.LiveEndurance - 50; } }
-        public static int Speed { get { return Player.Stats.LiveSpeed - 50; } }
         public static int Luck { get { return Player.Stats.LiveLuck - 50; } }
-        public static int LockP { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Lockpicking); } }
         public static int PickP { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Pickpocket); } }
         public static int Sneak { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Stealth); } }
-        public static int Alter { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Alteration); } }
-        public static int Destr { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Destruction); } }
-        public static int Illus { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Illusion); } }
-        public static int Mysti { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Mysticism); } }
-        public static int Thaum { get { return Player.Skills.GetLiveSkillValue(DFCareer.Skills.Thaumaturgy); } }
 
         public static bool DoesThisEncumberPlayer(float itemWeights)
         {
@@ -129,7 +118,13 @@ namespace Kleptomania
 
             if (playerEntity != null)
             {
-                if (IsValidShop(bT) || bT == DFLocation.BuildingTypes.Tavern || IsValidTownHouse(bT) || bT == DFLocation.BuildingTypes.Palace)
+                if (GameManager.Instance.PlayerEnterExit.IsPlayerInsideDungeonCastle) // Not sure if this works, will have to test.
+                {
+                    DaggerfallUI.AddHUDText("You were detected...", 2f); // Won't make rest of castle "guards" hostile, because I don't want to potentially mess with mods like Follower Overhaul, so whatever for now.
+                    GameObjectHelper.CreateFoeSpawner(false, MobileTypes.Knight, 2, 3, 8); // Make 2 instances so maybe they will spawn more quickly?
+                    GameObjectHelper.CreateFoeSpawner(false, MobileTypes.Knight, 2, 3, 8);
+                }
+                else if (IsValidShop(bT) || bT == DFLocation.BuildingTypes.Tavern || IsValidTownHouse(bT) || bT == DFLocation.BuildingTypes.Palace)
                 {
                     DaggerfallUI.AddHUDText("You were detected...", 2f);
                     playerEntity.CrimeCommitted = PlayerEntity.Crimes.Theft;
@@ -186,6 +181,9 @@ namespace Kleptomania
 
         public static bool IsValidCrimeLocation()
         {
+            if (GameManager.Instance.PlayerEnterExit.IsPlayerInsideDungeonCastle) // Not sure if this works, will have to test.
+                return true;
+
             if (GameManager.Instance.PlayerEnterExit.IsPlayerInsideDungeon)
                 return false;
 

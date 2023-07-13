@@ -160,10 +160,10 @@ namespace Kleptomania
                     else if (ObjTexRecord == 63 || ObjTexRecord == 85) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else { return; }
                     break;
-                case 254:
+                /*case 254:
                     if (ObjTexRecord >= 0 && ObjTexRecord <= 71) {} // add whatever appropriate alchemical ingredient iten.
                     else { return; }
-                    break;
+                    break;*/
                 default:
                     return;
             }
@@ -296,9 +296,9 @@ namespace Kleptomania
                     else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { DetermineMiscItemType(out items, out text); }
                     else if (ObjTexRecord == 63 || ObjTexRecord == 85) { DeterminePotUrnJugType(out items, out text, true); }
                     break;
-                case 254:
+                /*case 254:
                     if (ObjTexRecord >= 0 && ObjTexRecord <= 71) { text = "You see an alchemical ingredient."; }
-                    break;
+                    break;*/
                 default:
                     break;
             }
@@ -688,13 +688,13 @@ namespace Kleptomania
             desc = "";
             if (ObjTexArchive == 207)
             {
-                if (ObjTexRecord == 0 || ObjTexRecord == 2 || ObjTexRecord == 3) { items.Add(KMItemBuilder.ChooseRandomWeapon(0)); desc = "You see a sword."; }
-                else if (ObjTexRecord == 1 || ObjTexRecord == 5) { items.Add(KMItemBuilder.ChooseRandomWeapon(1)); desc = "You see a small blade."; }
-                else if (ObjTexRecord == 4) { items.Add(KMItemBuilder.ChooseRandomWeapon(2)); desc = "You see an axe."; }
-                else if (ObjTexRecord == 6) { items.Add(KMItemBuilder.ChooseRandomWeapon(3)); desc = "You see a mace."; }
-                else if (ObjTexRecord == 7) { items.Add(KMItemBuilder.ChooseRandomWeapon(4)); desc = "You see a staff."; }
-                else if (ObjTexRecord == 8) { items.Add(KMItemBuilder.ChooseRandomWeapon(5)); desc = "You see a bow."; }
-                else if (ObjTexRecord == 15) { items.Add(KMItemBuilder.ChooseRandomWeapon(6)); desc = "You see a large sword."; }
+                if (ObjTexRecord == 0 || ObjTexRecord == 2 || ObjTexRecord == 3) { items.Add(ChooseRandomWeapon(0)); desc = "You see a sword."; }
+                else if (ObjTexRecord == 1 || ObjTexRecord == 5) { items.Add(ChooseRandomWeapon(1)); desc = "You see a small blade."; }
+                else if (ObjTexRecord == 4) { items.Add(ChooseRandomWeapon(2)); desc = "You see an axe."; }
+                else if (ObjTexRecord == 6) { items.Add(ChooseRandomWeapon(3)); desc = "You see a mace."; }
+                else if (ObjTexRecord == 7) { items.Add(ChooseRandomWeapon(4)); desc = "You see a staff."; }
+                else if (ObjTexRecord == 8) { items.Add(ChooseRandomWeapon(5)); desc = "You see a bow."; }
+                else if (ObjTexRecord == 15) { items.Add(ChooseRandomWeapon(6)); desc = "You see a large sword."; }
             }
             else if (ObjTexArchive == 211)
             {
@@ -703,7 +703,7 @@ namespace Kleptomania
                     int amount = 3;
                     for (int i = 0; i < amount; i++)
                     {
-                        items.Add(KMItemBuilder.ChooseRandomWeapon(0, -1, true));
+                        items.Add(ChooseRandomWeapon(0, -1, true));
                     }
                     desc = "You see a stack of swords.";
                 }
@@ -716,10 +716,10 @@ namespace Kleptomania
             desc = "";
             if (ObjTexArchive == 207)
             {
-                if (ObjTexRecord == 9) { items.Add(KMItemBuilder.ChooseRandomArmor(0)); desc = "You see a large shield."; }
-                else if (ObjTexRecord == 10) { items.Add(KMItemBuilder.ChooseRandomArmor(1)); desc = "You see a shield."; }
-                else if (ObjTexRecord == 11) { items.Add(KMItemBuilder.ChooseRandomArmor(2)); desc = "You see a piece of chest armor."; }
-                else if (ObjTexRecord == 12 || ObjTexRecord == 14) { items.Add(KMItemBuilder.ChooseRandomArmor(3)); desc = "You see a helmet."; }
+                if (ObjTexRecord == 9) { items.Add(ChooseRandomArmor(0)); desc = "You see a large shield."; }
+                else if (ObjTexRecord == 10) { items.Add(ChooseRandomArmor(1)); desc = "You see a shield."; }
+                else if (ObjTexRecord == 11) { items.Add(ChooseRandomArmor(2)); desc = "You see a piece of chest armor."; }
+                else if (ObjTexRecord == 12 || ObjTexRecord == 14) { items.Add(ChooseRandomArmor(3)); desc = "You see a helmet."; }
             }
         }
 

@@ -1,3 +1,5 @@
+using DaggerfallWorkshop.Game;
+using DaggerfallWorkshop.Game.Entity;
 using DaggerfallWorkshop.Game.Items;
 using DaggerfallWorkshop.Game.Utility;
 
@@ -39,6 +41,126 @@ namespace Kleptomania
 
                 if (item != null && usesCondition) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
             }
+            return item;
+        }
+
+        public static DaggerfallUnityItem ChooseRandomWeapon(int weaponGroup, int templateIndex = -1, bool multiple = false)
+        {
+            int RPRIArchAxeTI = 513;
+            int RPRILigFlailTI = 514;
+
+            int randomValue = 0;
+            DaggerfallUnityItem item = null;
+            float conditionMod = (float)UnityEngine.Random.Range(5, 35 + 1) / 100f;
+
+            if (templateIndex == -1)
+            {
+                if (weaponGroup == 0)
+                {
+                    randomValue = UnityEngine.Random.Range(0, 4);
+                    if (randomValue == 0) { templateIndex = (int)Weapons.Broadsword; }
+                    else if (randomValue == 1) { templateIndex = (int)Weapons.Saber; }
+                    else if (randomValue == 2) { templateIndex = (int)Weapons.Longsword; }
+                    else { templateIndex = (int)Weapons.Katana; }
+                }
+                else if (weaponGroup == 1)
+                {
+                    randomValue = UnityEngine.Random.Range(0, 4);
+                    if (randomValue == 0) { templateIndex = (int)Weapons.Dagger; }
+                    else if (randomValue == 1) { templateIndex = (int)Weapons.Tanto; }
+                    else if (randomValue == 2) { templateIndex = (int)Weapons.Shortsword; }
+                    else { templateIndex = (int)Weapons.Wakazashi; }
+                }
+                else if (weaponGroup == 2)
+                {
+                    if (RolePlayRealismNewWeaponCheck && CoinFlip())
+                    {
+                        item = ItemBuilder.CreateItem(ItemGroups.Weapons, RPRIArchAxeTI);
+                        ItemBuilder.ApplyWeaponMaterial(item, (WeaponMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial());
+                        if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
+                        return item;
+                    }
+                    else { templateIndex = (int)Weapons.Battle_Axe; }
+                }
+                else if (weaponGroup == 3)
+                {
+                    if (RolePlayRealismNewWeaponCheck && CoinFlip())
+                    {
+                        item = ItemBuilder.CreateItem(ItemGroups.Weapons, RPRILigFlailTI);
+                        ItemBuilder.ApplyWeaponMaterial(item, (WeaponMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial());
+                        if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
+                        return item;
+                    }
+                    else { templateIndex = (int)Weapons.Mace; }
+                }
+                else if (weaponGroup == 4)
+                {
+                    templateIndex = (int)Weapons.Staff;
+                }
+                else if (weaponGroup == 5)
+                {
+                    randomValue = UnityEngine.Random.Range(0, 2);
+                    if (randomValue == 0) { templateIndex = (int)Weapons.Short_Bow; }
+                    else { templateIndex = (int)Weapons.Long_Bow; }
+                }
+                else if (weaponGroup == 6)
+                {
+                    randomValue = UnityEngine.Random.Range(0, 2);
+                    if (randomValue == 0) { templateIndex = (int)Weapons.Claymore; }
+                    else { templateIndex = (int)Weapons.Dai_Katana; }
+                }
+                else { return null; }
+            }
+
+            if (multiple)
+            {
+                conditionMod = (float)UnityEngine.Random.Range(5, 20 + 1) / 100f;
+                item = ItemBuilder.CreateWeapon((Weapons)templateIndex, (WeaponMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(true, false, true)); // Will need to test to see if casting "templateIndex" to Weapons will work.
+                if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
+            }
+
+            item = ItemBuilder.CreateWeapon((Weapons)templateIndex, (WeaponMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial()); // Will need to test to see if casting "templateIndex" to Weapons will work.
+            if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
+            return item;
+        }
+
+        public static DaggerfallUnityItem ChooseRandomArmor(int armorGroup, int templateIndex = -1)
+        {
+            int randomValue = 0;
+            DaggerfallUnityItem item = null;
+            Genders gender = GameManager.Instance.PlayerEntity.Gender;
+            Races race = GameManager.Instance.PlayerEntity.Race;
+            float conditionMod = (float)UnityEngine.Random.Range(10, 40 + 1) / 100f;
+
+            if (templateIndex == -1)
+            {
+                if (armorGroup == 0)
+                {
+                    templateIndex = (int)Armor.Tower_Shield;
+                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false, true)); // Will need to test to see if casting "templateIndex" to Armor will work.
+                }
+                else if (armorGroup == 1)
+                {
+                    randomValue = UnityEngine.Random.Range(0, 3);
+                    if (randomValue == 0) { templateIndex = (int)Armor.Buckler; }
+                    else if (randomValue == 1) { templateIndex = (int)Armor.Round_Shield; }
+                    else { templateIndex = (int)Armor.Kite_Shield; }
+                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false, true)); // Will need to test to see if casting "templateIndex" to Armor will work.
+                }
+                else if (armorGroup == 2)
+                {
+                    templateIndex = (int)Armor.Cuirass;
+                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false)); // Will need to test to see if casting "templateIndex" to Armor will work.
+                }
+                else if (armorGroup == 3)
+                {
+                    templateIndex = (int)Armor.Helm;
+                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false)); // Will need to test to see if casting "templateIndex" to Armor will work.
+                }
+                else { return null; }
+            }
+
+            if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
             return item;
         }
 

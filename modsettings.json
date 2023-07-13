@@ -103,13 +103,6 @@
                     "Description": "If Food Items & Cooking Objects, Such As For The Climates & Calories Mod Should Be Interactable/Takeable.",
                     "$version": "v1",
                     "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
-                },
-                {
-                    "Value": false,
-                    "Name": "AlchemyIngredients",
-                    "Description": "If Alchemy Ingredient Related Objects Should Be Interactable/Takeable.",
-                    "$version": "v1",
-                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
                 }
             ],
             "$version": "v1"

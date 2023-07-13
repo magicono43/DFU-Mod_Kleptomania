@@ -7,12 +7,18 @@
     "ModDescription": "Allows Many Previously Purely Decorative Object/Items To Be Interacted With Or Taken With Varying Outcomes",
     "GUID": "9c1c8bd1-fa25-4dcf-9330-364fb9318c65",
     "Files": [
+        "Assets/Game/Mods/DFU-Mod_Kleptomania/ItemTemplates.json",
         "Assets/Game/Mods/DFU-Mod_Kleptomania/modsettings.json",
+        "Assets/Game/Mods/DFU-Mod_Kleptomania/Textures/Grab-Mode_Choice_Menu.png",
+        "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/KleptomaniaItems.cs",
+        "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/ModCompatibilityHelper.cs",
+        "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/KleptomaniaObjectFiltering.cs",
+        "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/LocationContextLogic.cs",
         "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/KleptomaniaMain.cs",
+        "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/KleptomaniaFormulaHelper.cs",
         "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/KleptomaniaStolenMarker.cs",
         "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/KleptomaniaSaveData.cs",
-        "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/GrabModeChoiceWindow.cs",
-        "Assets/Game/Mods/DFU-Mod_Kleptomania/Textures/Grab-Mode_Choice_Menu.png"
+        "Assets/Game/Mods/DFU-Mod_Kleptomania/Scripts/GrabModeChoiceWindow.cs"
     ],
     "Dependencies": []
 }

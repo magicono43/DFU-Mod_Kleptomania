@@ -3,7 +3,7 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Author:          Kirk.O
 // Created On: 	    4/29/2023, 11:20 PM
-// Last Edit:		7/11/2023, 10:50 PM
+// Last Edit:		7/12/2023, 10:10 PM
 // Version:			1.00
 // Special Thanks:  
 // Modifier:
@@ -43,7 +43,7 @@ namespace Kleptomania
         public static bool ToggleJugsPots { get; set; }
         public static bool ToggleLaborTools { get; set; }
         public static bool ToggleFoodAndCooking { get; set; }
-        public static bool ToggleAlchemyIngredients { get; set; }
+        //public static bool ToggleAlchemyIngredients { get; set; }
 
         // Mod Compatibility Check Values
         public static bool RepairToolsCheck { get; set; }
@@ -52,9 +52,7 @@ namespace Kleptomania
         public static bool RealisticWagonCheck { get; set; }
         public static bool SkillBooksCheck { get; set; }
         public static bool RolePlayRealismLootRebalanceCheck { get; set; }
-        public static bool RolePlayRealismBandagingCheck { get; set; }
         public static bool RolePlayRealismNewWeaponCheck { get; set; }
-        public static bool RolePlayRealismNewArmorCheck { get; set; }
 
         // Global Variables
         public static GameObject ClickedObjRef { get; set; }
@@ -372,7 +370,7 @@ namespace Kleptomania
                 RegisterActivationsWithinRange(253, 0, 0, DoNothingActivation);
             }
 
-            if (ToggleAlchemyIngredients)
+            /*if (ToggleAlchemyIngredients)
             {
                 Debug.Log("Kleptomania: Registering Alchemy Ingredients Custom Activators");
                 // Teeth or Fangs:
@@ -380,7 +378,7 @@ namespace Kleptomania
 
                 // Various Ingredients:
                 RegisterActivationsWithinRange(254, 0, 71, DoNothingActivation);
-            }
+            }*/
 
             // Load Resources
             LoadTextures();
@@ -417,7 +415,7 @@ namespace Kleptomania
             ToggleJugsPots = mod.GetSettings().GetValue<bool>("ToggleInteractables", "JugsJarsPots");
             ToggleLaborTools = mod.GetSettings().GetValue<bool>("ToggleInteractables", "LaborTools");
             ToggleFoodAndCooking = mod.GetSettings().GetValue<bool>("ToggleInteractables", "Food&Cooking");
-            ToggleAlchemyIngredients = mod.GetSettings().GetValue<bool>("ToggleInteractables", "AlchemyIngredients");
+            //ToggleAlchemyIngredients = mod.GetSettings().GetValue<bool>("ToggleInteractables", "AlchemyIngredients");
         }
 
         private void ModCompatibilityChecking()
@@ -442,9 +440,7 @@ namespace Kleptomania
             {
                 ModSettings rolePlayRealismSettings = roleplayRealismItems.GetSettings();
                 RolePlayRealismLootRebalanceCheck = rolePlayRealismSettings.GetBool("Modules", "lootRebalance");
-                RolePlayRealismBandagingCheck = rolePlayRealismSettings.GetBool("Modules", "bandaging");
                 RolePlayRealismNewWeaponCheck = rolePlayRealismSettings.GetBool("Modules", "newWeapons");
-                RolePlayRealismNewArmorCheck = rolePlayRealismSettings.GetBool("Modules", "newArmor");
             }
         }
 
