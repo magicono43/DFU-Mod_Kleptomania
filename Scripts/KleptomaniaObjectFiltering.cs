@@ -13,151 +13,150 @@ namespace Kleptomania
         {
             List<DaggerfallUnityItem> items = new List<DaggerfallUnityItem>();
             string text = "";
-            IsThisACrime();
-            GameObject marker = CreateStolenObjectMarker(clickedObj.transform.position, clickedObj.transform.parent);
-            DaggerfallAudioSource dfAudioSource = marker.GetComponent<DaggerfallAudioSource>();
+
+            if (clickedObj == null) { return; }
 
             switch (ObjTexArchive)
             {
                 case 200:
-                    if (ObjTexRecord >= 0 && ObjTexRecord <= 6) { DetermineGobletCupType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 30); }
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 6) { DetermineGobletCupType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 30); }
                     else { return; }
                     break;
                 case 204:
-                    if (ObjTexRecord == 0) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 0); }
-                    else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 2); }
-                    else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 4); }
-                    else if (ObjTexRecord == 9) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 9); }
+                    if (ObjTexRecord == 0) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 0); }
+                    else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 2); }
+                    else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 4); }
+                    else if (ObjTexRecord == 9) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 9); }
                     else { return; }
                     break;
                 case 205:
-                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); }
+                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); }
                     else if (ObjTexRecord == 42)
                     {
                         items.Add(ItemBuilder.CreateWeapon(Weapons.Arrow, WeaponMaterialTypes.Steel));
                         items[0].stackCount = UnityEngine.Random.Range(3, 14);
-                        GeneralItemTakingProcess(items, dfAudioSource, SoundClips.ArrowHit, SoundClips.BodyFall, 207, 16, true);
+                        GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipClothing, SoundClips.BodyFall, 207, 16, true);
                     }
-                    else if (ObjTexRecord == 41) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
-                    else if (ObjTexRecord == 10) { DetermineFishBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
-                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 205, 17); }
+                    else if (ObjTexRecord == 41) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
+                    else if (ObjTexRecord == 10) { DetermineFishBundleType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
+                    else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 205, 17); }
                     else { return; }
                     break;
                 case 207:
-                    if (ObjTexRecord == 0 || ObjTexRecord == 2 || ObjTexRecord == 3) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLongBlade, SoundClips.Parry5, 207, 3); }
-                    else if (ObjTexRecord == 1 || ObjTexRecord == 5) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipShortBlade, SoundClips.Parry7, 207, 5); }
-                    else if (ObjTexRecord == 4) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipAxe, SoundClips.Parry9, 207, 4); }
-                    else if (ObjTexRecord == 6) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.Parry2, 207, 6); }
-                    else if (ObjTexRecord == 7) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.EquipBow, 207, 7); }
-                    else if (ObjTexRecord == 8) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipBow, SoundClips.EquipBow, 207, 8); }
-                    else if (ObjTexRecord == 9) { DetermineArmorItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.BodyFall, 207, 9); }
-                    else if (ObjTexRecord == 10) { DetermineArmorItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.BodyFall, 207, 10); }
-                    else if (ObjTexRecord == 11) { DetermineArmorItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.BodyFall, 207, 11); }
-                    else if (ObjTexRecord == 12 || ObjTexRecord == 14) { DetermineArmorItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.BodyFall, 207, 14); }
-                    else if (ObjTexRecord == 13) { DetermineJewelryItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 207, 13); }
-                    else if (ObjTexRecord == 15) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipTwoHandedBlade, SoundClips.Parry3, 207, 15); }
+                    if (ObjTexRecord == 0 || ObjTexRecord == 2 || ObjTexRecord == 3) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLongBlade, SoundClips.Parry5, 207, 3); }
+                    else if (ObjTexRecord == 1 || ObjTexRecord == 5) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipShortBlade, SoundClips.Parry7, 207, 5); }
+                    else if (ObjTexRecord == 4) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipAxe, SoundClips.Parry9, 207, 4); }
+                    else if (ObjTexRecord == 6) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipFlail, SoundClips.Parry2, 207, 6); }
+                    else if (ObjTexRecord == 7) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.EquipBow, 207, 7); }
+                    else if (ObjTexRecord == 8) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipBow, SoundClips.EquipBow, 207, 8); }
+                    else if (ObjTexRecord == 9) { DetermineArmorItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.BodyFall, 207, 9); }
+                    else if (ObjTexRecord == 10) { DetermineArmorItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.BodyFall, 207, 10); }
+                    else if (ObjTexRecord == 11) { DetermineArmorItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.BodyFall, 207, 11); }
+                    else if (ObjTexRecord == 12 || ObjTexRecord == 14) { DetermineArmorItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.BodyFall, 207, 14); }
+                    else if (ObjTexRecord == 13) { DetermineJewelryItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 207, 13); }
+                    else if (ObjTexRecord == 15) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipTwoHandedBlade, SoundClips.Parry3, 207, 15); }
                     else if (ObjTexRecord == 16)
                     {
                         items.Add(ItemBuilder.CreateWeapon(Weapons.Arrow, WeaponMaterialTypes.Steel));
-                        GeneralItemTakingProcess(items, dfAudioSource, SoundClips.ArrowHit, SoundClips.BodyFall, 207, 16, true);
+                        GeneralItemTakingProcess(items, clickedObj, SoundClips.ArrowHit, SoundClips.BodyFall, 207, 16, true);
                     }
                     else { return; }
                     break;
                 case 208:
-                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); }
-                    else if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.BodyFall, 208, 0); }
-                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 208, 1); }
-                    else if (ObjTexRecord == 3) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.BodyFall, 208, 3); }
-                    else if (ObjTexRecord == 4) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.BodyFall, 208, 4); }
-                    else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 208, 5); }
-                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 208, 6); }
+                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); }
+                    else if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.BodyFall, 208, 0); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 208, 1); }
+                    else if (ObjTexRecord == 3) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.BodyFall, 208, 3); }
+                    else if (ObjTexRecord == 4) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.BodyFall, 208, 4); }
+                    else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 208, 5); }
+                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 208, 6); }
                     else { return; }
                     break;
                 case 209:
-                    if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3); }
-                    else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 8); }
-                    else if (ObjTexRecord == 9) { DetermineJewelryItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 209, 9); }
+                    if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3); }
+                    else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.OpenBook, SoundClips.BodyFall, 209, 8); }
+                    else if (ObjTexRecord == 9) { DetermineJewelryItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 209, 9); }
                     else { return; }
                     break;
                 case 210:
-                    if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 210, 5); } // Might not work to have a normally animated sprite become a loot-pile sprite? Will see.
+                    if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 210, 5); } // Might not work to have a normally animated sprite become a loot-pile sprite? Will see.
                     else { return; }
                     break;
                 case 211:
-                    if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipClothing, 211, 0); }
-                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 1); }
-                    else if (ObjTexRecord == 2) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
-                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) { DetermineFishBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
-                    else if (ObjTexRecord == 12) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLongBlade, SoundClips.Parry5, 211, 12); }
-                    else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.BodyFall, 211, 17); }
-                    else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.EquipStaff, 211, 24); }
-                    else if (ObjTexRecord == 31) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 211, 31); }
-                    else if (ObjTexRecord == 40) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 211, 40); }
-                    else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.EquipStaff, 211, 41); }
-                    else if (ObjTexRecord == 47) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 47); }
-                    else if (ObjTexRecord == 48) { DetermineJewelryItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 48); }
-                    else if (ObjTexRecord == 49) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.SplashSmall, 211, 49); }
-                    else if (ObjTexRecord == 50) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 50); }
-                    else if (ObjTexRecord == 51 || ObjTexRecord == 53) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 51); }
-                    else if (ObjTexRecord == 52) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 52); }
-                    else if (ObjTexRecord == 57) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.BodyFall, 211, 57); }
+                    if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipClothing, SoundClips.EquipClothing, 211, 0); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 1); }
+                    else if (ObjTexRecord == 2) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
+                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) { DetermineFishBundleType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
+                    else if (ObjTexRecord == 12) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLongBlade, SoundClips.Parry5, 211, 12); }
+                    else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.BodyFall, 211, 17); }
+                    else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.EquipStaff, 211, 24); }
+                    else if (ObjTexRecord == 31) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 211, 31); }
+                    else if (ObjTexRecord == 40) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 211, 40); }
+                    else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.EquipStaff, 211, 41); }
+                    else if (ObjTexRecord == 47) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 47); }
+                    else if (ObjTexRecord == 48) { DetermineJewelryItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 48); }
+                    else if (ObjTexRecord == 49) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.SplashSmall, 211, 49); }
+                    else if (ObjTexRecord == 50) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 50); }
+                    else if (ObjTexRecord == 51 || ObjTexRecord == 53) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 51); }
+                    else if (ObjTexRecord == 52) { DetermineReligiousItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 52); }
+                    else if (ObjTexRecord == 57) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.BodyFall, 211, 57); }
                     else { return; }
                     break;
                 case 213:
-                    if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 213, 0); }
-                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 213, 1); }
-                    else if (ObjTexRecord == 6) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
+                    if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 213, 0); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 213, 1); }
+                    else if (ObjTexRecord == 6) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else { return; }
                     break;
                 case 214:
-                    if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 4); }
-                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 1); }
-                    else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipMaceOrHammer, SoundClips.Parry5, 214, 3); }
-                    else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.BodyFall, 214, 5); }
-                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipAxe, SoundClips.Parry3, 214, 6); }
-                    else if (ObjTexRecord == 7) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLongBlade, SoundClips.Parry2, 214, 7); }
-                    else if (ObjTexRecord == 8) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 214, 8); }
-                    else if (ObjTexRecord == 9) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 214, 9); }
-                    else if (ObjTexRecord == 10) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 10); }
-                    else if (ObjTexRecord == 12) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 12); }
-                    else if (ObjTexRecord == 13) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.Parry4, 214, 13); }
-                    else if (ObjTexRecord == 14) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.Parry4, 214, 14); }
-                    else if (ObjTexRecord == 15) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 15); }
+                    if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 4); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 1); }
+                    else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipMaceOrHammer, SoundClips.Parry5, 214, 3); }
+                    else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.BodyFall, 214, 5); }
+                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipAxe, SoundClips.Parry3, 214, 6); }
+                    else if (ObjTexRecord == 7) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLongBlade, SoundClips.Parry2, 214, 7); }
+                    else if (ObjTexRecord == 8) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 214, 8); }
+                    else if (ObjTexRecord == 9) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 214, 9); }
+                    else if (ObjTexRecord == 10) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 10); }
+                    else if (ObjTexRecord == 12) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 12); }
+                    else if (ObjTexRecord == 13) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.Parry4, 214, 13); }
+                    else if (ObjTexRecord == 14) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.Parry4, 214, 14); }
+                    else if (ObjTexRecord == 15) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 15); }
                     else { return; }
                     break;
                 case 216:
-                    if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3); }
-                    else if (ObjTexRecord == 3) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 216, 3); }
-                    else if (ObjTexRecord >= 6 && ObjTexRecord <= 7) { DetermineCrownPieceType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 6); }
-                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 9) { DetermineTiaraPieceType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 9); }
-                    else if (ObjTexRecord >= 10 && ObjTexRecord <= 19) { DetermineGemStonePieceType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 10); }
-                    else if (ObjTexRecord == 21) { DetermineJewelryItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 216, 21); }
-                    else if (ObjTexRecord == 30) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.GoldPieces, SoundClips.AmbientGoldPieces, 216, 1); }
+                    if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3); }
+                    else if (ObjTexRecord == 3) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 216, 3); }
+                    else if (ObjTexRecord >= 6 && ObjTexRecord <= 7) { DetermineCrownPieceType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 6); }
+                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 9) { DetermineTiaraPieceType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 9); }
+                    else if (ObjTexRecord >= 10 && ObjTexRecord <= 19) { DetermineGemStonePieceType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 10); }
+                    else if (ObjTexRecord == 21) { DetermineJewelryItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 216, 21); }
+                    else if (ObjTexRecord == 30) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.GoldPieces, SoundClips.AmbientGoldPieces, 216, 1); }
                     else { return; }
                     break;
                 case 218:
-                    if (ObjTexRecord >= 0 && ObjTexRecord <= 3) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
-                    else if (ObjTexRecord == 4) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.Parry4, 218, 4); }
-                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.EquipStaff, 218, 6); }
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 3) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
+                    else if (ObjTexRecord == 4) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.Parry4, 218, 4); }
+                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.EquipStaff, 218, 6); }
                     else { return; }
                     break;
                 case 253:
-                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); }
-                    else if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3); }
-                    else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.OpenBook, SoundClips.BodyFall, 209, 8); }
-                    else if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 213, 0); }
-                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.GoldPieces, SoundClips.AmbientGoldPieces, 216, 1); }
-                    else if (ObjTexRecord == 2) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipClothing, 211, 0); }
-                    else if (ObjTexRecord == 16) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 0); }
-                    else if (ObjTexRecord == 19) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 210, 5); }
-                    else if (ObjTexRecord == 23 || ObjTexRecord == 24) { DetermineFishBundleType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
-                    else if (ObjTexRecord == 28) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipPlate, SoundClips.BodyFall, 208, 0); }
-                    else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) { DetermineGobletCupType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 30); }
-                    else if (ObjTexRecord == 39) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 1); }
-                    else if (ObjTexRecord == 54) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipJewellery, SoundClips.Parry1, 208, 1); }
-                    else if (ObjTexRecord == 55) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 213, 1); }
-                    else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipLeather, SoundClips.BodyFall, 205, 17); }
-                    else if (ObjTexRecord == 63 || ObjTexRecord == 85) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, dfAudioSource, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
+                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.MakePotion, SoundClips.SplashSmall, 205, 11); }
+                    else if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.OpenBook, SoundClips.BodyFall, 209, 3); }
+                    else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.OpenBook, SoundClips.BodyFall, 209, 8); }
+                    else if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 213, 0); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.GoldPieces, SoundClips.AmbientGoldPieces, 216, 1); }
+                    else if (ObjTexRecord == 2) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipClothing, SoundClips.EquipClothing, 211, 0); }
+                    else if (ObjTexRecord == 16) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 0); }
+                    else if (ObjTexRecord == 19) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 210, 5); }
+                    else if (ObjTexRecord == 23 || ObjTexRecord == 24) { DetermineFishBundleType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
+                    else if (ObjTexRecord == 28) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.BodyFall, 208, 0); }
+                    else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) { DetermineGobletCupType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 30); }
+                    else if (ObjTexRecord == 39) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 1); }
+                    else if (ObjTexRecord == 54) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 208, 1); }
+                    else if (ObjTexRecord == 55) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 213, 1); }
+                    else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 205, 17); }
+                    else if (ObjTexRecord == 63 || ObjTexRecord == 85) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else { return; }
                     break;
                 /*case 254:
@@ -167,7 +166,6 @@ namespace Kleptomania
                 default:
                     return;
             }
-            clickedObj.SetActive(false);
         }
 
         public static string GetItemNameOrDescription() // Suppose I will do something with the "JustText" value later on in the methods, not a big deal atm.
@@ -305,10 +303,12 @@ namespace Kleptomania
             return text;
         }
 
-        public static void GeneralItemTakingProcess(List<DaggerfallUnityItem> items, DaggerfallAudioSource dfAudioSource, SoundClips takeSound = SoundClips.EquipJewellery, SoundClips dropSound = SoundClips.BodyFall, int lootPileArc = -1, int lootPileRec = -1, bool noWeight = false)
+        public static void GeneralItemTakingProcess(List<DaggerfallUnityItem> items, GameObject clickedObj, SoundClips takeSound = SoundClips.EquipJewellery, SoundClips dropSound = SoundClips.BodyFall, int lootPileArc = -1, int lootPileRec = -1, bool noWeight = false)
         {
             float totalWeight = 0f;
             int nonNullCount = 0;
+            GameObject marker = null;
+            DaggerfallAudioSource dfAudioSource = null;
 
             if (items == null || items.Count < 1) { return; }
 
@@ -320,6 +320,10 @@ namespace Kleptomania
             }
 
             if (nonNullCount < 1) { return; }
+
+            IsThisACrime();
+            marker = CreateStolenObjectMarker(clickedObj.transform.position, clickedObj.transform.parent);
+            dfAudioSource = marker.GetComponent<DaggerfallAudioSource>();
 
             if (!noWeight && DoesThisEncumberPlayer(totalWeight))
             {
@@ -341,6 +345,7 @@ namespace Kleptomania
                 }
                 if (dfAudioSource != null) { dfAudioSource.PlayOneShot(takeSound); }
             }
+            clickedObj.SetActive(false);
         }
 
         public static void ShowNameOrDescription()
