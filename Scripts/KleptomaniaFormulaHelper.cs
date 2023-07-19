@@ -95,6 +95,12 @@ namespace Kleptomania
                 if (TheftDetectionCheck(buildingData, buildingType))
                     RegisterDetectedPunishment(buildingData, buildingType);
             }
+            else if (IsValidDungeonLocation())
+            {
+                DFLocation locationData = GameManager.Instance.PlayerGPS.CurrentLocation;
+
+                PunishDungeonTheft(locationData);
+            }
         }
 
         public static bool TheftDetectionCheck(PlayerGPS.DiscoveredBuilding buildingData, DFLocation.BuildingTypes buildingType)
@@ -179,6 +185,49 @@ namespace Kleptomania
             }
         }
 
+        public static void PunishDungeonTheft(DFLocation locData)
+        {
+            PlayerEntity playerEntity = GameManager.Instance.PlayerEntity;
+            List<MobileTypes> enemyType = new List<MobileTypes>((int)MobileTypes.Rat); // Guess I'll continue work on this more tomorrow.
+            string text = "";
+            int roll = UnityEngine.Random.Range(0, 5);
+            int detectionChance = -20;
+            int sneakChance = Mathf.RoundToInt(Sneak * 0.7f) + Mathf.RoundToInt(PickP * 0.5f) + Mathf.RoundToInt(Agili * 0.6f) + Mathf.RoundToInt(Luck * 0.4f);
+
+            if (playerEntity != null && GameManager.Instance.PlayerEnterExit.IsPlayerInside)
+            {
+                switch (locData.MapTableData.DungeonType)
+                {
+                    case DFRegion.DungeonTypes.Crypt:
+                    case DFRegion.DungeonTypes.VampireHaunt:
+                    case DFRegion.DungeonTypes.OrcStronghold:
+                    case DFRegion.DungeonTypes.HumanStronghold:
+                    case DFRegion.DungeonTypes.Prison:
+                    case DFRegion.DungeonTypes.DesecratedTemple:
+                    case DFRegion.DungeonTypes.Coven:
+                    case DFRegion.DungeonTypes.Laboratory:
+                    case DFRegion.DungeonTypes.HarpyNest:
+                    case DFRegion.DungeonTypes.Mine:
+                    case DFRegion.DungeonTypes.NaturalCave:
+                    case DFRegion.DungeonTypes.SpiderNest:
+                    case DFRegion.DungeonTypes.ScorpionNest:
+                    case DFRegion.DungeonTypes.VolcanicCaves:
+                    case DFRegion.DungeonTypes.RuinedCastle:
+                    case DFRegion.DungeonTypes.GiantStronghold:
+                    case DFRegion.DungeonTypes.BarbarianStronghold:
+                    case DFRegion.DungeonTypes.DragonsDen:
+                    case DFRegion.DungeonTypes.Cemetery:
+                    default:
+                        break;
+                }
+
+                if (Dice100.SuccessRoll(Mathf.RoundToInt(Mathf.Clamp(detectionChance + sneakChance, 7f, 93f))))
+                    return false;
+                else
+                    return true;
+            }
+        }
+
         public static bool IsValidCrimeLocation()
         {
             if (GameManager.Instance.PlayerEnterExit.IsPlayerInsideDungeonCastle) // Not sure if this works, will have to test.
@@ -197,6 +246,17 @@ namespace Kleptomania
                     return true;
                 }
             }
+            return false;
+        }
+
+        public static bool IsValidDungeonLocation()
+        {
+            if (GameManager.Instance.PlayerEnterExit.IsPlayerInsideDungeonCastle) // Not sure if this works, will have to test.
+                return false;
+
+            if (GameManager.Instance.PlayerEnterExit.IsPlayerInsideDungeon)
+                return true;
+
             return false;
         }
 
