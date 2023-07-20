@@ -188,43 +188,50 @@ namespace Kleptomania
         public static void PunishDungeonTheft(DFLocation locData)
         {
             PlayerEntity playerEntity = GameManager.Instance.PlayerEntity;
-            List<MobileTypes> enemyType = new List<MobileTypes>((int)MobileTypes.Rat); // Guess I'll continue work on this more tomorrow.
-            string text = "";
-            int roll = UnityEngine.Random.Range(0, 5);
-            int detectionChance = -20;
-            int sneakChance = Mathf.RoundToInt(Sneak * 0.7f) + Mathf.RoundToInt(PickP * 0.5f) + Mathf.RoundToInt(Agili * 0.6f) + Mathf.RoundToInt(Luck * 0.4f);
+            int[] enemyType = new int[] { (int)MobileTypes.Rat };
+            int roll = 0;
+            int detectionChance = -15;
+            int sneakChance = Mathf.RoundToInt(Sneak * 0.2f) + Mathf.RoundToInt(PickP * 0.1f) + Mathf.RoundToInt(Agili * 0.2f) + Mathf.RoundToInt(Luck * 0.1f);
 
             if (playerEntity != null && GameManager.Instance.PlayerEnterExit.IsPlayerInside)
             {
                 switch (locData.MapTableData.DungeonType)
                 {
-                    case DFRegion.DungeonTypes.Crypt:
-                    case DFRegion.DungeonTypes.VampireHaunt:
-                    case DFRegion.DungeonTypes.OrcStronghold:
-                    case DFRegion.DungeonTypes.HumanStronghold:
-                    case DFRegion.DungeonTypes.Prison:
-                    case DFRegion.DungeonTypes.DesecratedTemple:
-                    case DFRegion.DungeonTypes.Coven:
-                    case DFRegion.DungeonTypes.Laboratory:
-                    case DFRegion.DungeonTypes.HarpyNest:
-                    case DFRegion.DungeonTypes.Mine:
-                    case DFRegion.DungeonTypes.NaturalCave:
-                    case DFRegion.DungeonTypes.SpiderNest:
-                    case DFRegion.DungeonTypes.ScorpionNest:
-                    case DFRegion.DungeonTypes.VolcanicCaves:
-                    case DFRegion.DungeonTypes.RuinedCastle:
-                    case DFRegion.DungeonTypes.GiantStronghold:
-                    case DFRegion.DungeonTypes.BarbarianStronghold:
-                    case DFRegion.DungeonTypes.DragonsDen:
-                    case DFRegion.DungeonTypes.Cemetery:
+                    case DFRegion.DungeonTypes.Crypt: enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.Spider, (int)MobileTypes.SkeletalWarrior, (int)MobileTypes.Zombie, (int)MobileTypes.Ghost, (int)MobileTypes.Mummy, (int)MobileTypes.Vampire }; break;
+                    case DFRegion.DungeonTypes.VampireHaunt: detectionChance = -25; enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.Spider, (int)MobileTypes.SkeletalWarrior, (int)MobileTypes.Zombie, (int)MobileTypes.Ghost, (int)MobileTypes.Mummy, (int)MobileTypes.Vampire }; break;
+                    case DFRegion.DungeonTypes.OrcStronghold: detectionChance = -25; enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.GrizzlyBear, (int)MobileTypes.Orc, (int)MobileTypes.OrcSergeant, (int)MobileTypes.OrcShaman }; break;
+                    case DFRegion.DungeonTypes.HumanStronghold: detectionChance = -30; enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.Archer, (int)MobileTypes.Battlemage, (int)MobileTypes.Knight, (int)MobileTypes.Mage, (int)MobileTypes.Nightblade, (int)MobileTypes.Rogue, (int)MobileTypes.Sorcerer, (int)MobileTypes.Spellsword, (int)MobileTypes.Warrior }; break;
+                    case DFRegion.DungeonTypes.Prison: detectionChance = -20; enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.Spider, (int)MobileTypes.Assassin, (int)MobileTypes.Barbarian, (int)MobileTypes.Burglar, (int)MobileTypes.Nightblade, (int)MobileTypes.Rogue, (int)MobileTypes.Thief }; break;
+                    case DFRegion.DungeonTypes.DesecratedTemple: detectionChance = -25; enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.Spider, (int)MobileTypes.Imp, (int)MobileTypes.Gargoyle, (int)MobileTypes.Healer, (int)MobileTypes.Monk, (int)MobileTypes.Sorcerer, (int)MobileTypes.Ghost, (int)MobileTypes.Mummy, (int)MobileTypes.Wraith }; break;
+                    case DFRegion.DungeonTypes.Coven: detectionChance = -25; enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.Spider, (int)MobileTypes.Imp, (int)MobileTypes.Gargoyle, (int)MobileTypes.Werewolf, (int)MobileTypes.Wereboar, (int)MobileTypes.Harpy, (int)MobileTypes.FleshAtronach, (int)MobileTypes.SkeletalWarrior, (int)MobileTypes.Zombie, (int)MobileTypes.Ghost, (int)MobileTypes.Wraith, (int)MobileTypes.Vampire, (int)MobileTypes.Daedroth }; break;
+                    case DFRegion.DungeonTypes.Laboratory: detectionChance = -25; enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.Spider, (int)MobileTypes.Imp, (int)MobileTypes.Gargoyle, (int)MobileTypes.FleshAtronach, (int)MobileTypes.IronAtronach, (int)MobileTypes.FireAtronach, (int)MobileTypes.IceAtronach, (int)MobileTypes.Zombie, (int)MobileTypes.Harpy, (int)MobileTypes.Werewolf, (int)MobileTypes.Wereboar, (int)MobileTypes.Mage }; break;
+                    case DFRegion.DungeonTypes.HarpyNest: detectionChance = -25; enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.Harpy, (int)MobileTypes.Werewolf, (int)MobileTypes.Wereboar, (int)MobileTypes.Nymph }; break;
+                    case DFRegion.DungeonTypes.Mine: detectionChance = -20; enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.Spider, (int)MobileTypes.Giant, (int)MobileTypes.Orc, (int)MobileTypes.OrcSergeant, (int)MobileTypes.IronAtronach, (int)MobileTypes.Ghost, (int)MobileTypes.Thief, (int)MobileTypes.Rogue }; break;
+                    case DFRegion.DungeonTypes.NaturalCave: enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.Spider, (int)MobileTypes.GrizzlyBear, (int)MobileTypes.SabertoothTiger, (int)MobileTypes.Spriggan, (int)MobileTypes.Nymph, (int)MobileTypes.Giant, (int)MobileTypes.Centaur, (int)MobileTypes.Orc, (int)MobileTypes.Ranger, (int)MobileTypes.Barbarian, (int)MobileTypes.Thief, (int)MobileTypes.Rogue }; break;
+                    case DFRegion.DungeonTypes.SpiderNest: detectionChance = -30; enemyType = new int[] { (int)MobileTypes.Spider }; break;
+                    case DFRegion.DungeonTypes.ScorpionNest: detectionChance = -25; enemyType = new int[] { (int)MobileTypes.GiantScorpion }; break;
+                    case DFRegion.DungeonTypes.VolcanicCaves: detectionChance = -20; enemyType = new int[] { (int)MobileTypes.Dragonling, (int)MobileTypes.Imp, (int)MobileTypes.Gargoyle, (int)MobileTypes.FireAtronach, (int)MobileTypes.IronAtronach, (int)MobileTypes.FireDaedra, (int)MobileTypes.Sorcerer }; break;
+                    case DFRegion.DungeonTypes.RuinedCastle: detectionChance = -20; enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.Spider, (int)MobileTypes.Dragonling, (int)MobileTypes.Ghost, (int)MobileTypes.Giant, (int)MobileTypes.Orc, (int)MobileTypes.OrcSergeant, (int)MobileTypes.Centaur, (int)MobileTypes.Werewolf, (int)MobileTypes.Wereboar, (int)MobileTypes.Archer, (int)MobileTypes.Battlemage, (int)MobileTypes.Knight, (int)MobileTypes.Mage, (int)MobileTypes.Nightblade, (int)MobileTypes.Thief, (int)MobileTypes.Rogue, (int)MobileTypes.Sorcerer, (int)MobileTypes.Spellsword, (int)MobileTypes.Warrior }; break;
+                    case DFRegion.DungeonTypes.GiantStronghold: detectionChance = -25; enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.Spider, (int)MobileTypes.GrizzlyBear, (int)MobileTypes.Giant, (int)MobileTypes.Gargoyle, (int)MobileTypes.Barbarian }; break;
+                    case DFRegion.DungeonTypes.BarbarianStronghold: detectionChance = -30; enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.Spider, (int)MobileTypes.GrizzlyBear, (int)MobileTypes.SabertoothTiger, (int)MobileTypes.Centaur, (int)MobileTypes.Orc, (int)MobileTypes.OrcSergeant, (int)MobileTypes.Barbarian }; break;
+                    case DFRegion.DungeonTypes.DragonsDen: detectionChance = -25; enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.Spider, (int)MobileTypes.Dragonling }; break;
+                    case DFRegion.DungeonTypes.Cemetery: enemyType = new int[] { (int)MobileTypes.Rat, (int)MobileTypes.GiantBat, (int)MobileTypes.Spider, (int)MobileTypes.SkeletalWarrior, (int)MobileTypes.Zombie, (int)MobileTypes.Thief, (int)MobileTypes.Rogue }; break;
                     default:
                         break;
                 }
 
-                if (Dice100.SuccessRoll(Mathf.RoundToInt(Mathf.Clamp(detectionChance + sneakChance, 7f, 93f))))
-                    return false;
+                if (enemyType.Length > 1)
+                    roll = UnityEngine.Random.Range(0, enemyType.Length);
+
+                if (Dice100.SuccessRoll(Mathf.RoundToInt(Mathf.Clamp(detectionChance + sneakChance, 3f, 55f))))
+                {
+                    return;
+                }
                 else
-                    return true;
+                {
+                    DaggerfallUI.AddHUDText("Your sticky fingers got the attention of someone, or something...", 3f); // Might add more text variants for this, will see.
+                    GameObjectHelper.CreateFoeSpawner(true, (MobileTypes)enemyType[roll], 2, 3);
+                }
             }
         }
 
