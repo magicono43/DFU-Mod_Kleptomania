@@ -163,8 +163,8 @@
 		"variants": 4,
 		"isIngredient": false,
 		"worldTextureArchive": 218,
-		"worldTextureRecord": 2,
-		"playerTextureArchive": 0,
+		"worldTextureRecord": 0,
+		"playerTextureArchive": 218,
 		"playerTextureRecord": 0
 	},
     {

@@ -43,10 +43,10 @@ namespace Kleptomania
                     else { return; }
                     break;
                 case 207:
-                    if (ObjTexRecord == 0 || ObjTexRecord == 2 || ObjTexRecord == 3) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLongBlade, SoundClips.Parry5, 207, 3); }
-                    else if (ObjTexRecord == 1 || ObjTexRecord == 5) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipShortBlade, SoundClips.Parry7, 207, 5); }
-                    else if (ObjTexRecord == 4) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipAxe, SoundClips.Parry9, 207, 4); }
-                    else if (ObjTexRecord == 6) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipFlail, SoundClips.Parry2, 207, 6); }
+                    if (ObjTexRecord == 0 || ObjTexRecord == 2 || ObjTexRecord == 3) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLongBlade, SoundClips.Parry1, 207, 3); }
+                    else if (ObjTexRecord == 1 || ObjTexRecord == 5) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipShortBlade, SoundClips.Parry1, 207, 5); }
+                    else if (ObjTexRecord == 4) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipAxe, SoundClips.Parry1, 207, 4); }
+                    else if (ObjTexRecord == 6) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipFlail, SoundClips.Parry1, 207, 6); }
                     else if (ObjTexRecord == 7) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.EquipBow, 207, 7); }
                     else if (ObjTexRecord == 8) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipBow, SoundClips.EquipBow, 207, 8); }
                     else if (ObjTexRecord == 9) { DetermineArmorItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.BodyFall, 207, 9); }
@@ -54,11 +54,11 @@ namespace Kleptomania
                     else if (ObjTexRecord == 11) { DetermineArmorItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.BodyFall, 207, 11); }
                     else if (ObjTexRecord == 12 || ObjTexRecord == 14) { DetermineArmorItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.BodyFall, 207, 14); }
                     else if (ObjTexRecord == 13) { DetermineJewelryItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 207, 13); }
-                    else if (ObjTexRecord == 15) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipTwoHandedBlade, SoundClips.Parry3, 207, 15); }
+                    else if (ObjTexRecord == 15) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipTwoHandedBlade, SoundClips.Parry1, 207, 15); }
                     else if (ObjTexRecord == 16)
                     {
                         items.Add(ItemBuilder.CreateWeapon(Weapons.Arrow, WeaponMaterialTypes.Steel));
-                        GeneralItemTakingProcess(items, clickedObj, SoundClips.ArrowHit, SoundClips.BodyFall, 207, 16, true);
+                        GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.BodyFall, 207, 16, true);
                     }
                     else { return; }
                     break;
@@ -79,7 +79,7 @@ namespace Kleptomania
                     else { return; }
                     break;
                 case 210:
-                    if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 210, 5); } // Might not work to have a normally animated sprite become a loot-pile sprite? Will see.
+                    if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 216, 30); }
                     else { return; }
                     break;
                 case 211:
@@ -87,7 +87,7 @@ namespace Kleptomania
                     else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 211, 1); }
                     else if (ObjTexRecord == 2) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) { DetermineFishBundleType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
-                    else if (ObjTexRecord == 12) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLongBlade, SoundClips.Parry5, 211, 12); }
+                    else if (ObjTexRecord == 12) { DetermineWeaponItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLongBlade, SoundClips.Parry1, 211, 12); }
                     else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.BodyFall, 211, 17); }
                     else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.EquipStaff, 211, 24); }
                     else if (ObjTexRecord == 31) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 211, 31); }
@@ -103,24 +103,24 @@ namespace Kleptomania
                     else { return; }
                     break;
                 case 213:
-                    if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 213, 0); }
-                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 213, 1); }
+                    if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 253, 55); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 253, 0); }
                     else if (ObjTexRecord == 6) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
                     else { return; }
                     break;
                 case 214:
                     if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 4); }
                     else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 1); }
-                    else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipMaceOrHammer, SoundClips.Parry5, 214, 3); }
+                    else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipMaceOrHammer, SoundClips.Parry1, 214, 3); }
                     else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.BodyFall, 214, 5); }
-                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipAxe, SoundClips.Parry3, 214, 6); }
-                    else if (ObjTexRecord == 7) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLongBlade, SoundClips.Parry2, 214, 7); }
+                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipAxe, SoundClips.Parry1, 214, 6); }
+                    else if (ObjTexRecord == 7) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLongBlade, SoundClips.Parry1, 214, 7); }
                     else if (ObjTexRecord == 8) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 214, 8); }
                     else if (ObjTexRecord == 9) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.BodyFall, 214, 9); }
                     else if (ObjTexRecord == 10) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 10); }
                     else if (ObjTexRecord == 12) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 12); }
-                    else if (ObjTexRecord == 13) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.Parry4, 214, 13); }
-                    else if (ObjTexRecord == 14) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.Parry4, 214, 14); }
+                    else if (ObjTexRecord == 13) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.Parry1, 214, 13); }
+                    else if (ObjTexRecord == 14) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.Parry1, 214, 14); }
                     else if (ObjTexRecord == 15) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.EquipStaff, 214, 15); }
                     else { return; }
                     break;
@@ -136,7 +136,7 @@ namespace Kleptomania
                     break;
                 case 218:
                     if (ObjTexRecord >= 0 && ObjTexRecord <= 3) { DeterminePotUrnJugType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipFlail, SoundClips.EquipLeather, 218, 2); }
-                    else if (ObjTexRecord == 4) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.Parry4, 218, 4); }
+                    else if (ObjTexRecord == 4) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.Parry1, 218, 4); }
                     else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipLeather, SoundClips.EquipStaff, 218, 6); }
                     else { return; }
                     break;
@@ -148,7 +148,7 @@ namespace Kleptomania
                     else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.GoldPieces, SoundClips.AmbientGoldPieces, 216, 1); }
                     else if (ObjTexRecord == 2) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipClothing, SoundClips.EquipClothing, 211, 0); }
                     else if (ObjTexRecord == 16) { DetermineClothingItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipClothing, SoundClips.EquipLeather, 204, 0); }
-                    else if (ObjTexRecord == 19) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 210, 5); }
+                    else if (ObjTexRecord == 19) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.Parry1, 216, 30); }
                     else if (ObjTexRecord == 23 || ObjTexRecord == 24) { DetermineFishBundleType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipStaff, SoundClips.SplashSmall, 211, 9); }
                     else if (ObjTexRecord == 28) { DetermineMiscItemType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipPlate, SoundClips.BodyFall, 208, 0); }
                     else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) { DetermineGobletCupType(out items, out text); GeneralItemTakingProcess(items, clickedObj, SoundClips.EquipJewellery, SoundClips.EquipPlate, 216, 30); }
@@ -611,8 +611,8 @@ namespace Kleptomania
             }
             else if (ObjTexArchive == 213)
             {
-                if (ObjTexRecord == 0) { items.Add(CreateCNCItems(1)); desc = "You see an apple."; }
-                else if (ObjTexRecord == 1) { items.Add(CreateCNCItems(2)); desc = "You see an orange."; }
+                if (ObjTexRecord == 0) { items.Add(CreateCNCItems(2)); desc = "You see an orange."; }
+                else if (ObjTexRecord == 1) { items.Add(CreateCNCItems(1)); desc = "You see an apple."; }
             }
             else if (ObjTexArchive == 214)
             {
@@ -628,7 +628,7 @@ namespace Kleptomania
                 else if (ObjTexRecord == 12) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemBrush.templateIndex)); desc = "You see a brush."; }
                 else if (ObjTexRecord == 13) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemTongs.templateIndex)); desc = "You see a pair of tongs."; }
                 else if (ObjTexRecord == 14) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemShears.templateIndex)); desc = "You see a pair of shears."; }
-                else if (ObjTexRecord == 15) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemShears.templateIndex)); desc = "You see a wooden trowel."; }
+                else if (ObjTexRecord == 15) { items.Add(ItemBuilder.CreateItem(ItemGroups.UselessItems2, ItemTrowel.templateIndex)); desc = "You see a wooden trowel."; }
             }
             else if (ObjTexArchive == 216)
             {
@@ -734,7 +734,7 @@ namespace Kleptomania
             desc = "";
             if (ObjTexArchive == 207)
             {
-                if (ObjTexRecord == 9) { items.Add(ItemBuilder.CreateItem(ItemGroups.Jewellery, (int)Jewellery.Bracer)); desc = "You see a bracer."; }
+                if (ObjTexRecord == 13) { items.Add(ItemBuilder.CreateItem(ItemGroups.Jewellery, (int)Jewellery.Bracer)); desc = "You see a bracer."; }
             }
             else if (ObjTexArchive == 209)
             {
