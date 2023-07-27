@@ -105,9 +105,9 @@ namespace Kleptomania
 
         public static bool TheftDetectionCheck(PlayerGPS.DiscoveredBuilding buildingData, DFLocation.BuildingTypes buildingType)
         {
-            int detectionChance = (30 + (buildingData.quality * 3));
+            int detectionChance = (45 + (buildingData.quality * 5));
             int closedMod = BuildingOpenCheck(buildingData, buildingType) ? 0 : 40;
-            int sneakChance = (Mathf.RoundToInt(Sneak * 0.7f) + Mathf.RoundToInt(PickP * 0.5f) + Mathf.RoundToInt(Agili * 0.6f) + Mathf.RoundToInt(Luck * 0.4f) + closedMod) * -1;
+            int sneakChance = (Mathf.RoundToInt(Sneak * 0.6f) + Mathf.RoundToInt(PickP * 0.4f) + Mathf.RoundToInt(Agili * 0.7f) + Mathf.RoundToInt(Luck * 0.4f) + closedMod) * -1;
 
             Player.TallySkill(DFCareer.Skills.Stealth, 1);
             Player.TallySkill(DFCareer.Skills.Pickpocket, 1);
