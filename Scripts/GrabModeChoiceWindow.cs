@@ -1,7 +1,6 @@
 using UnityEngine;
 using DaggerfallWorkshop.Game.UserInterface;
 using Kleptomania;
-using DaggerfallWorkshop.Game.Entity;
 using DaggerfallConnect.Arena2;
 
 namespace DaggerfallWorkshop.Game.UserInterfaceWindows
@@ -11,22 +10,7 @@ namespace DaggerfallWorkshop.Game.UserInterfaceWindows
     /// </summary>
     public class GrabModeChoiceWindow : DaggerfallPopupWindow
     {
-        PlayerEntity player;
-
-        PlayerEntity Player
-        {
-            get { return (player != null) ? player : player = GameManager.Instance.PlayerEntity; }
-        }
-
         protected GameObject clickedObj = null;
-
-        #region Testing Properties
-
-        public static Rect butt1 = new Rect(0, 0, 0, 0);
-        public static Rect butt2 = new Rect(0, 0, 0, 0);
-        public static Rect butt3 = new Rect(0, 0, 0, 0);
-
-        #endregion
 
         #region Constructors
 

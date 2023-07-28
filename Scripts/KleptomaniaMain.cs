@@ -3,7 +3,7 @@
 // License:         MIT License (http://www.opensource.org/licenses/mit-license.php)
 // Author:          Kirk.O
 // Created On: 	    4/29/2023, 11:20 PM
-// Last Edit:		7/26/2023, 9:45 PM
+// Last Edit:		7/27/2023, 11:30 PM
 // Version:			1.00
 // Special Thanks:  
 // Modifier:
@@ -477,8 +477,6 @@ namespace Kleptomania
             ClickedObjRef = hit.collider.gameObject; // Sets clicked object as global variable reference for later use.
             ObjTexArchive = -1;
             ObjTexRecord = -1;
-
-            // Oh yeah, don't forget to eventually exclude all of these if currently inside a player-owned ship/building.
 
             // Ignore any objects that have "DaggerfallAction" or "QuestResourceBehavior" attached to them. Will need to test to make sure this actually works as I intend.
             if (ClickedObjRef.GetComponent<DaggerfallLoot>()) { return false; }

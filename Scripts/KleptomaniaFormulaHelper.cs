@@ -109,6 +109,9 @@ namespace Kleptomania
             int closedMod = BuildingOpenCheck(buildingData, buildingType) ? 0 : 40;
             int sneakChance = (Mathf.RoundToInt(Sneak * 0.6f) + Mathf.RoundToInt(PickP * 0.4f) + Mathf.RoundToInt(Agili * 0.7f) + Mathf.RoundToInt(Luck * 0.4f) + closedMod) * -1;
 
+            if (GameManager.Instance.PlayerEnterExit.IsPlayerInsideDungeonCastle)
+                detectionChance = 115;
+
             Player.TallySkill(DFCareer.Skills.Stealth, 1);
             Player.TallySkill(DFCareer.Skills.Pickpocket, 1);
 
@@ -263,7 +266,7 @@ namespace Kleptomania
             return false;
         }
 
-        public static bool IsValidShop(DFLocation.BuildingTypes buildingType) // Check if building shop type is valid to have chests be spawned in it.
+        public static bool IsValidShop(DFLocation.BuildingTypes buildingType)
         {
             switch (buildingType)
             {
@@ -375,21 +378,6 @@ namespace Kleptomania
                 return false;
             else
                 return true;
-        }
-
-        public static T[] FillArray<T>(List<T> list, int start, int count, T value)
-        {
-            for (var i = start; i < start + count; i++)
-            {
-                list.Add(value);
-            }
-
-            return list.ToArray();
-        }
-
-        public static int PickOneOf(params int[] values) // Pango provided assistance in making this much cleaner way of doing the random value choice part, awesome.
-        {
-            return values[UnityEngine.Random.Range(0, values.Length)];
         }
     }
 }

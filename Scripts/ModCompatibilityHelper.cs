@@ -115,11 +115,11 @@ namespace Kleptomania
             if (multiple)
             {
                 conditionMod = (float)UnityEngine.Random.Range(5, 20 + 1) / 100f;
-                item = ItemBuilder.CreateWeapon((Weapons)templateIndex, (WeaponMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(true, false, true)); // Will need to test to see if casting "templateIndex" to Weapons will work.
+                item = ItemBuilder.CreateWeapon((Weapons)templateIndex, (WeaponMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(true, false, true));
                 if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
             }
 
-            item = ItemBuilder.CreateWeapon((Weapons)templateIndex, (WeaponMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial()); // Will need to test to see if casting "templateIndex" to Weapons will work.
+            item = ItemBuilder.CreateWeapon((Weapons)templateIndex, (WeaponMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial());
             if (item != null) { item.currentCondition = (int)(item.maxCondition * conditionMod); }
             return item;
         }
@@ -137,7 +137,7 @@ namespace Kleptomania
                 if (armorGroup == 0)
                 {
                     templateIndex = (int)Armor.Tower_Shield;
-                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false, true)); // Will need to test to see if casting "templateIndex" to Armor will work.
+                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false, true));
                 }
                 else if (armorGroup == 1)
                 {
@@ -145,17 +145,17 @@ namespace Kleptomania
                     if (randomValue == 0) { templateIndex = (int)Armor.Buckler; }
                     else if (randomValue == 1) { templateIndex = (int)Armor.Round_Shield; }
                     else { templateIndex = (int)Armor.Kite_Shield; }
-                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false, true)); // Will need to test to see if casting "templateIndex" to Armor will work.
+                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false, true));
                 }
                 else if (armorGroup == 2)
                 {
                     templateIndex = (int)Armor.Cuirass;
-                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false)); // Will need to test to see if casting "templateIndex" to Armor will work.
+                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false));
                 }
                 else if (armorGroup == 3)
                 {
                     templateIndex = (int)Armor.Helm;
-                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false)); // Will need to test to see if casting "templateIndex" to Armor will work.
+                    item = ItemBuilder.CreateArmor(gender, race, (Armor)templateIndex, (ArmorMaterialTypes)KleptomaniaMain.RollWeaponOrArmorMaterial(false));
                 }
                 else { return null; }
             }

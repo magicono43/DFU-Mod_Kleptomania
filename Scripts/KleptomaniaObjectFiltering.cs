@@ -4,6 +4,8 @@ using DaggerfallWorkshop.Game.Items;
 using DaggerfallWorkshop.Game;
 using DaggerfallWorkshop.Utility;
 using System.Collections.Generic;
+using DaggerfallWorkshop.Game.Serialization;
+using DaggerfallConnect;
 
 namespace Kleptomania
 {
@@ -11,10 +13,21 @@ namespace Kleptomania
     {
         public static void TakeOrStealItem(GameObject clickedObj)
         {
+            DFLocation.BuildingTypes buildingType = GameManager.Instance.PlayerEnterExit.BuildingDiscoveryData.buildingType;
+            PlayerGPS.DiscoveredBuilding buildingData = GameManager.Instance.PlayerEnterExit.BuildingDiscoveryData;
             List<DaggerfallUnityItem> items = new List<DaggerfallUnityItem>();
             string text = "";
 
+            if (SaveLoadManager.Instance.LoadInProgress) // This will keep this from running when loading a save, but not when normally entering and exiting while playing, etc.
+                return;
+
             if (clickedObj == null) { return; }
+
+            if (DaggerfallWorkshop.Game.Banking.DaggerfallBankManager.IsHouseOwned(buildingData.buildingKey)) // Don't allow stealing items from your own houses.
+                return;
+
+            if (buildingType == DFLocation.BuildingTypes.Ship && DaggerfallWorkshop.Game.Banking.DaggerfallBankManager.OwnsShip) // Don't allow stealing items from your own ship.
+                return;
 
             switch (ObjTexArchive)
             {
@@ -169,7 +182,7 @@ namespace Kleptomania
             }
         }
 
-        public static string GetItemNameOrDescription() // Suppose I will do something with the "JustText" value later on in the methods, not a big deal atm.
+        public static string GetItemNameOrDescription() // This whole method can likely be removed, but I don't feel like reworking to make that work for now, oh well.
         {
             List<DaggerfallUnityItem> items = new List<DaggerfallUnityItem>();
             string text = "";
@@ -177,123 +190,123 @@ namespace Kleptomania
             switch (ObjTexArchive)
             {
                 case 200:
-                    if (ObjTexRecord >= 0 && ObjTexRecord <= 6) { DetermineGobletCupType(out items, out text, true); }
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 6) { DetermineGobletCupType(out items, out text); }
                     break;
                 case 204:
-                    if (ObjTexRecord == 0) { DetermineClothingItemType(out items, out text, true); }
-                    else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) { DetermineClothingItemType(out items, out text, true); }
-                    else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) { DetermineClothingItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 9) { DetermineClothingItemType(out items, out text, true); }
+                    if (ObjTexRecord == 0) { DetermineClothingItemType(out items, out text); }
+                    else if (ObjTexRecord >= 1 && ObjTexRecord <= 2) { DetermineClothingItemType(out items, out text); }
+                    else if (ObjTexRecord >= 3 && ObjTexRecord <= 5) { DetermineClothingItemType(out items, out text); }
+                    else if (ObjTexRecord == 9) { DetermineClothingItemType(out items, out text); }
                     break;
                 case 205:
-                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text, true); }
+                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text); }
                     else if (ObjTexRecord == 42) { text = "You see a quiver carrying a few arrows."; }
-                    else if (ObjTexRecord == 41) { DeterminePotUrnJugType(out items, out text, true); }
-                    else if (ObjTexRecord == 10) { DetermineFishBundleType(out items, out text, true); }
+                    else if (ObjTexRecord == 41) { DeterminePotUrnJugType(out items, out text); }
+                    else if (ObjTexRecord == 10) { DetermineFishBundleType(out items, out text); }
                     else if (ObjTexRecord >= 17 && ObjTexRecord <= 20) { DetermineMiscItemType(out items, out text); }
                     break;
                 case 207:
-                    if (ObjTexRecord == 0 || ObjTexRecord == 2 || ObjTexRecord == 3) { DetermineWeaponItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 1 || ObjTexRecord == 5) { DetermineWeaponItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 4) { DetermineWeaponItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 6) { DetermineWeaponItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 7) { DetermineWeaponItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 8) { DetermineWeaponItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 9) { DetermineArmorItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 10) { DetermineArmorItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 11) { DetermineArmorItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 12 || ObjTexRecord == 14) { DetermineArmorItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 13) { DetermineJewelryItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 15) { DetermineWeaponItemType(out items, out text, true); }
+                    if (ObjTexRecord == 0 || ObjTexRecord == 2 || ObjTexRecord == 3) { DetermineWeaponItemType(out items, out text); }
+                    else if (ObjTexRecord == 1 || ObjTexRecord == 5) { DetermineWeaponItemType(out items, out text); }
+                    else if (ObjTexRecord == 4) { DetermineWeaponItemType(out items, out text); }
+                    else if (ObjTexRecord == 6) { DetermineWeaponItemType(out items, out text); }
+                    else if (ObjTexRecord == 7) { DetermineWeaponItemType(out items, out text); }
+                    else if (ObjTexRecord == 8) { DetermineWeaponItemType(out items, out text); }
+                    else if (ObjTexRecord == 9) { DetermineArmorItemType(out items, out text); }
+                    else if (ObjTexRecord == 10) { DetermineArmorItemType(out items, out text); }
+                    else if (ObjTexRecord == 11) { DetermineArmorItemType(out items, out text); }
+                    else if (ObjTexRecord == 12 || ObjTexRecord == 14) { DetermineArmorItemType(out items, out text); }
+                    else if (ObjTexRecord == 13) { DetermineJewelryItemType(out items, out text); }
+                    else if (ObjTexRecord == 15) { DetermineWeaponItemType(out items, out text); }
                     else if (ObjTexRecord == 16) { text = "You see an arrow."; }
                     break;
                 case 208:
-                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text, true); }
-                    else if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 3) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 4) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text, true); }
+                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text); }
+                    else if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 3) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 4) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); }
                     break;
                 case 209:
-                    if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text, true); }
-                    else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text, true); }
-                    else if (ObjTexRecord == 9) { DetermineJewelryItemType(out items, out text, true); }
+                    if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text); }
+                    else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text); }
+                    else if (ObjTexRecord == 9) { DetermineJewelryItemType(out items, out text); }
                     break;
                 case 210:
-                    if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text, true); }
+                    if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); }
                     break;
                 case 211:
-                    if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 2) { DeterminePotUrnJugType(out items, out text, true); }
-                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) { DetermineFishBundleType(out items, out text, true); }
-                    else if (ObjTexRecord == 12) { DetermineWeaponItemType(out items, out text, true); }
+                    if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 2) { DeterminePotUrnJugType(out items, out text); }
+                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 11) { DetermineFishBundleType(out items, out text); }
+                    else if (ObjTexRecord == 12) { DetermineWeaponItemType(out items, out text); }
                     else if (ObjTexRecord >= 15 && ObjTexRecord <= 17) { DetermineMiscItemType(out items, out text); }
-                    else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord >= 24 && ObjTexRecord <= 25) { DetermineMiscItemType(out items, out text); }
                     else if (ObjTexRecord == 31) { DetermineMiscItemType(out items, out text); }
                     else if (ObjTexRecord == 40) { DetermineMiscItemType(out items, out text); }
-                    else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 47) { DetermineReligiousItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 48) { DetermineJewelryItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 49) { DetermineReligiousItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 50) { DetermineReligiousItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 51 || ObjTexRecord == 53) { DetermineReligiousItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 52) { DetermineReligiousItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 57) { DetermineMiscItemType(out items, out text, true); }
+                    else if (ObjTexRecord >= 41 && ObjTexRecord <= 42) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 47) { DetermineReligiousItemType(out items, out text); }
+                    else if (ObjTexRecord == 48) { DetermineJewelryItemType(out items, out text); }
+                    else if (ObjTexRecord == 49) { DetermineReligiousItemType(out items, out text); }
+                    else if (ObjTexRecord == 50) { DetermineReligiousItemType(out items, out text); }
+                    else if (ObjTexRecord == 51 || ObjTexRecord == 53) { DetermineReligiousItemType(out items, out text); }
+                    else if (ObjTexRecord == 52) { DetermineReligiousItemType(out items, out text); }
+                    else if (ObjTexRecord == 57) { DetermineMiscItemType(out items, out text); }
                     break;
                 case 213:
                     if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); }
                     else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); }
-                    else if (ObjTexRecord == 6) { DeterminePotUrnJugType(out items, out text, true); }
+                    else if (ObjTexRecord == 6) { DeterminePotUrnJugType(out items, out text); }
                     break;
                 case 214:
-                    if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 7) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 8) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 9) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 10) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 12) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 13) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 14) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 15) { DetermineMiscItemType(out items, out text, true); }
+                    if (ObjTexRecord == 0 || ObjTexRecord == 4 || ObjTexRecord == 11) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord >= 2 && ObjTexRecord <= 3) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 5) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 7) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 8) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 9) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 10) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 12) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 13) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 14) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 15) { DetermineMiscItemType(out items, out text); }
                     break;
                 case 216:
-                    if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text, true); }
-                    else if (ObjTexRecord == 3) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord >= 6 && ObjTexRecord <= 7) { DetermineCrownPieceType(out items, out text, true); }
-                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 9) { DetermineTiaraPieceType(out items, out text, true); }
-                    else if (ObjTexRecord >= 10 && ObjTexRecord <= 19) { DetermineGemStonePieceType(out items, out text, true); }
-                    else if (ObjTexRecord == 21) { DetermineJewelryItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 30) { DetermineMiscItemType(out items, out text, true); }
+                    if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text); }
+                    else if (ObjTexRecord == 3) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord >= 6 && ObjTexRecord <= 7) { DetermineCrownPieceType(out items, out text); }
+                    else if (ObjTexRecord >= 8 && ObjTexRecord <= 9) { DetermineTiaraPieceType(out items, out text); }
+                    else if (ObjTexRecord >= 10 && ObjTexRecord <= 19) { DetermineGemStonePieceType(out items, out text); }
+                    else if (ObjTexRecord == 21) { DetermineJewelryItemType(out items, out text); }
+                    else if (ObjTexRecord == 30) { DetermineMiscItemType(out items, out text); }
                     break;
                 case 218:
-                    if (ObjTexRecord >= 0 && ObjTexRecord <= 3) { DeterminePotUrnJugType(out items, out text, true); }
-                    else if (ObjTexRecord == 4) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text, true); }
+                    if (ObjTexRecord >= 0 && ObjTexRecord <= 3) { DeterminePotUrnJugType(out items, out text); }
+                    else if (ObjTexRecord == 4) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 6) { DetermineMiscItemType(out items, out text); }
                     break;
                 case 253:
-                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text, true); }
-                    else if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text, true); }
-                    else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text, true); }
-                    else if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 2) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 16) { DetermineClothingItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 19) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 23 || ObjTexRecord == 24) { DetermineFishBundleType(out items, out text, true); }
-                    else if (ObjTexRecord == 28) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) { DetermineGobletCupType(out items, out text, true); }
-                    else if (ObjTexRecord == 39) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 54) { DetermineMiscItemType(out items, out text, true); }
-                    else if (ObjTexRecord == 55) { DetermineMiscItemType(out items, out text, true); }
+                    if (IsPotionBottleTextureGroups()) { DetermineGlassBottlePotionType(out items, out text); }
+                    else if (IsBookTextureGroups()) { DetermineBookBundleType(out items, out text); }
+                    else if (IsPaperTextureGroups()) { DeterminePaperScrollStackType(out items, out text); }
+                    else if (ObjTexRecord == 0) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 1) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 2) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 16) { DetermineClothingItemType(out items, out text); }
+                    else if (ObjTexRecord == 19) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 23 || ObjTexRecord == 24) { DetermineFishBundleType(out items, out text); }
+                    else if (ObjTexRecord == 28) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord >= 30 && ObjTexRecord <= 35) { DetermineGobletCupType(out items, out text); }
+                    else if (ObjTexRecord == 39) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 54) { DetermineMiscItemType(out items, out text); }
+                    else if (ObjTexRecord == 55) { DetermineMiscItemType(out items, out text); }
                     else if (ObjTexRecord >= 70 && ObjTexRecord <= 73) { DetermineMiscItemType(out items, out text); }
-                    else if (ObjTexRecord == 63 || ObjTexRecord == 85) { DeterminePotUrnJugType(out items, out text, true); }
+                    else if (ObjTexRecord == 63 || ObjTexRecord == 85) { DeterminePotUrnJugType(out items, out text); }
                     break;
                 /*case 254:
                     if (ObjTexRecord >= 0 && ObjTexRecord <= 71) { text = "You see an alchemical ingredient."; }
@@ -377,7 +390,7 @@ namespace Kleptomania
             else { return false; }
         }
 
-        public static void DetermineGlassBottlePotionType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false) // Was thinking of having potions picked up in this way be unidentified and potentially poisoned or some other effects. While I still would like to do something like this eventually, I think for now for the initial release I'll just have be more basic, as to avoid the headache of implementing it the way I initially wanted, eventually but not for v1.0 atleast.
+        public static void DetermineGlassBottlePotionType(out List<DaggerfallUnityItem> items, out string desc) // Was thinking of having potions picked up in this way be unidentified and potentially poisoned or some other effects. While I still would like to do something like this eventually, I think for now for the initial release I'll just have it be more basic, as to avoid the headache of implementing it the way I initially wanted, eventually but not for v1.0 atleast.
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
@@ -412,7 +425,7 @@ namespace Kleptomania
             }
         }
 
-        public static void DeterminePaperScrollStackType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false) // This is where alot of the flavor text and various other efforts are likely going to go into, so get comfy being around here for awhile...
+        public static void DeterminePaperScrollStackType(out List<DaggerfallUnityItem> items, out string desc) // This is where alot of the flavor text and various other efforts are likely going to go into. But I'll do that stuff in another update/version of the mod, for right now just skip most of that so I can release this for public use.
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
@@ -465,7 +478,7 @@ namespace Kleptomania
             }
         }
 
-        public static void DetermineBookBundleType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DetermineBookBundleType(out List<DaggerfallUnityItem> items, out string desc)
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
@@ -527,7 +540,7 @@ namespace Kleptomania
             }
         }
 
-        public static void DetermineGobletCupType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DetermineGobletCupType(out List<DaggerfallUnityItem> items, out string desc)
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
@@ -548,7 +561,7 @@ namespace Kleptomania
             }
         }
 
-        public static void DeterminePotUrnJugType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DeterminePotUrnJugType(out List<DaggerfallUnityItem> items, out string desc)
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
@@ -578,7 +591,7 @@ namespace Kleptomania
             }
         }
 
-        public static void DetermineMiscItemType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DetermineMiscItemType(out List<DaggerfallUnityItem> items, out string desc)
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
@@ -655,7 +668,7 @@ namespace Kleptomania
             }
         }
 
-        public static void DetermineClothingItemType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DetermineClothingItemType(out List<DaggerfallUnityItem> items, out string desc)
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
@@ -688,7 +701,7 @@ namespace Kleptomania
             }
         }
 
-        public static void DetermineWeaponItemType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DetermineWeaponItemType(out List<DaggerfallUnityItem> items, out string desc)
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
@@ -716,7 +729,7 @@ namespace Kleptomania
             }
         }
 
-        public static void DetermineArmorItemType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DetermineArmorItemType(out List<DaggerfallUnityItem> items, out string desc)
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
@@ -729,7 +742,7 @@ namespace Kleptomania
             }
         }
 
-        public static void DetermineJewelryItemType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DetermineJewelryItemType(out List<DaggerfallUnityItem> items, out string desc)
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
@@ -751,7 +764,7 @@ namespace Kleptomania
             }
         }
 
-        public static void DetermineReligiousItemType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DetermineReligiousItemType(out List<DaggerfallUnityItem> items, out string desc)
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
@@ -769,7 +782,7 @@ namespace Kleptomania
             }
         }
 
-        public static void DetermineFishBundleType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DetermineFishBundleType(out List<DaggerfallUnityItem> items, out string desc)
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
@@ -823,7 +836,7 @@ namespace Kleptomania
             }
         }
 
-        public static void DetermineGemStonePieceType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DetermineGemStonePieceType(out List<DaggerfallUnityItem> items, out string desc)
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
@@ -842,7 +855,7 @@ namespace Kleptomania
             }
         }
 
-        public static void DetermineCrownPieceType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DetermineCrownPieceType(out List<DaggerfallUnityItem> items, out string desc)
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
@@ -853,7 +866,7 @@ namespace Kleptomania
             }
         }
 
-        public static void DetermineTiaraPieceType(out List<DaggerfallUnityItem> items, out string desc, bool justText = false)
+        public static void DetermineTiaraPieceType(out List<DaggerfallUnityItem> items, out string desc)
         {
             items = new List<DaggerfallUnityItem>();
             desc = "";
